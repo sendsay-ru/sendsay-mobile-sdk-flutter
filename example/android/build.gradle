@@ -1,0 +1,49 @@
+buildscript {
+    ext {
+        minSdkVersion = 24
+        targetSdkVersion = 35
+
+        agpVersion = '8.8.0'
+        kotlinVersion = '2.0.20'
+        multidexVersion = '2.0.1'
+        firebaseVersion = '23.0.0'
+        agconnectVersion = '1.9.1.300'
+        hmsVersion = '6.11.0.300'
+        googleServicesVersion = '4.4.2'
+        sendsaySdkVersion = '0.1.0'
+        gsonVersion = '2.10.1'
+    }
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://developer.huawei.com/repo/' }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:$agpVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.google.gms:google-services:$googleServicesVersion"
+        classpath "com.huawei.agconnect:agcp:$agconnectVersion"
+    }
+
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://developer.huawei.com/repo/' }
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

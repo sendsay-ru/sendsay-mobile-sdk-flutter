@@ -1,0 +1,133 @@
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+//    id "kotlin-android"
+//    id "kotlin-parcelize"
+    id "dev.flutter.flutter-gradle-plugin"
+
+    id "com.google.gms.google-services"
+//    id "com.google.firebase.crashlytics"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+android {
+    namespace = 'com.sendsay.example_flutter'
+    compileSdk rootProject.ext.targetSdkVersion
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId "com.sendsay.example_flutter"
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        config {
+            // Set the parameters based on the actual signing information.
+            storeFile file('Sendsay.jks')
+            storePassword 'Sendsay'
+            keyPassword 'Sendsay'
+            keyAlias 'key0'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.config
+            minifyEnabled true
+        }
+        release {
+            // Caution! In production, you need to generate your own keystore file.
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+
+            // Enables code-related app optimization.
+            minifyEnabled true
+            // Enables resource shrinking.
+            shrinkResources true
+        }
+    }
+
+    flavorDimensions "messagingService"
+    productFlavors {
+        gms {
+            dimension = "messagingService"
+        }
+        hms {
+            dimension = "messagingService"
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+//    implementation "androidx.multidex:multidex:$multidexVersion"
+//    implementation 'androidx.appcompat:appcompat:1.5.0'
+//    implementation "com.sendsay.sdk:sdk:$sendsaySdkVersion"
+//    implementation project(':sdk')
+//    implementation(files("../../sdk"))
+
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation "com.google.code.gson:gson:$gsonVersion"
+
+    gmsImplementation "com.google.firebase:firebase-messaging:$firebaseVersion"
+    hmsImplementation "com.huawei.agconnect:agconnect-core:$agconnectVersion"
+    hmsImplementation "com.huawei.hms:push:$hmsVersion"
+
+    // libraries to avoid specific crashes on Android 12L devices
+//    implementation "androidx.window:window:1.3.0"
+//    implementation "androidx.window:window-java:1.3.0"
+    // https://stackoverflow.com/a/78343911
+//    implementation "androidx.work:work-runtime:2.8.1"
+//    implementation "androidx.work:work-runtime-ktx:2.8.1"
+//    implementation "androidx.compose.runtime:runtime:1.7.8"
+
+    // tests :
+    testImplementation 'junit:junit:4.12'
+//    testImplementation "ru.sendsay.sdk:sdk:$sendsaySdkVersion"
+//    testImplementation project(':sdk')
+//    testImplementation(files("../../sdk"))
+    testImplementation "com.google.code.gson:gson:$gsonVersion"
+
+//    implementation 'androidx.support:support-v4:28.0.0'
+}
+
+
+if (getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("gms")) {
+    apply plugin: 'com.google.gms.google-services'
+}
+if (getGradle().getStartParameter().getTaskRequests().toString().toLowerCase().contains("hms")) {
+    apply plugin: 'com.huawei.agconnect'
+}

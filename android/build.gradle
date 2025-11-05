@@ -1,0 +1,75 @@
+//version '2.1.0-SNAPSHOT'
+buildscript {
+    ext {
+        kotlinVersion = '1.9.22'
+        agpVersion = '8.2.0'
+        gsonVersion = '2.11.0'
+        sendsaySdkVersion = '0.1.0'
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$agpVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.22-1.0.16"
+        classpath "androidx.room:room-gradle-plugin:2.6.1"
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+//tasks.register("clean", Delete) {
+//    delete rootProject.buildDir
+//}
+
+
+android {
+    namespace 'com.sendsay'
+    compileSdkVersion 35
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        minSdkVersion 24
+    }
+}
+
+dependencies {
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    api "com.sendsay.sdk:sdk:$sendsaySdkVersion"
+//    implementation project(':sdk')
+//    implementation(files("../sdk"))
+
+    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation "com.android.tools.build:gradle:$agpVersion"
+    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+}

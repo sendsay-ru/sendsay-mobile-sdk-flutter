@@ -1,0 +1,37 @@
+name: sendsay
+description: >-
+  A full featured wrapper for Sendsay SDK that supports Android and iOS.
+version: 0.1.0
+homepage: https://sendsay.ru
+repository: https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter
+
+environment:
+  sdk: '>=2.17.0 <4.0.0'
+  flutter: '>=3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  meta: ^1.7.0
+  plugin_platform_interface: ^2.1.2
+  webview_flutter: ^4.13.0
+
+dev_dependencies:
+  flutter_lints: ^1.0.4
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.sendsay
+        pluginClass: SendsayPlugin
+      ios:
+        pluginClass: SendsayPlugin
+
+#false_secrets:
+# - /example/android/app/google-services.json
+# - /example/android/app/agconnect-services.json
