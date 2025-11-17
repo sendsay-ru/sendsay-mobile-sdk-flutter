@@ -9,8 +9,8 @@ plugins {
 val minSdkVersion = 24
 val targetSdkVersion = 35
 
-val agpVersion = "8.8.0"
-val kotlinVersion = "2.0.20"
+val agpVersion = "8.10.2"
+val kotlinVersion = "1.9.24"
 val multidexVersion = "2.0.1"
 val firebaseVersion = "23.0.0"
 val agconnectVersion = "1.9.1.300"
@@ -20,9 +20,9 @@ val sendsaySdkVersion = "0.1.0"
 val gsonVersion = "2.10.1"
 
 android {
-    namespace = "com.sendsay.sendsay_example"
+    namespace = "com.sendsay.example_flutter"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -35,10 +35,10 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.sendsay.sendsay_example"
+        applicationId = "com.sendsay.example_flutter"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -56,12 +56,12 @@ android {
     productFlavors {
         create("gms") {
             dimension = "service"
-//            applicationId = "com.sendsay.sendsay_example"
+//            applicationId = "com.sendsay.example_flutter"
 //            buildConfigField("String", "1", "\"2\"")
         }
         create("hms") {
-            dimension = "version"
-//            applicationId = "com.sendsay.sendsay_example.test"
+            dimension = "service"
+//            applicationId = "com.sendsay.example_flutter.test"
 //            buildConfigField("String", "qa1", "\"2 Test\"")
         }
     }

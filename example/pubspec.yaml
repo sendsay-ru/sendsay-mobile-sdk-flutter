@@ -1,4 +1,4 @@
-name: sendsay_example
+name: example_flutter
 description: Demonstrates how to use the sendsay plugin.
 version: 0.1.0+1
 publish_to: 'none'
@@ -14,7 +14,7 @@ dependencies:
   sendsay:
     path: ../
 
-  shared_preferences: ^2.5.3
+  shared_preferences: ^2.2.3
   app_links: ^6.4.0
   intl: ^0.20.2
 #  need constant version, because 4.0+ require higher minimal ios version

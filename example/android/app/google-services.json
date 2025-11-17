@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "827936159618",
+    "project_id": "sendsay-app-test",
+    "storage_bucket": "sendsay-app-test.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827936159618:android:a41f7dd05b2b8b7fc4019b",
+        "android_client_info": {
+          "package_name": "com.sendsay.example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlnjvoXXJ6uzR--vBXmdZ_wSaMJ1srASQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827936159618:android:246e21dfb03f3000c4019b",
+        "android_client_info": {
+          "package_name": "com.sendsay.example_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlnjvoXXJ6uzR--vBXmdZ_wSaMJ1srASQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

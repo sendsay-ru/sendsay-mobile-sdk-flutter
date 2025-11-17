@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:sendsay_example/colors.dart';
+import 'package:example_flutter/colors.dart';
 
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:app_links/app_links.dart';
-import 'package:sendsay_example/page/config.dart';
-import 'package:sendsay_example/page/home.dart';
+import 'package:example_flutter/page/config.dart';
+import 'package:example_flutter/page/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

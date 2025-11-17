@@ -1,4 +1,4 @@
-# sendsay_example
+# example_flutter
 
 Demonstrates how to use the sendsay plugin.
 

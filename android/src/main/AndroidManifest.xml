@@ -4,15 +4,15 @@
 
     <application>
         <meta-data android:name="SendsayFlutterSDK" android:value="true" />
-        <meta-data android:name="SendsayFlutterSDKVersion" android:value="2.1.0" />
+        <meta-data android:name="SendsayFlutterSDKVersion" android:value="0.1.0" />
         <receiver
             android:name=".SendsayPushReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="ru.sendsay.sdk.action.PUSH_CLICKED" />
-                <action android:name="ru.sendsay.sdk.action.PUSH_DEEPLINK_CLICKED" />
-                <action android:name="ru.sendsay.sdk.action.PUSH_URL_CLICKED" />
+                <action android:name="com.sendsay.sdk.action.PUSH_CLICKED" />
+                <action android:name="com.sendsay.sdk.action.PUSH_DEEPLINK_CLICKED" />
+                <action android:name="com.sendsay.sdk.action.PUSH_URL_CLICKED" />
             </intent-filter>
         </receiver>
     </application>

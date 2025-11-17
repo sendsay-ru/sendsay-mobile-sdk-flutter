@@ -1,7 +1,7 @@
 import 'package:sendsay/sendsay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sendsay_example/colors.dart';
+import 'package:example_flutter/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
 

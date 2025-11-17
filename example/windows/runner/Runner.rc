@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "ru.sendsay" "\0"
-            VALUE "FileDescription", "sendsay_example" "\0"
+            VALUE "FileDescription", "example_flutter" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "sendsay_example" "\0"
+            VALUE "InternalName", "example_flutter" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 ru.sendsay. All rights reserved." "\0"
-            VALUE "OriginalFilename", "sendsay_example.exe" "\0"
-            VALUE "ProductName", "sendsay_example" "\0"
+            VALUE "OriginalFilename", "example_flutter.exe" "\0"
+            VALUE "ProductName", "example_flutter" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

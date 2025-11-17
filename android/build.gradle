@@ -1,10 +1,12 @@
-//version '2.1.0-SNAPSHOT'
+group 'com.sendsay'
+version '2.1.0-SNAPSHOT'
+
 buildscript {
     ext {
-        kotlinVersion = '1.9.22'
-        agpVersion = '8.2.0'
+        kotlinVersion = '1.9.24'
+        agpVersion = '8.10.1'
         gsonVersion = '2.11.0'
-        sendsaySdkVersion = '0.1.0'
+        sendsaySdkVersion = '0.1.1'
     }
     repositories {
         google()
@@ -14,6 +16,7 @@ buildscript {
         classpath "com.android.tools.build:gradle:$agpVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.22-1.0.16"
+//        classpath "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.24-1.0.20"
         classpath "androidx.room:room-gradle-plugin:2.6.1"
     }
 }
@@ -26,18 +29,8 @@ rootProject.allprojects {
     }
 }
 
-rootProject.buildDir = '../build'
-subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-    project.evaluationDependsOn(':app')
-}
-
-//tasks.register("clean", Delete) {
-//    delete rootProject.buildDir
-//}
-
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     namespace 'com.sendsay'
@@ -66,8 +59,8 @@ dependencies {
 //    implementation(files("../sdk"))
 
     implementation "com.google.code.gson:gson:$gsonVersion"
-    implementation "com.android.tools.build:gradle:$agpVersion"
-    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+//    implementation "com.android.tools.build:gradle:$agpVersion"
+//    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 

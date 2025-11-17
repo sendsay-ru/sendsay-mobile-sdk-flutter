@@ -40,7 +40,7 @@ import com.sendsay.sdk.models.InAppMessageCallback
 import com.sendsay.sdk.style.appinbox.StyledAppInboxProvider
 import com.sendsay.sdk.util.SendsayGson
 import com.sendsay.sdk.util.Logger
-import com.sendsay.style.AppInboxStyleParser
+import com.sendsay.sdk.style.appinbox.AppInboxStyleParser
 import com.sendsay.widget.FlutterAppInboxButton
 import com.sendsay.widget.FlutterAppInboxDetailView
 import com.sendsay.widget.FlutterAppInboxListView
@@ -870,7 +870,7 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         val customer = Customer.fromMap(data)
         Sendsay.identifyCustomer(
                 CustomerIds(HashMap(customer.ids)),
-                PropertiesList(HashMap(customer.properties))
+                PropertiesList(HashMap(customer.properties)).properties
         )
     }
 
@@ -942,7 +942,7 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         val data = args as Map<String, Any?>
         val event = Event.fromMap(data)
         Sendsay.trackEvent(
-                PropertiesList(HashMap(event.properties)),
+                PropertiesList(HashMap(event.properties)).properties,
                 event.timestamp,
                 event.name
         )
