@@ -9,7 +9,7 @@ import Combine
 
 public class FlutterInAppContentBlockCarousel: NSObject, FlutterPlatformView {
     
-    private let channelName = "com.sendsay/InAppContentBlockCarousel"
+    private let channelName = "ru.sendsay/InAppContentBlockCarousel"
     private let methodFilterContentBlocks = "filterContentBlocks"
     private let methodSortContentBlocks = "sortContentBlocks"
     private let methodFIlterContentBlocksResult = "filterContentBlocksResult"

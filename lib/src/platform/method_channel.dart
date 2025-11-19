@@ -38,6 +38,7 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   static const _methodGetFlushPeriod = 'getFlushPeriod';
   static const _methodSetFlushPeriod = 'setFlushPeriod';
   static const _methodTrackEvent = 'trackEvent';
+  static const _methodTrackSSECEvent = 'trackSSECEvent';
   static const _methodTrackSessionStart = 'trackSessionStart';
   static const _methodTrackSessionEnd = 'trackSessionEnd';
   static const _methodFetchConsents = 'fetchConsents';
@@ -174,6 +175,12 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   Future<void> trackEvent(Event event) async {
     final data = EventEncoder.encode(event);
     await _channel.invokeMethod<void>(_methodTrackEvent, data);
+  }
+
+  @override
+  Future<void> trackSSECEvent(SSECEvent ssec) async {
+    final data = SSECEventEncoder.encode(ssec);
+    await _channel.invokeMethod<void>(_methodTrackSSECEvent, data);
   }
 
   @override

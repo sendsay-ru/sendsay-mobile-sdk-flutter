@@ -63,6 +63,9 @@ abstract class BaseInterface {
 
   /// Track custom event to Sendsay backend.
   Future<void> trackEvent(Event event);
+  
+  /// Track SSEC event to Sendsay backend.
+  Future<void> trackSSECEvent(SSECEvent ssec);
 
   /// Manually track session start.
   /// Only usable when [SendsayConfiguration.automaticSessionTracking] is disabled.

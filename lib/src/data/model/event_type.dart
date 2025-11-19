@@ -14,6 +14,9 @@ enum EventType {
   /// Tracking of customers is used to identify a current customer with some identifier
   trackCustomer,
 
+  /// Tracking of Sendsay E-Commerce events (ex. View products/Basket updates/Orders/etc)
+  trackSSEC,
+
   /// Virtual and hard payments
   payment,
 

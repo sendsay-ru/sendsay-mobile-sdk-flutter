@@ -24,9 +24,11 @@ import com.sendsay.data.RecommendationOptionsEncoder
 import com.sendsay.data.InAppMessageCoder
 import com.sendsay.data.NotificationCoder
 import com.sendsay.data.PurchasedItemCoder
+import com.sendsay.data.SSECEvent
 import com.sendsay.data.SegmentationData
 import com.sendsay.data.getOptional
 import com.sendsay.exception.SendsayException
+import com.sendsay.sdk.BuildConfig
 import com.sendsay.sdk.Sendsay
 import com.sendsay.sdk.models.CustomerIds
 import com.sendsay.sdk.models.SendsayConfiguration
@@ -69,7 +71,7 @@ private const val TAG = "SendsayPlugin"
  */
 class SendsayPlugin : FlutterPlugin, ActivityAware {
     companion object {
-        private const val CHANNEL_NAME = "ru.sendsay"
+        private const val CHANNEL_NAME = "com.sendsay"
         private const val STREAM_NAME_OPENED_PUSH = "$CHANNEL_NAME/opened_push"
         private const val STREAM_NAME_RECEIVED_PUSH = "$CHANNEL_NAME/received_push"
         private const val STREAM_NAME_IN_APP_MESSAGES = "$CHANNEL_NAME/in_app_messages"
@@ -209,6 +211,7 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         private const val METHOD_GET_FLUSH_PERIOD = "getFlushPeriod"
         private const val METHOD_SET_FLUSH_PERIOD = "setFlushPeriod"
         private const val METHOD_TRACK_EVENT = "trackEvent"
+        private const val METHOD_TRACK_SSEC = "trackSSEC"
         private const val METHOD_TRACK_SESSION_START = "trackSessionStart"
         private const val METHOD_TRACK_SESSION_END = "trackSessionEnd"
         private const val METHOD_FETCH_CONSENTS = "fetchConsents"
@@ -303,6 +306,9 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
             }
             METHOD_TRACK_EVENT -> {
                 trackEvent(call.arguments, result)
+            }
+            METHOD_TRACK_SSEC -> {
+                trackSSEC(call.arguments, result)
             }
             METHOD_TRACK_SESSION_START -> {
                 trackSessionStart(call.arguments, result)
@@ -1036,6 +1042,18 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         val configMap = args as Map<String, Any?>
         val appInboxStyle = AppInboxStyleParser(configMap).parse()
         Sendsay.appInboxProvider = StyledAppInboxProvider(appInboxStyle)
+    }
+
+
+    private fun trackSSEC(args: Any?, result: Result) = runWithNoResult(result) {
+        requireConfigured()
+        val data = args as Map<String, Any?>
+        val ssec = SSECEvent.fromMap(data)
+
+        Sendsay.trackSSECEvent(
+            ssec.type,
+            ssec.data
+        )
     }
 }
 

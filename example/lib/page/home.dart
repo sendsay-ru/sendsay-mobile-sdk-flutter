@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
+import 'package:intl/intl.dart';
 import 'package:sendsay/sendsay.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -371,10 +373,144 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           ListTile(
-              title: const Text('App Inbox'),
-              subtitle: Row(children: const [
-                SizedBox(width: 150, height: 50, child: AppInboxProvider()),
-              ])),
+              title: const Text('SSEC Track'),
+              subtitle: Wrap(
+                alignment: WrapAlignment.start,
+                spacing: 16,
+                runSpacing: 8,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => _trackSSEC(
+                      context,
+                      SSECEvent(
+                        type: TrackingSSECType.viewProduct,
+                        data: TrackSSEC.viewProduct()
+                            .product(
+                              id: "101626",
+                              name: "Кеды",
+//                dateTime = currentDateTime,
+                              picture: [
+                                "https://m.media-amazon.com/images/I/71UiJ6CG9ZL._AC_UL320_.jpg"
+                              ],
+                              url: "https://sendsay.ru/catalog/kedy/kedy_290/",
+                              categoryId: 1117,
+                              model: "506-066 139249",
+                              price: 4490.0,
+                            )
+                            .buildData(),
+                      ),
+                    ),
+                    child: const Text('PRODUCT VIEW'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      final randomTransactionId =
+                          Random.secure().nextDouble().abs().toString();
+                      final DateFormat formatter =
+                          DateFormat("yyyy-MM-dd HH:mm:ss");
+                      final String currentDateTime =
+                          formatter.format(DateTime.now());
+
+                      _trackSSEC(
+                        context,
+                        SSECEvent(
+                          type: TrackingSSECType.order,
+                          data: TrackSSEC.order()
+                              .update(isUpdatePerItem: false)
+                              .transaction(
+                                  id: randomTransactionId,
+                                  dt: currentDateTime,
+                                  sum: 1490.0,
+                                  status: 1)
+                              .items([
+                            const OrderItem(
+                                id: "101695",
+                                qnt: 1,
+                                price: 1490.0,
+                                name: "Сумка",
+                                picture: [
+                                  "https://m.media-amazon.com/images/I/81h0fWxyp9S._AC_UL320_.jpg"
+                                ],
+                                url:
+                                    "https://sendsay.ru/catalog/sumki_1/sumka_468/",
+                                model: "1110-001 139276",
+                                categoryId: 1154),
+                          ])
+//            .cp(mapOf("cp1" to "promo-2025"))
+                              .buildData(),
+                        ),
+                      );
+                    },
+                    child: const Text('ORDER'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      final DateFormat formatter =
+                          DateFormat("yyyy-MM-dd HH:mm:ss");
+                      final String currentDateTime =
+                          formatter.format(DateTime.now());
+
+                      _trackSSEC(
+                        context,
+                        SSECEvent(
+                            type: TrackingSSECType.basketClear,
+                            data: TrackSSEC.basketClear()
+                                .dateTime(currentDateTime)
+                                .items(
+                                    [const OrderItem(id: "-1")]).buildData()),
+                      );
+                    },
+                    child: const Text('CLEAR BASKET'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      final DateFormat formatter =
+                          DateFormat("yyyy-MM-dd HH:mm:ss");
+                      final String currentDateTime =
+                          formatter.format(DateTime.now());
+
+                      _trackSSEC(
+                        context,
+                        SSECEvent(
+                          type: TrackingSSECType.basketAdd,
+                          data: TrackSSEC.basketAdd()
+                              .transaction(
+                                  id: "2968",
+                                  dt: currentDateTime,
+                                  sum: 2590.0,
+                                  status: 1)
+                              .items([
+                            const OrderItem(
+                              id: "101115",
+                              qnt: 1,
+                              price: 2590.0,
+                              name: "Рюкзак",
+                              picture: [
+                                "https://m.media-amazon.com/images/I/91fkUMA5K1L._AC_UL320_.jpg"
+                              ],
+                              url:
+                                  "https://sendsay.ru/catalog/ryukzaki/ryukzak_745/",
+                              model: "210-045 138761",
+                              categoryId: 1153,
+                              cp: {"cp1": "promo-2025"},
+                            ),
+                          ]).buildData(),
+                        ),
+                      );
+                    },
+                    child: const Text('ADD BASKET'),
+                  ),
+                ],
+              )),
+          // ListTile(
+          //     title: const Text('App Inbox'),
+          //     subtitle: Row(children: const [
+          //       SizedBox(width: 150, height: 50, child: AppInboxProvider()),
+          //     ])),
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Divider(color: Colors.white),
+          ),
           ListTile(
             title: ElevatedButton(
               onPressed: () => _fetchAppInbox(context),
@@ -447,6 +583,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Future<void> _trackSSEC(BuildContext context, SSECEvent ssec) =>
+      _runAndShowResult(context, () async {
+        return await _plugin.trackSSECEvent(ssec);
+      });
+
   Future<void> _fetchAppInbox(BuildContext context) =>
       _runAndShowResult(context, () async {
         return await _plugin.fetchAppInbox();
@@ -476,7 +617,7 @@ class _HomePageState extends State<HomePage> {
     var messages = await _plugin.fetchAppInbox();
     if (messages.isEmpty) return;
     return await _plugin.trackAppInboxClick(
-        AppInboxAction(
+        const AppInboxAction(
             title: 'Google', action: 'browser', url: 'https://www.google.com'),
         messages.first);
   }
@@ -485,11 +626,11 @@ class _HomePageState extends State<HomePage> {
       _runAndShowResult(context, () async {
         return await _plugin.trackPaymentEvent(
           const PurchasedItem(
-            value: 12.34,
-            currency: "EUR",
+            value: 123.34,
+            currency: "RUB",
             paymentSystem: "Virtual",
-            productId: "handbag",
-            productTitle: "Awesome leather handbag",
+            productId: "Backpack",
+            productTitle: "Awesome product!",
           ),
         );
       });

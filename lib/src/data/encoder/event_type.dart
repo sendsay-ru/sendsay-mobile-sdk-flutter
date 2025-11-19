@@ -11,6 +11,8 @@ abstract class EventTypeEncoder {
         return 'SESSION_END';
       case EventType.trackEvent:
         return 'TRACK_EVENT';
+      case EventType.trackSSEC:
+        return 'TRACK_SSEC';
       case EventType.trackCustomer:
         return 'TRACK_CUSTOMER';
       case EventType.payment:
@@ -37,6 +39,8 @@ abstract class EventTypeEncoder {
       case 'SESSION_END':
         return EventType.sessionEnd;
       case 'TRACK_EVENT':
+        return EventType.trackSSEC;
+      case 'TRACK_SSEC':
         return EventType.trackEvent;
       case 'TRACK_CUSTOMER':
         return EventType.trackCustomer;

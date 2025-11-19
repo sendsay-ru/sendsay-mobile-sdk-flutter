@@ -134,6 +134,11 @@ abstract class SendsayPlatform extends PlatformInterface
   Future<void> trackEvent(Event event) async {
     throw UnimplementedError();
   }
+  
+  @override
+  Future<void> trackSSECEvent(SSECEvent ssec) async {
+    throw UnimplementedError();
+  }
 
   @override
   Future<void> trackSessionEnd({DateTime? timestamp}) async {
