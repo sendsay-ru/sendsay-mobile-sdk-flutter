@@ -4,9 +4,9 @@ class LinkPage extends StatelessWidget {
   final String link;
 
   const LinkPage({
-    Key? key,
+    super.key,
     required this.link,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

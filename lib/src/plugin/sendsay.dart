@@ -78,6 +78,9 @@ class SendsayPlugin implements BaseInterface {
 
   @override
   Future<void> trackEvent(Event event) => _platform.trackEvent(event);
+  
+  @override
+  Future<void> trackSSECEvent(SSECEvent ssec) => _platform.trackSSECEvent(ssec);
 
   @override
   Future<void> trackSessionEnd({DateTime? timestamp}) =>

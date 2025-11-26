@@ -15,8 +15,8 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$agpVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.22-1.0.16"
-//        classpath "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.24-1.0.20"
+//        classpath "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.22-1.0.16"
+        classpath "com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.24-1.0.20"
         classpath "androidx.room:room-gradle-plugin:2.6.1"
     }
 }
