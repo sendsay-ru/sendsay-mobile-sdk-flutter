@@ -1,11 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 
-import 'package:intl/intl.dart';
-import 'package:sendsay/sendsay.dart';
+import 'package:example_flutter/home_blocks/customer_block.dart';
+import 'package:example_flutter/home_blocks/default_props_block.dart';
+import 'package:example_flutter/home_blocks/fetch_block.dart';
+import 'package:example_flutter/home_blocks/flush_period_block.dart';
+import 'package:example_flutter/home_blocks/log_level_block.dart';
+import 'package:example_flutter/home_blocks/other_buttons_block.dart';
+import 'package:example_flutter/home_blocks/push_events_block.dart';
+import 'package:example_flutter/home_blocks/ssec_block.dart';
+import 'package:example_flutter/home_blocks/flush_mode_block.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sendsay/sendsay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_inbox_list_page.dart';
@@ -18,12 +25,12 @@ class HomePage extends StatefulWidget {
   final SendsayConfiguration config;
 
   const HomePage({
-    Key? key,
+    super.key,
     required this.config,
-  }) : super(key: key);
+  });
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -83,180 +90,42 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Sendsay Demo'),
-      // ),
       body: ListView(
         children: [
-          ListTile(
-            title: const Text('Push events'),
-            subtitle: ValueListenableBuilder<String>(
-              valueListenable: _pushController,
-              builder: (context, value, _) => Text(value),
-            ),
+          PushEventsBlock(
+              key: UniqueKey(),
+              pushController: _pushController,
+              requestPushCallback: _requestPushAuthorization,
+              isConfiguredCallback: _checkIsConfigured),
+          CustomerBlock(
+              key: UniqueKey(),
+              cookieCall: _getCustomerCookie,
+              identifyCall: _identifyCustomer,
+              anonymizeCall: _anonymize),
+          DefaultPropsBlock(
+              key: UniqueKey(),
+              getDefPropsCall: _getDefaultProps,
+              setDefPropsCall: _setDefaultProps),
+          FetchBlock(
+            key: UniqueKey(),
+            consentsCall: _fetchConsents,
+            recommendCall: _fetchRecommendations,
           ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => _requestPushAuthorization(context),
-              child: const Text('Request Push Authorization'),
-            ),
+          FlushModeBlock(
+            key: UniqueKey(),
+            flushModeController: _flushModeController,
+            getFlushModeCall: _getFlushMode,
+            setFlushModeCall: (ctx) {
+              setState(() {});
+              _setFlushMode(ctx);
+            },
+            flushCall: _flush,
           ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => _checkIsConfigured(context),
-              child: const Text('Configured?'),
+          if (_flushModeController.value == FlushMode.period)
+            FlushPeriodBlock(
+              flushPeriodController: _flushPeriodController,
+              flushPeriodCall: _setFlushPeriod,
             ),
-          ),
-          ListTile(
-            title: const Text('Customer'),
-            subtitle: Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => _getCustomerCookie(context),
-                  style: const ButtonStyle(
-                    padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
-                  ),
-                  child: const Text('Get Cookie'),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () => _identifyCustomer(context),
-                  style: const ButtonStyle(
-                    padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
-                  ),
-                  child: const Text('Identify'),
-                ),
-                const SizedBox(width: 8),
-                Flexible(
-                  child: ElevatedButton(
-                    onPressed: () => _anonymize(context),
-                    style: const ButtonStyle(
-                      padding: WidgetStatePropertyAll(
-                          EdgeInsets.symmetric(horizontal: 16)),
-                    ),
-                    child: const Text(
-                      'Anonymize',
-                      maxLines: 1,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            title: const Text('Default Properties'),
-            subtitle: Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => _getDefaultProps(context),
-                  child: const Text('Get'),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () => _setDefaultProps(context),
-                  child: const Text('Set'),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            title: const Text('Fetch'),
-            subtitle: Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => _fetchConsents(context),
-                  child: const Text('Consents'),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () => _fetchRecommendations(context),
-                  child: const Text('Recommendations'),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            title: const Text('Flush Mode'),
-            subtitle: Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => _getFlushMode(context),
-                  child: const Text('Get'),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () => _setFlushMode(context),
-                  child: const Text('Set'),
-                ),
-                const SizedBox(width: 8),
-                Flexible(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown, // Or other fit options
-                    child: ValueListenableBuilder<FlushMode?>(
-                      valueListenable: _flushModeController,
-                      builder: (context, selectedMode, _) =>
-                          DropdownButton<FlushMode>(
-                        value: selectedMode,
-                        onChanged: (value) =>
-                            _flushModeController.value = value,
-                        items: FlushMode.values
-                            .map(
-                              (mode) => DropdownMenuItem<FlushMode>(
-                                value: mode,
-                                child: Text(mode.toString()),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => _flush(context),
-              child: const Text('Flush'),
-            ),
-          ),
-          ListTile(
-            title: const Text('Flush Period'),
-            subtitle: Row(
-              children: [
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () => _setFlushPeriod(context),
-                  child: const Text('Set'),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: ValueListenableBuilder<int>(
-                    valueListenable: _flushPeriodController,
-                    builder: (context, period, _) => Row(
-                      children: [
-                        SizedBox(
-                          width: 50,
-                          child: Text('$period min'),
-                        ),
-                        Expanded(
-                          child: Slider(
-                            value: period.toDouble(),
-                            min: 1,
-                            max: 60,
-                            onChanged: (value) =>
-                                _flushPeriodController.value = value.toInt(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
           ListTile(
             title: const Text('Track'),
             subtitle: Row(
@@ -338,170 +207,14 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          ListTile(
-            title: const Text('Log Level'),
-            subtitle: Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => _getLogLevel(context),
-                  child: const Text('Get'),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: ValueListenableBuilder<LogLevel?>(
-                    valueListenable: _logLevelController,
-                    builder: (context, selected, _) => Row(
-                      children: [
-                        DropdownButton<LogLevel>(
-                          value: selected,
-                          onChanged: (value) =>
-                              _logLevelController.value = value,
-                          items: LogLevel.values
-                              .map(
-                                (level) => DropdownMenuItem<LogLevel>(
-                                  value: level,
-                                  child: Text(level.toString()),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          LogLevelBlock(
+            logLevelCall: _getLogLevel,
+            logLevelController: _logLevelController,
           ),
-          ListTile(
-              title: const Text('SSEC Track'),
-              subtitle: Wrap(
-                alignment: WrapAlignment.start,
-                spacing: 16,
-                runSpacing: 8,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => _trackSSEC(
-                      context,
-                      SSECEvent(
-                        type: TrackingSSECType.viewProduct,
-                        data: TrackSSEC.viewProduct()
-                            .product(
-                              id: "101626",
-                              name: "Кеды",
-//                dateTime = currentDateTime,
-                              picture: [
-                                "https://m.media-amazon.com/images/I/71UiJ6CG9ZL._AC_UL320_.jpg"
-                              ],
-                              url: "https://sendsay.ru/catalog/kedy/kedy_290/",
-                              categoryId: 1117,
-                              model: "506-066 139249",
-                              price: 4490.0,
-                            )
-                            .buildData(),
-                      ),
-                    ),
-                    child: const Text('PRODUCT VIEW'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      final randomTransactionId =
-                          Random.secure().nextDouble().abs().toString();
-                      final DateFormat formatter =
-                          DateFormat("yyyy-MM-dd HH:mm:ss");
-                      final String currentDateTime =
-                          formatter.format(DateTime.now());
-
-                      _trackSSEC(
-                        context,
-                        SSECEvent(
-                          type: TrackingSSECType.order,
-                          data: TrackSSEC.order()
-                              .update(isUpdatePerItem: false)
-                              .transaction(
-                                  id: randomTransactionId,
-                                  dt: currentDateTime,
-                                  sum: 1490.0,
-                                  status: 1)
-                              .items([
-                            const OrderItem(
-                                id: "101695",
-                                qnt: 1,
-                                price: 1490.0,
-                                name: "Сумка",
-                                picture: [
-                                  "https://m.media-amazon.com/images/I/81h0fWxyp9S._AC_UL320_.jpg"
-                                ],
-                                url:
-                                    "https://sendsay.ru/catalog/sumki_1/sumka_468/",
-                                model: "1110-001 139276",
-                                categoryId: 1154),
-                          ])
-//            .cp(mapOf("cp1" to "promo-2025"))
-                              .buildData(),
-                        ),
-                      );
-                    },
-                    child: const Text('ORDER'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      final DateFormat formatter =
-                          DateFormat("yyyy-MM-dd HH:mm:ss");
-                      final String currentDateTime =
-                          formatter.format(DateTime.now());
-
-                      _trackSSEC(
-                        context,
-                        SSECEvent(
-                            type: TrackingSSECType.basketClear,
-                            data: TrackSSEC.basketClear()
-                                .dateTime(currentDateTime)
-                                .items(
-                                    [const OrderItem(id: "-1")]).buildData()),
-                      );
-                    },
-                    child: const Text('CLEAR BASKET'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      final DateFormat formatter =
-                          DateFormat("yyyy-MM-dd HH:mm:ss");
-                      final String currentDateTime =
-                          formatter.format(DateTime.now());
-
-                      _trackSSEC(
-                        context,
-                        SSECEvent(
-                          type: TrackingSSECType.basketAdd,
-                          data: TrackSSEC.basketAdd()
-                              .transaction(
-                                  id: "2968",
-                                  dt: currentDateTime,
-                                  sum: 2590.0,
-                                  status: 1)
-                              .items([
-                            const OrderItem(
-                              id: "101115",
-                              qnt: 1,
-                              price: 2590.0,
-                              name: "Рюкзак",
-                              picture: [
-                                "https://m.media-amazon.com/images/I/91fkUMA5K1L._AC_UL320_.jpg"
-                              ],
-                              url:
-                                  "https://sendsay.ru/catalog/ryukzaki/ryukzak_745/",
-                              model: "210-045 138761",
-                              categoryId: 1153,
-                              cp: {"cp1": "promo-2025"},
-                            ),
-                          ]).buildData(),
-                        ),
-                      );
-                    },
-                    child: const Text('ADD BASKET'),
-                  ),
-                ],
-              )),
+          SsecBlock(
+            key: UniqueKey(),
+            callback: (ssec) => _trackSSEC(context, ssec),
+          ),
           // ListTile(
           //     title: const Text('App Inbox'),
           //     subtitle: Row(children: const [
@@ -511,72 +224,19 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.all(16),
             child: Divider(color: Colors.white),
           ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => _fetchAppInbox(context),
-              child: const Text('Fetch all'),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => _fetchAppInboxItem(context),
-              child: const Text('Fetch first'),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => _markFirstAppInboxItemAsRead(context),
-              child: const Text('Mark first as read'),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => _trackFirstAppInboxItemAsOpened(context),
-              child: const Text('Track first as Opened'),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => _trackFirstAppInboxItemAsClicked(context),
-              child: const Text('Track first as Clicked'),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => _trackPaymentEvent(context),
-              child: const Text('Track payment event'),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const InAppCbPage())),
-              child: const Text('In App CB Example Page'),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const InAppCbCarouselPage())),
-              child: const Text('In App CB Carousel Example Page'),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const AppInboxListPage())),
-              child: const Text('App inbox Example Page'),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () async {
-                final data = await _plugin.getSegments('discovery');
-                print(
-                    'Segments: received segments for category discovery with IDs: $data');
-              },
-              child: const Text('Get segments'),
-            ),
+          OtherButtonsBlock(
+            key: UniqueKey(),
+            appInboxFetchAllCall: _fetchAppInbox,
+            appInboxFetchItemCall: _fetchAppInboxItem,
+            appInboxMarkItemAsReadCall: _markFirstAppInboxItemAsRead,
+            appInboxTrackItemAsOpenedCall: _trackFirstAppInboxItemAsOpened,
+            appInboxTrackItemAsClickedCall: _trackFirstAppInboxItemAsClicked,
+            trackPaymentEventCall: _trackPaymentEvent,
+            pluginSegmentsCallback: (ctx) async {
+              final data = await _plugin.getSegments('discovery');
+              debugPrint(
+                  'Segments: received segments for category discovery with IDs: $data');
+            },
           ),
         ],
       ),
@@ -585,11 +245,11 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _trackSSEC(BuildContext context, SSECEvent ssec) =>
       _runAndShowResult(context, () async {
-            final event = Event(
-              name: 'trackSSECEvent',
-              properties: ssec.toSsecMap(),
-            );
-            return await _plugin.trackEvent(event);
+        final event = Event(
+          name: 'trackSSECEvent',
+          properties: ssec.toSsecMap(),
+        );
+        return await _plugin.trackEvent(event);
       });
 
   Future<void> _fetchAppInbox(BuildContext context) =>
