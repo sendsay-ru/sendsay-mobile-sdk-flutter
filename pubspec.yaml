@@ -1,7 +1,7 @@
 name: sendsay
 description: >-
   A full featured wrapper for Sendsay SDK that supports Android and iOS.
-version: 0.1.0
+version: 0.1.1
 homepage: https://sendsay.ru
 repository: https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter
 

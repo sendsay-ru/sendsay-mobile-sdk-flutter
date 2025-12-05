@@ -26,7 +26,6 @@ class SsecBlock extends StatelessWidget {
                       .product(
                         id: "101626",
                         name: "Кеды",
-//                dateTime = currentDateTime,
                         picture: [
                           "https://m.media-amazon.com/images/I/71UiJ6CG9ZL._AC_UL320_.jpg"
                         ],
@@ -59,19 +58,19 @@ class SsecBlock extends StatelessWidget {
                             status: 1)
                         .items([
                       const OrderItem(
-                          id: "101695",
-                          qnt: 1,
-                          price: 1490.0,
-                          name: "Сумка",
-                          picture: [
-                            "https://m.media-amazon.com/images/I/81h0fWxyp9S._AC_UL320_.jpg"
-                          ],
-                          url: "https://sendsay.ru/catalog/sumki_1/sumka_468/",
-                          model: "1110-001 139276",
-                          categoryId: 1154),
-                    ])
-//            .cp(mapOf("cp1" to "promo-2025"))
-                        .buildData(),
+                        id: "101695",
+                        qnt: 1,
+                        price: 1490.0,
+                        name: "Сумка",
+                        picture: [
+                          "https://m.media-amazon.com/images/I/81h0fWxyp9S._AC_UL320_.jpg"
+                        ],
+                        url: "https://sendsay.ru/catalog/sumki_1/sumka_468/",
+                        model: "1110-001 139276",
+                        categoryId: 1154,
+                        cp: {"cp1": "promo-2025"},
+                      )
+                    ]).buildData(),
                   ),
                 );
               },

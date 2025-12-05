@@ -14,7 +14,7 @@ class SSECEvent {
   Map<String, dynamic> toSsecMap() {
     return {
       'type': type.value,
-      'data': data.toSsecMap(),
+      'data': data.toProperties(),
     };
   }
 
@@ -22,7 +22,7 @@ class SSECEvent {
   String toString() {
     return 'SSECEvent{'
         'type: ${type.value}, '
-        'data: ${data.toSsecMap()}'
+        'data: ${data.toProperties()}'
         '}';
   }
 }

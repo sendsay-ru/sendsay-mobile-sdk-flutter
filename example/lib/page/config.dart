@@ -14,9 +14,9 @@ class ConfigPage extends StatefulWidget {
   final ConfigCallback doneCallback;
 
   const ConfigPage({
-    Key? key,
+    super.key,
     required this.doneCallback,
-  }) : super(key: key);
+  });
 
   @override
   _ConfigPageState createState() => _ConfigPageState();
@@ -24,8 +24,6 @@ class ConfigPage extends StatefulWidget {
 
 class _ConfigPageState extends State<ConfigPage> {
   static const _platform = MethodChannel("com.sendsay/utils");
-
-  // '${Platform.isAndroid ? 'com' : 'ru'}.sendsay.example_flutter/utils');
 
   static const _spKeyProject = 'project_token';
   static const _spKeyAuth = 'auth_token';
@@ -248,7 +246,7 @@ class _ConfigPageState extends State<ConfigPage> {
 
     _loading.value = true;
     final projectToken = _projectIdController.text.trim();
-    final authToken = _authTokenController.text.trim();
+    final authToken = _authTokenController.text.trim().split(' ').last;
     // final advancedAuthToken = _advancedAuthTokenController.text.trim();
     final rawBaseUrl = _baseUrlController.text.trim();
     final baseUrl = rawBaseUrl.isNotEmpty ? rawBaseUrl : null;
@@ -267,7 +265,7 @@ class _ConfigPageState extends State<ConfigPage> {
         baseUrl: baseUrl,
         pushTokenTrackingFrequency: TokenFrequency.everyLaunch,
         requirePushAuthorization: true,
-        flushMaxRetries: 11,
+        flushMaxRetries: 10,
         automaticSessionTracking: sessionTracking,
         sessionTimeout: 22.5,
         defaultProperties: const {
