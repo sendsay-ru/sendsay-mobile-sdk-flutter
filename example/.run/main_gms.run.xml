@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="main_hms" type="FlutterRunConfigurationType" factoryName="Flutter">
-    <option name="additionalArgs" value="--flavor hms" />
+  <configuration default="false" name="main_gms" type="FlutterRunConfigurationType" factoryName="Flutter">
+    <option name="additionalArgs" value="--flavor gms" />
     <option name="filePath" value="$PROJECT_DIR$/example/lib/main.dart" />
     <method v="2" />
   </configuration>

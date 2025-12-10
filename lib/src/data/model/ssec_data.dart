@@ -1,6 +1,4 @@
-import 'ssec_type.dart';
 import 'order_item.dart';
-import 'package:logger/logger.dart';
 
 class TrackSSECData {
   // Продукт
@@ -116,11 +114,7 @@ class TrackSSECData {
 
     // items (ORDER / BASKET)
     if (items != null) {
-      final logger = Logger();
       out['items'] = items!.map((e) => e.toJson()).toList();
-          // .first;
-
-      // logger.d(out['items'].toString());
     }
 
     // subscription / favorites
