@@ -29,7 +29,6 @@ import com.sendsay.data.SSECEvent.Companion.toTrackSSECData
 import com.sendsay.data.SegmentationData
 import com.sendsay.data.getOptional
 import com.sendsay.exception.SendsayException
-import com.sendsay.sdk.BuildConfig
 import com.sendsay.sdk.Sendsay
 import com.sendsay.sdk.models.CustomerIds
 import com.sendsay.sdk.models.SendsayConfiguration
@@ -40,7 +39,6 @@ import com.sendsay.sdk.models.PropertiesList
 import com.sendsay.sdk.models.InAppMessage
 import com.sendsay.sdk.models.InAppMessageButton
 import com.sendsay.sdk.models.InAppMessageCallback
-import com.sendsay.sdk.models.TrackSSECData
 import com.sendsay.sdk.models.TrackingSSECType
 import com.sendsay.sdk.style.appinbox.StyledAppInboxProvider
 import com.sendsay.sdk.util.SendsayGson
@@ -253,7 +251,7 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         private const val METHOD_TRACK_CLICKED_PUSH_WITHOUT_TRACKING_CONSENT = "trackClickedPushWithoutTrackingConsent"
         private const val METHOD_TRACK_DELIVERED_PUSH = "trackDeliveredPush"
         private const val METHOD_TRACK_DELIVERED_PUSH_WITHOUT_TRACKING_CONSENT = "trackDeliveredPushWithoutTrackingConsent"
-        private const val METHOD_IS_BLOOMREACH_NOTIFICATION = "isBloomreachNotification"
+        private const val METHOD_IS_SENDSAY_NOTIFICATION = "isSendsayNotification"
         private const val METHOD_HANDLE_CAMPAIGN_CLICK = "handleCampaignClick"
         private const val METHOD_HANDLE_PUSH_NOTIFICATION_OPENED = "handlePushNotificationOpened"
         private const val METHOD_HANDLE_PUSH_NOTIFICATION_OPENED_WITHOUT_TRACKING_CONSENT = "handlePushNotificationOpenedWithoutTrackingConsent"
@@ -427,8 +425,8 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
             METHOD_TRACK_DELIVERED_PUSH_WITHOUT_TRACKING_CONSENT -> {
                 trackDeliveredPushWithoutTrackingConsent(call.arguments, result)
             }
-            METHOD_IS_BLOOMREACH_NOTIFICATION -> {
-                isBloomreachNotification(call.arguments, result)
+            METHOD_IS_SENDSAY_NOTIFICATION -> {
+                isSendsayNotification(call.arguments, result)
             }
             METHOD_HANDLE_CAMPAIGN_CLICK -> {
                 handleCampaignClick(call.arguments, result)
@@ -748,7 +746,7 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         Sendsay.trackDeliveredPushWithoutTrackingConsent(notification, receivedSeconds)
     }
 
-    private  fun isBloomreachNotification(args: Any?, result: Result) = runWithResult(result) {
+    private fun isSendsayNotification(args: Any?, result: Result) = runWithResult(result) {
         requireConfigured()
         val data = args as Map<String, String>
         return@runWithResult Sendsay.isSendsayPushNotification(data)

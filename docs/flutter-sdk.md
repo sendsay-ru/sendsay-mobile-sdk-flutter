@@ -1,7 +1,9 @@
-<p align="center">
-  <img src="./docs/img/sendsay-logo.png?raw=true" alt="Sendsay"/>
-</p>
-
+---
+title: Flutter SDK
+excerpt: Sendsay SDK for Flutter
+slug: flutter-sdk
+categorySlug: integrations
+---
 
 # Что такое Flutter Sendsay SDK
 Flutter Sendsay SDK позволяет интегрировать ваше мобильное приложение с [Sendsay CDP](https://www.sendsay.ru/) и отслеживать поведение ваших клиентов в приложении. Интеграция SDK в ваше приложение позволит вам отправлять push-уведомления и отслеживать события и свойства клиентов.
@@ -19,7 +21,7 @@ sendsay: x.y.z
 и выполните
 * `$ flutter pub get`
 
-### установка для iOS: 
+### установка для iOS:
 
 * `$ cd ios`
 * `$ pod install`
@@ -47,8 +49,3 @@ sendsay: x.y.z
 - Сегментация (в разработке)
 - [Разработка](docs/development.md)
 - [Пример приложения](docs/example-app.md)
-
-
-## Примечания к версии
-
-[Примечания к версии](CHANGELOG.md) для Sendsay SDK

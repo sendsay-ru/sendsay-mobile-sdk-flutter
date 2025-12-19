@@ -296,7 +296,7 @@ abstract class SendsayPlatform extends PlatformInterface
   }
 
   @override
-  Future<bool> isBloomreachNotification(Map<String, String> data) async {
+  Future<bool> isSendsayNotification(Map<String, String> data) async {
     throw UnimplementedError();
   }
 

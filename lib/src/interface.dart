@@ -203,8 +203,8 @@ abstract class BaseInterface {
   /// Track delivered push notification
   Future<void> trackDeliveredPushWithoutTrackingConsent(Map<String, dynamic> data);
 
-  /// Checks if push notifications originate from bloomreach
-  Future<bool> isBloomreachNotification(Map<String, String> data);
+  /// Checks if push notifications originate from sendsay
+  Future<bool> isSendsayNotification(Map<String, String> data);
 
   /// Handle Campaign click
   Future<void> handleCampaignClick(String url);

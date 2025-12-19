@@ -63,7 +63,7 @@ enum METHOD_NAME: String {
     case trackClickedPushWithoutTrackingConsent = "trackClickedPushWithoutTrackingConsent"
     case trackDeliveredPush = "trackDeliveredPush"
     case trackDeliveredPushWithoutTrackingConsent = "trackDeliveredPushWithoutTrackingConsent"
-    case isBloomreachNotification = "isBloomreachNotification"
+    case isSendsayNotification = "isSendsayNotification"
     case handleCampaignClick = "handleCampaignClick"
     case handlePushNotificationOpened = "handlePushNotificationOpened"
     case handlePushNotificationOpenedWithoutTrackingConsent = "handlePushNotificationOpenedWithoutTrackingConsent"
@@ -443,8 +443,8 @@ public class SwiftSendsayPlugin: NSObject, FlutterPlugin {
             trackDeliveredPush(call.arguments, with: result)
         case .trackDeliveredPushWithoutTrackingConsent:
             trackDeliveredPushWithoutTrackingConsent(call.arguments, with: result)
-        case .isBloomreachNotification:
-            isBloomreachNotification(call.arguments, with: result)
+        case .isSendsayNotification:
+            isSendsayNotification(call.arguments, with: result)
         case .handleCampaignClick:
             handleCampaignClick(call.arguments, with: result)
         case .handlePushNotificationOpened:
@@ -1006,7 +1006,7 @@ public class SwiftSendsayPlugin: NSObject, FlutterPlugin {
         result(nil)
     }
 
-    private func isBloomreachNotification(_ args: Any?, with result: FlutterResult) {
+    private func isSendsayNotification(_ args: Any?, with result: FlutterResult) {
         guard requireConfigured(with: result) else { return }
         guard let data = args as? [String : Any?] else {
             result(FlutterError(

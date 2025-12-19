@@ -247,7 +247,6 @@ class _ConfigPageState extends State<ConfigPage> {
     _loading.value = true;
     final projectToken = _projectIdController.text.trim();
     final authToken = _authTokenController.text.trim().split(' ').last;
-    // final advancedAuthToken = _advancedAuthTokenController.text.trim();
     final rawBaseUrl = _baseUrlController.text.trim();
     final baseUrl = rawBaseUrl.isNotEmpty ? rawBaseUrl : null;
     final sessionTracking = _sessionTrackingController.value;
@@ -255,7 +254,6 @@ class _ConfigPageState extends State<ConfigPage> {
     final sp = await SharedPreferences.getInstance();
     await sp.setString(_spKeyProject, projectToken);
     await sp.setString(_spKeyAuth, authToken);
-    // await sp.setString(_spKeyAdvancedAuth, advancedAuthToken);
     await sp.setString(_spKeyBaseUrl, rawBaseUrl);
     await sp.setBool(_spKeySessionTracking, sessionTracking);
 

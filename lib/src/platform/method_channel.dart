@@ -77,7 +77,7 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   static const _trackClickedPushWithoutTrackingConsent = 'trackClickedPushWithoutTrackingConsent';
   static const _trackDeliveredPush = 'trackDeliveredPush';
   static const _trackDeliveredPushWithoutTrackingConsent = 'trackDeliveredPushWithoutTrackingConsent';
-  static const _isBloomreachNotification = 'isBloomreachNotification';
+  static const _isSendsayNotification = 'isSendsayNotification';
   static const _handleCampaignClick = 'handleCampaignClick';
   static const _handlePushNotificationOpened = 'handlePushNotificationOpened';
   static const _handlePushNotificationOpenedWithoutTrackingConsent = 'handlePushNotificationOpenedWithoutTrackingConsent';
@@ -505,8 +505,8 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
-  Future<bool> isBloomreachNotification(Map<String, String> data) async {
-    return (await _channel.invokeMethod<bool>(_isBloomreachNotification, data))!;
+  Future<bool> isSendsayNotification(Map<String, String> data) async {
+    return (await _channel.invokeMethod<bool>(_isSendsayNotification, data))!;
   }
 
   @override

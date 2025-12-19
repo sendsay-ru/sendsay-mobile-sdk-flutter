@@ -236,8 +236,8 @@ class SendsayPlugin implements BaseInterface {
       _platform.trackDeliveredPushWithoutTrackingConsent(data);
 
   @override
-  Future<bool> isBloomreachNotification(Map<String, String> data) =>
-      _platform.isBloomreachNotification(data);
+  Future<bool> isSendsayNotification(Map<String, String> data) =>
+      _platform.isSendsayNotification(data);
 
   @override
   Future<void> handleCampaignClick(String url) =>
