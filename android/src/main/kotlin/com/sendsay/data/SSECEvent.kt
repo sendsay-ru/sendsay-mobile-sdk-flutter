@@ -61,7 +61,7 @@ data class SSECEvent(val type: String, val data: Map<String, Any>) {
                         gson.fromJson(json, orderItemJavaType)
                     },
                 subscriptionDelete  = (this["subscriptionDelete"] as? List<Int>),
-                cp                  = this["cp"] as? Map<String, Any>?,
+//                cp                  = this["cp"] as? Map<String, Any>?,
             )
         }
     }

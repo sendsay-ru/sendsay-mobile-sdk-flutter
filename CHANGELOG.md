@@ -7,6 +7,22 @@ parentDocSlug: flutter-sdk
 ---
 
 ## Release Notes
+## Release Notes for 0.1.4
+#### August 20, 2026
+* Features
+  * Initial release with base functionality of the mobile SDKs - tracking, fetching, SSEC and CCE support.
+  * Push notifications for Android and iOs
+  * Adds requirePushAuthorization, Android-specific parameters to the configuration.
+  * Adds compatibility with Android Gradle Plugin 8.
+  * Used native Sendsay Android SDK to version 0.1.4.
+  * Used native Sendsay iOS SDK to version 0.1.4.
+  * Universal links and app links
+  * Dart SDK version - 2.17.0
+  * Flutter minimal version - 3.0.0
+  * Adds documentation.
+
+
+## Release Notes
 ## Release Notes for 0.1.0
 #### December 12, 2025
 * Features
@@ -22,3 +38,4 @@ parentDocSlug: flutter-sdk
     * Dart SDK version - 2.17.0
     * Flutter minimal version - 3.0.0
     * Adds documentation.
+

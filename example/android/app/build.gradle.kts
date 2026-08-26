@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -9,7 +11,7 @@ plugins {
 val minSdkVersion = 24
 val targetSdkVersion = 35
 
-val agpVersion = "8.10.2"
+val agpVersion = "8.13.2"
 //val kotlinVersion = "1.9.24"
 val multidexVersion = "2.0.1"
 val firebaseVersion = "23.0.0"
@@ -26,10 +28,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     defaultConfig {
@@ -63,6 +61,15 @@ android {
 //            applicationId = "com.sendsay.example_flutter.test"
 //            buildConfigField("String", "qa1", "\"2 Test\"")
         }
+        create("rsm") {
+            dimension = "service"
+        }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
     }
 }
 

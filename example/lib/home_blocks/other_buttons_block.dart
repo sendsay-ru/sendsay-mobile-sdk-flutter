@@ -81,12 +81,12 @@ class OtherButtonsBlock extends StatelessWidget {
         //     child: const Text('App inbox Example Page'),
         //   ),
         // ),
-        ListTile(
-          title: ElevatedButton(
-            onPressed: () => pluginSegmentsCallback(context),
-            child: const Text('Get segments'),
-          ),
-        ),
+        // ListTile(
+        //   title: ElevatedButton(
+        //     onPressed: () => pluginSegmentsCallback(context),
+        //     child: const Text('Get segments'),
+        //   ),
+        // ),
       ],
     );
   }

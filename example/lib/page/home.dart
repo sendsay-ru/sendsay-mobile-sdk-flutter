@@ -105,11 +105,11 @@ class _HomePageState extends State<HomePage> {
               key: UniqueKey(),
               getDefPropsCall: _getDefaultProps,
               setDefPropsCall: _setDefaultProps),
-          FetchBlock(
-            key: UniqueKey(),
-            consentsCall: _fetchConsents,
-            recommendCall: _fetchRecommendations,
-          ),
+          // FetchBlock(
+          //   key: UniqueKey(),
+          //   consentsCall: _fetchConsents,
+          //   recommendCall: _fetchRecommendations,
+          // ),
           FlushModeBlock(
             key: UniqueKey(),
             flushModeController: _flushModeController,
@@ -164,51 +164,51 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          ListTile(
-            title: const Text('Trigger in-app message by event:'),
-            subtitle: Wrap(
-              alignment: WrapAlignment.start,
-              spacing: 16,
-              children: [
-                ElevatedButton(
-                  onPressed: () =>
-                      _triggerInAppMessage(context, 'test_msg_modal'),
-                  style: const ButtonStyle(
-                    padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
-                  ),
-                  child: const Text('Modal'),
-                ),
-                ElevatedButton(
-                  onPressed: () =>
-                      _triggerInAppMessage(context, 'test_msg_fullscreen'),
-                  style: const ButtonStyle(
-                    padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
-                  ),
-                  child: const Text('Fullscreen'),
-                ),
-                ElevatedButton(
-                  onPressed: () =>
-                      _triggerInAppMessage(context, 'test_msg_slide'),
-                  style: const ButtonStyle(
-                    padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
-                  ),
-                  child: const Text('Slide-in'),
-                ),
-                ElevatedButton(
-                  onPressed: () =>
-                      _triggerInAppMessage(context, 'test_msg_alert'),
-                  style: const ButtonStyle(
-                    padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
-                  ),
-                  child: const Text('Alert'),
-                ),
-              ],
-            ),
-          ),
+          // ListTile(
+          //   title: const Text('Trigger in-app message by event:'),
+          //   subtitle: Wrap(
+          //     alignment: WrapAlignment.start,
+          //     spacing: 16,
+          //     children: [
+          //       ElevatedButton(
+          //         onPressed: () =>
+          //             _triggerInAppMessage(context, 'test_msg_modal'),
+          //         style: const ButtonStyle(
+          //           padding: WidgetStatePropertyAll(
+          //               EdgeInsets.symmetric(horizontal: 16)),
+          //         ),
+          //         child: const Text('Modal'),
+          //       ),
+          //       ElevatedButton(
+          //         onPressed: () =>
+          //             _triggerInAppMessage(context, 'test_msg_fullscreen'),
+          //         style: const ButtonStyle(
+          //           padding: WidgetStatePropertyAll(
+          //               EdgeInsets.symmetric(horizontal: 16)),
+          //         ),
+          //         child: const Text('Fullscreen'),
+          //       ),
+          //       ElevatedButton(
+          //         onPressed: () =>
+          //             _triggerInAppMessage(context, 'test_msg_slide'),
+          //         style: const ButtonStyle(
+          //           padding: WidgetStatePropertyAll(
+          //               EdgeInsets.symmetric(horizontal: 16)),
+          //         ),
+          //         child: const Text('Slide-in'),
+          //       ),
+          //       ElevatedButton(
+          //         onPressed: () =>
+          //             _triggerInAppMessage(context, 'test_msg_alert'),
+          //         style: const ButtonStyle(
+          //           padding: WidgetStatePropertyAll(
+          //               EdgeInsets.symmetric(horizontal: 16)),
+          //         ),
+          //         child: const Text('Alert'),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           LogLevelBlock(
             logLevelCall: _getLogLevel,
             logLevelController: _logLevelController,

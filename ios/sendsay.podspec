@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'sendsay'
-  s.version          = '0.1.1'
+  s.version          = '0.1.4'
   s.summary          = 'Native SendsaySDK iOs Library.'
   s.description      = <<-DESC
   Плагин, который бриджит Dart к нативным SDK.
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'SendsaySDK', '0.1.1'
+  s.dependency 'SendsaySDK', '0.1.4'
   s.dependency 'AnyCodable-FlightSchool', '0.6.3'
   s.platform = :ios, '13.0'
 
