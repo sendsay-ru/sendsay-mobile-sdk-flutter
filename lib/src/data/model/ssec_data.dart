@@ -119,10 +119,10 @@ class TrackSSECData {
 
     // subscription / favorites
     if (subscriptionAdd != null) {
-      out['add'] = subscriptionAdd!.map((e) => e.toJson()).toList();
+      out['subscriptionAdd'] = subscriptionAdd!.map((e) => e.toJson()).toList();
     }
-    put('delete', subscriptionDelete);
-    put('clear', subscriptionClear);
+    put('subscriptionDelete', subscriptionDelete);
+    put('subscriptionClear', subscriptionClear);
 
     return out;
   }

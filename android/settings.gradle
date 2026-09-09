@@ -1,4 +1,1 @@
 rootProject.name = 'sendsay'
-include ('app')
-//include ('app', 'sdk')
-//project(':sdk').projectDir = new File(rootProject.projectDir, '../sdk')

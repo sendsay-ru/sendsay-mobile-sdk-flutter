@@ -359,9 +359,6 @@ class TrackSSECDataCore {
 
   TrackSSECDataCore(this.type);
 
-  // setProduct / setTransaction / setDelivery / setPayment / setUpdate
-  // остаются такими же, как я тебе уже кидал — их можно не трогать.
-
   void setProduct({
     String? id,
     String? name,

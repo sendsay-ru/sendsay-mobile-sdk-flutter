@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io' show Platform;
 
 import 'package:sendsay/sendsay.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +9,6 @@ import '../data/util/object.dart';
 /// An implementation of [SendsayPlatform] that uses method channels.
 class MethodChannelSendsayPlatform extends SendsayPlatform {
   static const _channelName = "com.sendsay";
-      // "${Platform.isAndroid ? 'com' : 'ru'}.sendsay.example";
   static const _channel = MethodChannel(_channelName);
 
   static const _openedPushStreamName = "$_channelName/opened_push";
@@ -38,7 +36,7 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   static const _methodGetFlushPeriod = 'getFlushPeriod';
   static const _methodSetFlushPeriod = 'setFlushPeriod';
   static const _methodTrackEvent = 'trackEvent';
-  static const _methodTrackSSECEvent = 'trackSSEC';
+  static const _methodTrackSSECEvent = 'trackSSECEvent';
   static const _methodTrackSessionStart = 'trackSessionStart';
   static const _methodTrackSessionEnd = 'trackSessionEnd';
   static const _methodFetchConsents = 'fetchConsents';

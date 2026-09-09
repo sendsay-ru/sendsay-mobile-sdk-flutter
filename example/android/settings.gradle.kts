@@ -23,6 +23,7 @@ plugins {
     id("com.android.experimental.built-in-kotlin") version "8.13.2" apply false
 
     id("com.google.devtools.ksp") version "2.2.20-2.0.4" apply false
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
 }
 
 include(":app")

@@ -44,6 +44,7 @@ import com.sendsay.sdk.style.appinbox.StyledAppInboxProvider
 import com.sendsay.sdk.util.SendsayGson
 import com.sendsay.sdk.util.Logger
 import com.sendsay.sdk.style.appinbox.AppInboxStyleParser
+import com.sendsay.sdk.BuildConfig
 import com.sendsay.widget.FlutterAppInboxButton
 import com.sendsay.widget.FlutterAppInboxDetailView
 import com.sendsay.widget.FlutterAppInboxListView
@@ -103,6 +104,11 @@ class SendsayPlugin : FlutterPlugin, ActivityAware {
             Sendsay.trackHmsPushToken(token)
         }
 
+        fun trackRsmPushToken(token: String) {
+            Log.d(TAG, "trackRsmPushToken($token)")
+            Sendsay.trackRsmPushToken(token)
+        }
+
         fun handleNewGmsToken(context: Context, token: String) {
             Log.d(TAG, "handleNewGmsToken($token)")
             Sendsay.handleNewToken(context, token)
@@ -111,6 +117,11 @@ class SendsayPlugin : FlutterPlugin, ActivityAware {
         fun handleNewHmsToken(context: Context, token: String) {
             Log.d(TAG, "handleNewHmsToken($token)")
             Sendsay.handleNewHmsToken(context, token)
+        }
+
+        fun handleNewRsmToken(context: Context, token: String) {
+            Log.d(TAG, "handleNewRsmToken($token)")
+            Sendsay.handleNewRsmToken(context, token)
         }
     }
 
@@ -212,7 +223,7 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         private const val METHOD_GET_FLUSH_PERIOD = "getFlushPeriod"
         private const val METHOD_SET_FLUSH_PERIOD = "setFlushPeriod"
         private const val METHOD_TRACK_EVENT = "trackEvent"
-        private const val METHOD_TRACK_SSEC = "trackSSEC"
+        private const val METHOD_TRACK_SSEC = "trackSSECEvent"
         private const val METHOD_TRACK_SESSION_START = "trackSessionStart"
         private const val METHOD_TRACK_SESSION_END = "trackSessionEnd"
         private const val METHOD_FETCH_CONSENTS = "fetchConsents"
@@ -1053,7 +1064,13 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         val trackType = TrackingSSECType.find(value = ssec.type, id = null)
         val trackData = ssec.data.toTrackSSECData()
 
-        result.error(TAG + "( trackSSEC() ) : trackData =>", trackData.toString() + "====" + ssec.data.toString(), null)
+        if (BuildConfig.DEBUG) {
+            result.error(
+                TAG + "( trackSSEC() ) : trackData =>",
+                trackData.toString() + "\n====\n" + ssec.data.toString(),
+                null
+            )
+        }
 
         Sendsay.trackSSECEvent(
             trackType!!,
