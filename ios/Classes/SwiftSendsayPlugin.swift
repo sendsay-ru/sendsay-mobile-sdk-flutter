@@ -307,12 +307,13 @@ public class CustomInAppContentBlockCallback: InAppContentBlockCallbackType {
     }
 }
 
-public class SwiftSendsayPlugin: NSObject, FlutterPlugin {
+public class SwiftSendsayPlugin: NSObject, FlutterPlugin, FlutterSceneLifeCycleDelegate {
 
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: channelName, binaryMessenger: registrar.messenger())
         let instance = SwiftSendsayPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
+        registrar.addSceneDelegate(instance)
 
         let openedPushEventChannel = FlutterEventChannel(name: openedPushStreamName, binaryMessenger: registrar.messenger())
         openedPushEventChannel.setStreamHandler(OpenedPushStreamHandler.newInstance())
@@ -1427,6 +1428,59 @@ public class SwiftSendsayPlugin: NSObject, FlutterPlugin {
 }
 
 extension SwiftSendsayPlugin: PushNotificationManagerDelegate {
+    /// TODO: надо ли это реализовывать / удалить ?
+    public func windowScene(
+        _ windowScene: UIWindowScene,
+        performActionFor shortcutItem: UIApplicationShortcutItem,
+        completionHandler: @escaping (Bool) -> Void
+    ) -> Bool { }
+
+    public func sceneDidDisconnect(_ scene: UIScene) { }
+
+    public func sceneWillEnterForeground(_ scene: UIScene) { }
+
+    public func sceneDidBecomeActive(_ scene: UIScene) { }
+
+    public func sceneWillResignActive(_ scene: UIScene) { }
+
+    public func sceneDidEnterBackground(_ scene: UIScene) { }
+
+    public func scene(
+        _ scene: UIScene,
+        openURLContexts URLContexts: Set<UIOpenURLContext>
+    ) -> Bool { }
+    /// TODO: надо ли ?
+
+    /// Tracks campaign links that caused a scene to connect.
+    public func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions?
+    ) -> Bool {
+        guard let connectionOptions = connectionOptions else {
+            return false
+        }
+
+        for userActivity in connectionOptions.userActivities {
+            Self.continueUserActivity(userActivity)
+        }
+
+        // Preserve connection options for other plugins.
+        return false
+    }
+
+    /// Tracks campaign links delivered to an existing scene.
+    public func scene(
+        _ scene: UIScene,
+        continue userActivity: NSUserActivity
+    ) -> Bool {
+        Self.continueUserActivity(userActivity)
+
+        // Allow navigation handlers to process the same link.
+        return false
+    }
+
+
     public func pushNotificationOpened(
         with action: SendsayNotificationActionType,
         value: String?,
