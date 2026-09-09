@@ -55,7 +55,8 @@ abstract class SendsayPlatform extends PlatformInterface
 
   @override
   Future<List<Recommendation>> fetchRecommendations(
-      RecommendationOptions options) async {
+    RecommendationOptions options,
+  ) async {
     throw UnimplementedError();
   }
 
@@ -104,7 +105,9 @@ abstract class SendsayPlatform extends PlatformInterface
     throw UnimplementedError();
   }
 
-  @Deprecated("Will be removed in a later version of the SDK, use 'requestPushAuthorization()' instead")
+  @Deprecated(
+    "Will be removed in a later version of the SDK, use 'requestPushAuthorization()' instead",
+  )
   @override
   Future<bool> requestIosPushAuthorization() async {
     throw UnimplementedError();
@@ -134,7 +137,7 @@ abstract class SendsayPlatform extends PlatformInterface
   Future<void> trackEvent(Event event) async {
     throw UnimplementedError();
   }
-  
+
   @override
   Future<void> trackSSECEvent(Map<String, dynamic> ssec) async {
     throw UnimplementedError();
@@ -161,17 +164,25 @@ abstract class SendsayPlatform extends PlatformInterface
   }
 
   @override
-  Future<void> trackAppInboxOpenedWithoutTrackingConsent(AppInboxMessage message) async {
+  Future<void> trackAppInboxOpenedWithoutTrackingConsent(
+    AppInboxMessage message,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackAppInboxClick(AppInboxAction action, AppInboxMessage message) async {
+  Future<void> trackAppInboxClick(
+    AppInboxAction action,
+    AppInboxMessage message,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackAppInboxClickWithoutTrackingConsent(AppInboxAction action, AppInboxMessage message) async {
+  Future<void> trackAppInboxClickWithoutTrackingConsent(
+    AppInboxAction action,
+    AppInboxMessage message,
+  ) async {
     throw UnimplementedError();
   }
 
@@ -191,67 +202,112 @@ abstract class SendsayPlatform extends PlatformInterface
   }
 
   @override
-  Future<void> trackInAppContentBlockClick(String placeholderId, InAppContentBlock contentBlock, InAppContentBlockAction action) async {
+  Future<void> trackInAppContentBlockClick(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    InAppContentBlockAction action,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackInAppContentBlockClickWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock, InAppContentBlockAction action) async {
+  Future<void> trackInAppContentBlockClickWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    InAppContentBlockAction action,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackInAppContentBlockClose(String placeholderId, InAppContentBlock contentBlock) async {
+  Future<void> trackInAppContentBlockClose(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackInAppContentBlockCloseWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock) async {
+  Future<void> trackInAppContentBlockCloseWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackInAppContentBlockShown(String placeholderId, InAppContentBlock contentBlock) async {
+  Future<void> trackInAppContentBlockShown(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackInAppContentBlockShownWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock) async {
+  Future<void> trackInAppContentBlockShownWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackInAppContentBlockError(String placeholderId, InAppContentBlock contentBlock, String errorMessage) async {
+  Future<void> trackInAppContentBlockError(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    String errorMessage,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackInAppContentBlockErrorWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock, String errorMessage) async {
-      throw UnimplementedError();
-  }
-
-  @override
-  Future<void> trackInAppMessageClick(InAppMessage message, InAppMessageButton button) async {
+  Future<void> trackInAppContentBlockErrorWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    String errorMessage,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackInAppMessageClickWithoutTrackingConsent(InAppMessage message, InAppMessageButton button) async {
+  Future<void> trackInAppMessageClick(
+    InAppMessage message,
+    InAppMessageButton button,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackInAppMessageClose(InAppMessage message, {InAppMessageButton? button, bool interaction = true}) async {
+  Future<void> trackInAppMessageClickWithoutTrackingConsent(
+    InAppMessage message,
+    InAppMessageButton button,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackInAppMessageCloseWithoutTrackingConsent(InAppMessage message, {InAppMessageButton? button, bool interaction = true}) async {
+  Future<void> trackInAppMessageClose(
+    InAppMessage message, {
+    InAppMessageButton? button,
+    bool interaction = true,
+  }) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackPaymentEvent(PurchasedItem purchasedItem, {DateTime? timestamp}) async {
+  Future<void> trackInAppMessageCloseWithoutTrackingConsent(
+    InAppMessage message, {
+    InAppMessageButton? button,
+    bool interaction = true,
+  }) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> trackPaymentEvent(
+    PurchasedItem purchasedItem, {
+    DateTime? timestamp,
+  }) async {
     throw UnimplementedError();
   }
 
@@ -276,12 +332,54 @@ abstract class SendsayPlatform extends PlatformInterface
   }
 
   @override
+  Future<void> trackRsmPushToken(String token) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> handleRsmPushToken(String token) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> getGAID() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> getIDFA() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> fetchIDFA() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> trackIDFA() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> stopIntegration() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> clearLocalCustomerData({String? appGroup}) async {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<void> trackClickedPush(Map<String, dynamic> data) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> trackClickedPushWithoutTrackingConsent(Map<String, dynamic> data) async {
+  Future<void> trackClickedPushWithoutTrackingConsent(
+    Map<String, dynamic> data,
+  ) async {
     throw UnimplementedError();
   }
 
@@ -291,7 +389,9 @@ abstract class SendsayPlatform extends PlatformInterface
   }
 
   @override
-  Future<void> trackDeliveredPushWithoutTrackingConsent(Map<String, dynamic> data) async {
+  Future<void> trackDeliveredPushWithoutTrackingConsent(
+    Map<String, dynamic> data,
+  ) async {
     throw UnimplementedError();
   }
 
@@ -311,17 +411,25 @@ abstract class SendsayPlatform extends PlatformInterface
   }
 
   @override
-  Future<void> handlePushNotificationOpenedWithoutTrackingConsent(Map<String, dynamic> data) async {
+  Future<void> handlePushNotificationOpenedWithoutTrackingConsent(
+    Map<String, dynamic> data,
+  ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Map<String, String>>> getSegments(String exposingCategory, {bool force = false}) async {
+  Future<List<Map<String, String>>> getSegments(
+    String exposingCategory, {
+    bool force = false,
+  }) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<Stream<List<Map<String, String>>>> segmentationDataStream(String exposingCategory, {bool includeFirstLoad = false}) async {
+  Future<Stream<List<Map<String, String>>>> segmentationDataStream(
+    String exposingCategory, {
+    bool includeFirstLoad = false,
+  }) async {
     throw UnimplementedError();
   }
 
@@ -332,5 +440,8 @@ abstract class SendsayPlatform extends PlatformInterface
   Stream<ReceivedPush> get receivedPushStream => throw UnimplementedError();
 
   @override
-  Stream<InAppMessageAction> inAppMessageActionStream({bool overrideDefaultBehavior = false, bool trackActions = true}) => throw UnimplementedError();
+  Stream<InAppMessageAction> inAppMessageActionStream({
+    bool overrideDefaultBehavior = false,
+    bool trackActions = true,
+  }) => throw UnimplementedError();
 }

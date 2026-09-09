@@ -24,7 +24,9 @@ abstract class SendsayConfigurationEncoder {
           .getOptional<String>('pushTokenTrackingFrequency')
           ?.let(TokenFrequencyEncoder.decode),
       requirePushAuthorization: data.getOptional('requirePushAuthorization'),
-      allowDefaultCustomerProperties: data.getOptional('allowDefaultCustomerProperties'),
+      allowDefaultCustomerProperties: data.getOptional(
+        'allowDefaultCustomerProperties',
+      ),
       advancedAuthEnabled: data.getOptional('advancedAuthEnabled'),
       android: data
           .getOptional<Map<String, dynamic>>('android')
@@ -45,21 +47,24 @@ abstract class SendsayConfigurationEncoder {
       'projectToken': config.projectToken,
       'authorizationToken': config.authorizationToken,
       'baseUrl': config.baseUrl,
-      'projectMapping':
-          config.projectMapping?.let(SendsayProjectMappingEncoder.encode),
+      'projectMapping': config.projectMapping?.let(
+        SendsayProjectMappingEncoder.encode,
+      ),
       'defaultProperties': config.defaultProperties,
       'flushMaxRetries': config.flushMaxRetries?.toDouble(),
       'sessionTimeout': config.sessionTimeout,
       'automaticSessionTracking': config.automaticSessionTracking,
       'allowDefaultCustomerProperties': config.allowDefaultCustomerProperties,
       'advancedAuthEnabled': config.advancedAuthEnabled,
-      'pushTokenTrackingFrequency':
-          config.pushTokenTrackingFrequency?.let(TokenFrequencyEncoder.encode),
+      'pushTokenTrackingFrequency': config.pushTokenTrackingFrequency?.let(
+        TokenFrequencyEncoder.encode,
+      ),
       'requirePushAuthorization': config.requirePushAuthorization,
       'android': config.android?.let(AndroidSendsayConfigurationEncoder.encode),
       'ios': config.ios?.let(IOSSendsayConfigurationEncoder.encode),
-      'inAppContentBlockPlaceholdersAutoLoad': config.inAppContentBlockPlaceholdersAutoLoad,
-      'manualSessionAutoClose' : config.manualSessionAutoClose,
+      'inAppContentBlockPlaceholdersAutoLoad':
+          config.inAppContentBlockPlaceholdersAutoLoad,
+      'manualSessionAutoClose': config.manualSessionAutoClose,
     }..removeWhere((key, value) => value == null);
   }
 }
@@ -67,8 +72,10 @@ abstract class SendsayConfigurationEncoder {
 abstract class AndroidSendsayConfigurationEncoder {
   static AndroidSendsayConfiguration decode(Map<String, dynamic> data) {
     return AndroidSendsayConfiguration(
-      automaticPushNotifications:
-          data.getOptional('automaticPushNotifications'),
+      isGAIDEnabled: data.getOptional('isGAIDEnabled'),
+      automaticPushNotifications: data.getOptional(
+        'automaticPushNotifications',
+      ),
       pushIcon: data.getOptional<num>('pushIcon')?.toInt(),
       pushAccentColor: data.getOptional<num>('pushAccentColor')?.toInt(),
       pushChannelName: data.getOptional('pushChannelName'),
@@ -80,23 +87,28 @@ abstract class AndroidSendsayConfigurationEncoder {
       httpLoggingLevel: data
           .getOptional<String>('httpLoggingLevel')
           ?.let(HttpLoggingLevelEncoder.decode),
-      appInboxDetailImageInset: data.getOptional<num>('appInboxDetailImageInset')?.toInt(),
+      appInboxDetailImageInset: data
+          .getOptional<num>('appInboxDetailImageInset')
+          ?.toInt(),
       allowWebViewCookies: data.getOptional('allowWebViewCookies'),
     );
   }
 
   static Map<String, dynamic> encode(AndroidSendsayConfiguration config) {
     return {
+      if (config.isGAIDEnabled != null) 'isGAIDEnabled': config.isGAIDEnabled,
       'automaticPushNotifications': config.automaticPushNotifications,
       'pushIcon': config.pushIcon?.toDouble(),
       'pushAccentColor': config.pushAccentColor?.toDouble(),
       'pushChannelName': config.pushChannelName,
       'pushChannelDescription': config.pushChannelDescription,
       'pushChannelId': config.pushChannelId,
-      'pushNotificationImportance': config.pushNotificationImportance
-          ?.let(PushNotificationImportanceEncoder.encode),
-      'httpLoggingLevel':
-          config.httpLoggingLevel?.let(HttpLoggingLevelEncoder.encode),
+      'pushNotificationImportance': config.pushNotificationImportance?.let(
+        PushNotificationImportanceEncoder.encode,
+      ),
+      'httpLoggingLevel': config.httpLoggingLevel?.let(
+        HttpLoggingLevelEncoder.encode,
+      ),
       'appInboxDetailImageInset': config.appInboxDetailImageInset?.toDouble(),
       'allowWebViewCookies': config.allowWebViewCookies,
     };

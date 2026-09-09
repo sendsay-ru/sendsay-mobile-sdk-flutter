@@ -44,7 +44,6 @@ import com.sendsay.sdk.style.appinbox.StyledAppInboxProvider
 import com.sendsay.sdk.util.SendsayGson
 import com.sendsay.sdk.util.Logger
 import com.sendsay.sdk.style.appinbox.AppInboxStyleParser
-import com.sendsay.sdk.BuildConfig
 import com.sendsay.widget.FlutterAppInboxButton
 import com.sendsay.widget.FlutterAppInboxDetailView
 import com.sendsay.widget.FlutterAppInboxListView
@@ -224,6 +223,16 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         private const val METHOD_SET_FLUSH_PERIOD = "setFlushPeriod"
         private const val METHOD_TRACK_EVENT = "trackEvent"
         private const val METHOD_TRACK_SSEC = "trackSSECEvent"
+
+        private const val METHOD_CLEAR_CUSTOMER_DATA = "clearLocalCustomerData"
+        private const val METHOD_STOP_INTEGRATION = "stopIntegration"
+        private const val METHOD_CONFIGURE = "configure"
+        private const val METHOD_CONFIGURE = "configure"
+        private const val METHOD_CONFIGURE = "configure"
+        private const val METHOD_CONFIGURE = "configure"
+        private const val METHOD_CONFIGURE = "configure"
+        private const val METHOD_CONFIGURE = "configure"
+
         private const val METHOD_TRACK_SESSION_START = "trackSessionStart"
         private const val METHOD_TRACK_SESSION_END = "trackSessionEnd"
         private const val METHOD_FETCH_CONSENTS = "fetchConsents"
@@ -280,6 +289,24 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         Log.i(TAG, "onMethodCall(${call.method})")
 
         when (call.method) {
+            "trackRsmPushToken" -> trackRsmPushToken(call.arguments, result)
+            "handleRsmPushToken" -> handleRsmPushToken(call.arguments, result)
+            "getGAID" -> runWithResult(result) { Sendsay.getGAID() }
+            "fetchGAID" -> runWithResult(result) { Sendsay.fetchGAID() }
+            "trackGAID" -> runWithResult(result) { Sendsay.trackGAID() }
+            "getIDFA", "fetchIDFA", "trackIDFA" -> result.error(
+                "unsupported_platform",
+                "${call.method} is available only on iOS.",
+                null
+            )
+            METHOD_STOP_INTEGRATION -> runWithNoResult(result) {
+                requireConfigured()
+                Sendsay.stopIntegration()
+            }
+            METHOD_CLEAR_CUSTOMER_DATA -> runWithNoResult(result) {
+                requireNotConfigured()
+                Sendsay.clearLocalCustomerData()
+            }
             METHOD_CONFIGURE -> {
                 configure(call.arguments, result)
             }
@@ -699,6 +726,24 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         Sendsay.trackPaymentEvent(timestamp = timestamp ?: currentTimeSeconds(),  purchasedItem = purchasedItem)
     }
 
+    private fun trackRsmPushToken(args: Any?, result: Result) =
+        runWithNoResult(result) {
+            requireConfigured()
+            Sendsay.trackRsmPushToken(requirePushToken(args))
+        }
+
+    private fun handleRsmPushToken(args: Any?, result: Result) =
+        runWithNoResult(result) {
+            // The native SDK persists tokens received before initialization.
+            Sendsay.handleNewRsmToken(context, requirePushToken(args))
+        }
+
+    private fun requirePushToken(args: Any?): String {
+        val token = args as? String
+        require(!token.isNullOrBlank()) { "A nonempty push token is required." }
+        return token
+    }
+
     private fun trackPushToken(args: Any?, result: Result) = runWithNoResult(result) {
         requireConfigured()
         val token = args as String
@@ -712,14 +757,12 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
     }
 
     private fun handlePushToken(args: Any?, result: Result) = runWithNoResult(result) {
-        requireConfigured()
-        val token = args as String
+        val token = requirePushToken(args)
         Sendsay.handleNewToken(activity ?: context, token)
     }
 
     private fun handleHmsPushToken(args: Any?, result: Result) = runWithNoResult(result) {
-        requireConfigured()
-        val token = args as String
+        val token = requirePushToken(args)
         Sendsay.handleNewHmsToken(activity ?: context, token)
     }
 
@@ -1061,21 +1104,11 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         requireConfigured()
         val data = args as Map<String, Any?>
         val ssec = SSECEvent.fromMap(data)
-        val trackType = TrackingSSECType.find(value = ssec.type, id = null)
+        val trackType = requireNotNull(
+            TrackingSSECType.find(value = ssec.type, id = null)
+        ) { "Unsupported SSEC event type: ${ssec.type}" }
         val trackData = ssec.data.toTrackSSECData()
-
-        if (BuildConfig.DEBUG) {
-            result.error(
-                TAG + "( trackSSEC() ) : trackData =>",
-                trackData.toString() + "\n====\n" + ssec.data.toString(),
-                null
-            )
-        }
-
-        Sendsay.trackSSECEvent(
-            trackType!!,
-            trackData
-        )
+        Sendsay.trackSSECEvent(trackType, trackData)
     }
 }
 

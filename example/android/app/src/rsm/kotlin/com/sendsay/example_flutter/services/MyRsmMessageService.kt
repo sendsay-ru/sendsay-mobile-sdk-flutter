@@ -3,10 +3,11 @@ package com.sendsay.example_flutter.services
 import android.app.NotificationManager
 import android.content.Context
 import com.sendsay.SendsayPlugin
-import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
+import ru.rustore.sdk.pushclient.messaging.exception.RuStorePushClientException
+import ru.rustore.sdk.pushclient.messaging.model.RemoteMessage
+import ru.rustore.sdk.pushclient.messaging.service.RuStoreMessagingService
 
-class MyGmsMessageService : FirebaseMessagingService() {
+class MyRsmMessageService : RuStoreMessagingService() {
 
     private val notificationManager by lazy {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -19,6 +20,6 @@ class MyGmsMessageService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        SendsayPlugin.handleNewGmsToken(applicationContext, token)
+        SendsayPlugin.handleNewRsmToken(applicationContext, token)
     }
 }

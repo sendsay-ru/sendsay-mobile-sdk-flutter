@@ -78,6 +78,11 @@ class SendsayConfiguration {
 
 @immutable
 class AndroidSendsayConfiguration {
+  /// Enables GAID collection in native configuration; remote policy may override.
+  ///
+  /// This does not initiate collection or guarantee Google Play services access.
+  final bool? isGAIDEnabled;
+
   /// Flag to control if the App will handle push notifications automatically.
   final bool? automaticPushNotifications;
 
@@ -118,6 +123,7 @@ class AndroidSendsayConfiguration {
   final bool? allowWebViewCookies;
 
   const AndroidSendsayConfiguration({
+    this.isGAIDEnabled,
     this.automaticPushNotifications,
     this.pushIcon,
     this.pushAccentColor,
@@ -140,7 +146,9 @@ class IOSSendsayConfiguration {
   final String? appGroup;
 
   const IOSSendsayConfiguration({
-    @Deprecated("Will be removed in a later version of the SDK, use common 'requirePushAuthorization' instead. When both are set, the common one will be used.")
+    @Deprecated(
+      "Will be removed in a later version of the SDK, use common 'requirePushAuthorization' instead. When both are set, the common one will be used.",
+    )
     this.requirePushAuthorization,
     this.appGroup,
   });

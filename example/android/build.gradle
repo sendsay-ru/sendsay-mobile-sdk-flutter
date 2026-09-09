@@ -18,6 +18,7 @@ buildscript {
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://developer.huawei.com/repo/' }
+        maven { url "https://nexus-external.vkteam.ru/repository/maven/" }
     }
 
     dependencies {
@@ -35,12 +36,18 @@ allprojects {
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://developer.huawei.com/repo/' }
+        maven { url "https://nexus-external.rustore.ru/repository/maven/" }
     }
 }
 
-rootProject.layout.buildDirectory = '../build'
+rootProject.layout.buildDirectory.set(
+        rootProject.layout.projectDirectory.dir('../build')
+)
+
 subprojects {
-    layout.buildDirectory = "${rootProject.layout.buildDirectory}/${project.name}"
+    project.layout.buildDirectory.set(
+            rootProject.layout.buildDirectory.dir(project.name)
+    )
     project.evaluationDependsOn(':app')
 }
 
