@@ -347,6 +347,16 @@ abstract class SendsayPlatform extends PlatformInterface
   }
 
   @override
+  Future<String?> fetchGAID() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> trackGAID() async {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<String?> getIDFA() async {
     throw UnimplementedError();
   }

@@ -1,4 +1,3 @@
-
 import 'package:sendsay/sendsay.dart';
 
 import '../util/Codable.dart';
@@ -17,9 +16,6 @@ class AppInboxListViewStyle extends Encodable {
 
   @override
   Map<String, dynamic> encode() {
-    return {
-      'backgroundColor': backgroundColor,
-      'item': item?.encodeClean()
-    };
+    return {'backgroundColor': backgroundColor, 'item': item?.encodeClean()};
   }
 }

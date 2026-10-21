@@ -5,7 +5,10 @@ class LogLevelBlock extends StatefulWidget {
   final Function(BuildContext) logLevelCall;
   final ValueNotifier<LogLevel?> logLevelController;
 
-  const LogLevelBlock({super.key, required this.logLevelController, required this.logLevelCall});
+  const LogLevelBlock(
+      {super.key,
+      required this.logLevelController,
+      required this.logLevelCall});
 
   @override
   State<LogLevelBlock> createState() => _LogLevelBlockState();
@@ -31,14 +34,14 @@ class _LogLevelBlockState extends State<LogLevelBlock> {
                   DropdownButton<LogLevel>(
                     value: selected,
                     onChanged: (value) =>
-                    widget.logLevelController.value = value,
+                        widget.logLevelController.value = value,
                     items: LogLevel.values
                         .map(
                           (level) => DropdownMenuItem<LogLevel>(
-                        value: level,
-                        child: Text(level.toString()),
-                      ),
-                    )
+                            value: level,
+                            child: Text(level.toString()),
+                          ),
+                        )
                         .toList(),
                   ),
                 ],

@@ -4,9 +4,7 @@ import 'package:meta/meta.dart';
 class ReceivedPush {
   final Map<String, dynamic> data;
 
-  const ReceivedPush({
-    required this.data,
-  });
+  const ReceivedPush({required this.data});
 
   @override
   String toString() {

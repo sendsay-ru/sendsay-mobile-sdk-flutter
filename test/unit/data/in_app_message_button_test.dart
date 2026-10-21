@@ -29,7 +29,10 @@ void main() {
       });
 
       test('full data', () async {
-        const inAppMessageButton = InAppMessageButton(text: 'button', url: 'https://a.b.c');
+        const inAppMessageButton = InAppMessageButton(
+          text: 'button',
+          url: 'https://a.b.c',
+        );
         expect(encode(inAppMessageButton), fullData);
       });
     });

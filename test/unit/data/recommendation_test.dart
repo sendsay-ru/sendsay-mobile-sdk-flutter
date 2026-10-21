@@ -41,7 +41,7 @@ void main() {
             "decimal": 123.456,
             "boolean": true,
             "string": "example_string",
-            "datetime": "2024-02-01T11:22:33.444Z"
+            "datetime": "2024-02-01T11:22:33.444Z",
           },
         );
         expect(encode(recommendation), fullData);
@@ -84,7 +84,10 @@ void main() {
         expect(decoded.engineName, expected.engineName);
         expect(decoded.itemId, expected.itemId);
         expect(decoded.recommendationId, expected.recommendationId);
-        expect(decoded.recommendationVariantId, expected.recommendationVariantId);
+        expect(
+          decoded.recommendationVariantId,
+          expected.recommendationVariantId,
+        );
         expect(decoded.data, expected.data);
       });
 
@@ -99,7 +102,7 @@ void main() {
             "decimal": 123.456,
             "boolean": true,
             "string": "example_string",
-            "datetime": "2024-02-01T11:22:33.444Z"
+            "datetime": "2024-02-01T11:22:33.444Z",
           },
         );
         final decoded = decode(fullData);
@@ -107,7 +110,10 @@ void main() {
         expect(decoded.engineName, expected.engineName);
         expect(decoded.itemId, expected.itemId);
         expect(decoded.recommendationId, expected.recommendationId);
-        expect(decoded.recommendationVariantId, expected.recommendationVariantId);
+        expect(
+          decoded.recommendationVariantId,
+          expected.recommendationVariantId,
+        );
         expect(decoded.data, expected.data);
       });
     });
@@ -183,8 +189,10 @@ void main() {
         expect(decoded.size, expected.size);
         expect(decoded.items, expected.items);
         expect(decoded.noTrack, expected.noTrack);
-        expect(decoded.catalogAttributesWhitelist,
-            expected.catalogAttributesWhitelist);
+        expect(
+          decoded.catalogAttributesWhitelist,
+          expected.catalogAttributesWhitelist,
+        );
       });
 
       test('full', () async {
@@ -203,8 +211,10 @@ void main() {
         expect(decoded.size, expected.size);
         expect(decoded.items, expected.items);
         expect(decoded.noTrack, expected.noTrack);
-        expect(decoded.catalogAttributesWhitelist,
-            expected.catalogAttributesWhitelist);
+        expect(
+          decoded.catalogAttributesWhitelist,
+          expected.catalogAttributesWhitelist,
+        );
       });
     });
   });

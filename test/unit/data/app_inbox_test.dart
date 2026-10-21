@@ -24,10 +24,7 @@ void main() {
 
     group('encode', () {
       test('minimal', () async {
-        const message = AppInboxMessage(
-          id: 'mock-id',
-          type: 'mock-type',
-        );
+        const message = AppInboxMessage(id: 'mock-id', type: 'mock-type');
 
         expect(encode(message), minData);
       });
@@ -55,22 +52,24 @@ void main() {
 
       test('with empty content', () async {
         const message = AppInboxMessage(
-            id: 'mock-id',
-            type: 'mock-type',
-            isRead: true,
-            createTime: 1,
-            content: {},);
+          id: 'mock-id',
+          type: 'mock-type',
+          isRead: true,
+          createTime: 1,
+          content: {},
+        );
 
         expect(encode(message), withEmptyContent);
       });
 
       test('full', () async {
         const message = AppInboxMessage(
-            id: 'mock-id',
-            type: 'mock-type',
-            isRead: true,
-            createTime: 1,
-            content: {'mock-content-param': 'mock-content'});
+          id: 'mock-id',
+          type: 'mock-type',
+          isRead: true,
+          createTime: 1,
+          content: {'mock-content-param': 'mock-content'},
+        );
 
         expect(encode(message), fullData);
       });

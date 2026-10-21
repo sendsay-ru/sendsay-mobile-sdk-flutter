@@ -201,7 +201,9 @@ enum SSECTransactionStatus {
   deliveryHandedOver(6, 'Доставка: передан в доставку'),
   deliveryShipped(7, 'Доставка: отправлен'),
   deliveryCourierOrPoint(
-      8, 'Доставка: поступил в пункт-выдачи / передан курьеру'),
+    8,
+    'Доставка: поступил в пункт-выдачи / передан курьеру',
+  ),
   deliveryReceived(9, 'Доставка: получен'),
   canceled(10, 'Заказ Отменен: отмена заказа'),
   canceledReturn(11, 'Заказ Отменен: возврат заказа'),

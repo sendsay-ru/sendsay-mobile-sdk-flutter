@@ -1,7 +1,6 @@
 import 'order_item.dart';
 import 'package:sendsay/sendsay.dart';
 
-
 abstract class TrackSSECBuilder {
   TrackSSECData buildData();
   Map<String, dynamic> buildProperties();
@@ -12,7 +11,7 @@ class ViewProductBuilder implements TrackSSECBuilder {
   final TrackSSECDataCore _core;
 
   ViewProductBuilder([TrackSSECDataCore? core])
-      : _core = core ?? TrackSSECDataCore(TrackingSSECType.viewProduct);
+    : _core = core ?? TrackSSECDataCore(TrackingSSECType.viewProduct);
 
   /// Обязательное поле — id; остальные опциональны
   ViewProductBuilder product({
@@ -69,7 +68,7 @@ class OrderBuilder implements TrackSSECBuilder {
   final TrackSSECDataCore _core;
 
   OrderBuilder([TrackSSECDataCore? core])
-      : _core = core ?? TrackSSECDataCore(TrackingSSECType.order);
+    : _core = core ?? TrackSSECDataCore(TrackingSSECType.order);
 
   /// discount – не обязательно
   OrderBuilder transaction({
@@ -111,11 +110,7 @@ class OrderBuilder implements TrackSSECBuilder {
   }
 
   /// Иногда магазины передают product-поля и для ORDER
-  OrderBuilder productOptional({
-    String? id,
-    String? name,
-    double? price,
-  }) {
+  OrderBuilder productOptional({String? id, String? name, double? price}) {
     _core.setProduct(id: id, name: name, price: price);
     return this;
   }
@@ -132,7 +127,7 @@ class BasketAddBuilder implements TrackSSECBuilder {
   final TrackSSECDataCore _core;
 
   BasketAddBuilder([TrackSSECDataCore? core])
-      : _core = core ?? TrackSSECDataCore(TrackingSSECType.basketAdd);
+    : _core = core ?? TrackSSECDataCore(TrackingSSECType.basketAdd);
 
   BasketAddBuilder transaction({
     required String id,
@@ -168,7 +163,7 @@ class BasketClearBuilder implements TrackSSECBuilder {
   final TrackSSECDataCore _core;
 
   BasketClearBuilder([TrackSSECDataCore? core])
-      : _core = core ?? TrackSSECDataCore(TrackingSSECType.basketClear);
+    : _core = core ?? TrackSSECDataCore(TrackingSSECType.basketClear);
 
   BasketClearBuilder items(List<OrderItem> items) {
     _core.setItems(items);
@@ -192,7 +187,7 @@ class ViewCategoryBuilder implements TrackSSECBuilder {
   final TrackSSECDataCore _core;
 
   ViewCategoryBuilder([TrackSSECDataCore? core])
-      : _core = core ?? TrackSSECDataCore(TrackingSSECType.viewCategory);
+    : _core = core ?? TrackSSECDataCore(TrackingSSECType.viewCategory);
 
   ViewCategoryBuilder searchByCategoryDescription(String? category) {
     _core.searchCategory(category: category);
@@ -216,7 +211,7 @@ class SearchProductBuilder implements TrackSSECBuilder {
   final TrackSSECDataCore _core;
 
   SearchProductBuilder([TrackSSECDataCore? core])
-      : _core = core ?? TrackSSECDataCore(TrackingSSECType.searchProduct);
+    : _core = core ?? TrackSSECDataCore(TrackingSSECType.searchProduct);
 
   SearchProductBuilder search(String description) {
     _core.searchDescription(description);
@@ -235,10 +230,8 @@ class SubscribeProductBuilder implements TrackSSECBuilder {
   final TrackingSSECType type;
   final TrackSSECDataCore _core;
 
-  SubscribeProductBuilder(
-      this.type, [
-        TrackSSECDataCore? core,
-      ]) : _core = core ?? TrackSSECDataCore(type);
+  SubscribeProductBuilder(this.type, [TrackSSECDataCore? core])
+    : _core = core ?? TrackSSECDataCore(type);
 
   SubscribeProductBuilder add(List<OrderItem> items) {
     _core.setSubscriptionOrFavoritesAdd(items);
@@ -313,7 +306,7 @@ class TrackSSEC {
         return productPriceChanged();
       case TrackingSSECType.registration:
       case TrackingSSECType.authorization:
-      // Для этих типов билдеры не реализованы — можно добавить при необходимости
+        // Для этих типов билдеры не реализованы — можно добавить при необходимости
         return viewProduct();
     }
   }
@@ -463,18 +456,17 @@ class TrackSSECDataCore {
             _transactionSum == null ||
             _transactionStatus == null) {
           throw StateError(
-              'transaction.id, dt, sum, status are required for ORDER');
+            'transaction.id, dt, sum, status are required for ORDER',
+          );
         }
         if (_update == 1 && (_items == null || _items!.isEmpty)) {
-          throw StateError(
-              'items must be provided for ORDER when update == 1');
+          throw StateError('items must be provided for ORDER when update == 1');
         }
         break;
 
       case TrackingSSECType.basketAdd:
         if (_transactionId == null || _transactionDt == null) {
-          throw StateError(
-              'transaction.id and dt are required for BASKET_ADD');
+          throw StateError('transaction.id and dt are required for BASKET_ADD');
         }
         break;
 
@@ -490,14 +482,16 @@ class TrackSSECDataCore {
         final hasCategoryId = _productCategoryId != null;
         if (!hasCategory && !hasCategoryId) {
           throw StateError(
-              'product.category or product.category_id is required for VIEW_CATEGORY');
+            'product.category or product.category_id is required for VIEW_CATEGORY',
+          );
         }
         break;
 
       case TrackingSSECType.searchProduct:
         if (_productDescription == null || _productDescription!.isEmpty) {
           throw StateError(
-              'product.description is required for SEARCH_PRODUCT');
+            'product.description is required for SEARCH_PRODUCT',
+          );
         }
         break;
 
@@ -506,15 +500,16 @@ class TrackSSECDataCore {
       case TrackingSSECType.favorite:
       case TrackingSSECType.preorder:
       case TrackingSSECType.productIsa:
-        final hasAdd =
-            _subscriptionAdd != null && _subscriptionAdd!.isNotEmpty;
+        final hasAdd = _subscriptionAdd != null && _subscriptionAdd!.isNotEmpty;
         final hasDelete =
             _subscriptionDelete != null && _subscriptionDelete!.isNotEmpty;
         final hasClear = _subscriptionClear == 1;
 
-        final count = [hasAdd, hasDelete, hasClear]
-            .where((element) => element)
-            .length;
+        final count = [
+          hasAdd,
+          hasDelete,
+          hasClear,
+        ].where((element) => element).length;
 
         if (count != 1) {
           throw StateError(

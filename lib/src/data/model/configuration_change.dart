@@ -8,8 +8,5 @@ class SendsayConfigurationChange {
   final SendsayProject? project;
   final Map<EventType, List<SendsayProject>>? mapping;
 
-  const SendsayConfigurationChange({
-    this.project,
-    this.mapping,
-  });
+  const SendsayConfigurationChange({this.project, this.mapping});
 }

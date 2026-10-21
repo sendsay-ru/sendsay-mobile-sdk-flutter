@@ -1,4 +1,3 @@
-
 import 'package:sendsay/sendsay.dart';
 import 'package:sendsay/src/data/util/object.dart';
 
@@ -14,17 +13,17 @@ abstract class AppInboxCoder {
   }
 
   static Map<String, dynamic> encodeAction(AppInboxAction source) {
-    return {
-      'action': source.action,
-      'title': source.title,
-      'url': source.url
-    }..removeWhere((key, value) => value == null);
+    return {'action': source.action, 'title': source.title, 'url': source.url}
+      ..removeWhere((key, value) => value == null);
   }
 
-  static Map<String, dynamic> encodeActionMessage(AppInboxAction sourceAction, AppInboxMessage sourceMessage) {
+  static Map<String, dynamic> encodeActionMessage(
+    AppInboxAction sourceAction,
+    AppInboxMessage sourceMessage,
+  ) {
     return {
       'action': encodeAction(sourceAction),
-      'message': encodeMessage(sourceMessage)
+      'message': encodeMessage(sourceMessage),
     }..removeWhere((key, value) => value == null);
   }
 
@@ -34,8 +33,9 @@ abstract class AppInboxCoder {
       type: source.getRequired("type"),
       isRead: source.getOptional("isRead"),
       createTime: source.getOptional("createTime"),
-      content: source.getOptional<Map>("content")
-        ?.map((key, value) => MapEntry(key?.toString() ?? '', value)),
+      content: source
+          .getOptional<Map>("content")
+          ?.map((key, value) => MapEntry(key?.toString() ?? '', value)),
     );
   }
 }

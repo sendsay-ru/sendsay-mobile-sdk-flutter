@@ -10,7 +10,7 @@ void main() {
     final data = [
       {'type': 'DEEPLINK'},
       {'type': 'BROWSER'},
-      {'type': 'CLOSE'}
+      {'type': 'CLOSE'},
     ];
 
     test('check data', () async {

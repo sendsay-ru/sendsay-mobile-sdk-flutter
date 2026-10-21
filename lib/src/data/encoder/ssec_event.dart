@@ -10,9 +10,7 @@ abstract class SSECEventEncoder {
   }
 
   static Map<String, dynamic> encode(SSECEvent ssec) {
-    return {
-      'type': ssec.type,
-      'data': ssec.data,
-    }..removeWhere((key, value) => value == null);
+    return {'type': ssec.type, 'data': ssec.data}
+      ..removeWhere((key, value) => value == null);
   }
 }

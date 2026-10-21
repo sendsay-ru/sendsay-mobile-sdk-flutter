@@ -14,8 +14,6 @@ class ReceivedPushEncoder {
   }
 
   static Map<String, dynamic> encode(ReceivedPush push) {
-    return {
-      'data': push.data,
-    };
+    return {'data': push.data};
   }
 }

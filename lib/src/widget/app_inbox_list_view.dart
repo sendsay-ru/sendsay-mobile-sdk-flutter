@@ -12,10 +12,8 @@ class AppInboxListView extends StatefulWidget {
 
   final Function(AppInboxMessage message) onAppInboxItemClicked;
 
-  const AppInboxListView({
-    Key? key,
-    required this.onAppInboxItemClicked,
-  }) : super(key: key);
+  const AppInboxListView({Key? key, required this.onAppInboxItemClicked})
+    : super(key: key);
 
   @override
   State<AppInboxListView> createState() => _AppInboxListViewState();

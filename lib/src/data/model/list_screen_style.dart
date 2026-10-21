@@ -1,4 +1,3 @@
-
 import 'package:sendsay/sendsay.dart';
 
 import '../util/Codable.dart';
@@ -11,8 +10,14 @@ class ListScreenStyle extends Encodable {
   final ProgressBarStyle? progress;
   final AppInboxListViewStyle? list;
 
-  ListScreenStyle({this.emptyTitle, this.emptyMessage, this.errorTitle,
-      this.errorMessage, this.progress, this.list});
+  ListScreenStyle({
+    this.emptyTitle,
+    this.emptyMessage,
+    this.errorTitle,
+    this.errorMessage,
+    this.progress,
+    this.list,
+  });
 
   @override
   String toString() {
@@ -27,7 +32,7 @@ class ListScreenStyle extends Encodable {
       'errorTitle': errorTitle?.encodeClean(),
       'errorMessage': errorMessage?.encodeClean(),
       'progress': progress?.encodeClean(),
-      'list': list?.encodeClean()
+      'list': list?.encodeClean(),
     };
   }
 }

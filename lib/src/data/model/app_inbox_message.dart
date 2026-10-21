@@ -9,11 +9,11 @@ class AppInboxMessage {
   final Map<String, dynamic>? content;
 
   const AppInboxMessage({
-      required this.id,
-      required this.type,
-      this.isRead,
-      this.createTime,
-      this.content
+    required this.id,
+    required this.type,
+    this.isRead,
+    this.createTime,
+    this.content,
   });
 
   @override

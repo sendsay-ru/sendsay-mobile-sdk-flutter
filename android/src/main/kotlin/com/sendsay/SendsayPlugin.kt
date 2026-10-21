@@ -226,12 +226,14 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
 
         private const val METHOD_CLEAR_CUSTOMER_DATA = "clearLocalCustomerData"
         private const val METHOD_STOP_INTEGRATION = "stopIntegration"
-        private const val METHOD_CONFIGURE = "configure"
-        private const val METHOD_CONFIGURE = "configure"
-        private const val METHOD_CONFIGURE = "configure"
-        private const val METHOD_CONFIGURE = "configure"
-        private const val METHOD_CONFIGURE = "configure"
-        private const val METHOD_CONFIGURE = "configure"
+        private const val METHOD_GET_IDFA = "getIDFA"
+        private const val METHOD_FETCH_IDFA = "fetchIDFA"
+        private const val METHOD_TRACK_IDFA = "trackIDFA"
+        private const val METHOD_GET_GAID = "getGAID"
+        private const val METHOD_FETCH_GAID = "fetchGAID"
+        private const val METHOD_TRACK_GAID = "trackGAID"
+        private const val METHOD_HANDLE_RSM_PUSH_TOKEN = "handleRsmPushToken"
+        private const val METHOD_TRACK_RSM_PUSH_TOKEN = "trackRsmPushToken"
 
         private const val METHOD_TRACK_SESSION_START = "trackSessionStart"
         private const val METHOD_TRACK_SESSION_END = "trackSessionEnd"
@@ -289,12 +291,12 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         Log.i(TAG, "onMethodCall(${call.method})")
 
         when (call.method) {
-            "trackRsmPushToken" -> trackRsmPushToken(call.arguments, result)
-            "handleRsmPushToken" -> handleRsmPushToken(call.arguments, result)
-            "getGAID" -> runWithResult(result) { Sendsay.getGAID() }
-            "fetchGAID" -> runWithResult(result) { Sendsay.fetchGAID() }
-            "trackGAID" -> runWithResult(result) { Sendsay.trackGAID() }
-            "getIDFA", "fetchIDFA", "trackIDFA" -> result.error(
+            METHOD_TRACK_RSM_PUSH_TOKEN -> trackRsmPushToken(call.arguments, result)
+            METHOD_HANDLE_RSM_PUSH_TOKEN -> handleRsmPushToken(call.arguments, result)
+            METHOD_GET_GAID -> runWithResult(result) { Sendsay.getGAID() }
+//            METHOD_FETCH_GAID -> runWithResult(result) { Sendsay.fetchGAID() }
+//            METHOD_TRACK_GAID -> runWithResult(result) { Sendsay.trackGAID() }
+            METHOD_GET_IDFA, METHOD_FETCH_IDFA, METHOD_TRACK_IDFA -> result.error(
                 "unsupported_platform",
                 "${call.method} is available only on iOS.",
                 null

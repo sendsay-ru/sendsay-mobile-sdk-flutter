@@ -10,7 +10,7 @@ buildscript {
         kspVersion = '2.0.4'
         gsonVersion = '2.11.0'
         roomVersion = '2.6.1'
-        sendsaySdkVersion = '0.1.4'
+        sendsaySdkVersion = '0.1.5'
     }
     repositories {
         google()

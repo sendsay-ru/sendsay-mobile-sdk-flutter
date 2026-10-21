@@ -8,24 +8,20 @@ class AppInboxDetailView extends StatelessWidget {
   final String messageId;
 
   const AppInboxDetailView({Key? key, required this.messageId})
-      : super(key: key);
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android) {
       return AndroidView(
         viewType: _viewType,
-        creationParams: {
-          'messageId': messageId,
-        },
+        creationParams: {'messageId': messageId},
         creationParamsCodec: const StandardMessageCodec(),
       );
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
       return UiKitView(
         viewType: _viewType,
-        creationParams: {
-          'messageId': messageId,
-        },
+        creationParams: {'messageId': messageId},
         creationParamsCodec: const StandardMessageCodec(),
       );
     } else {

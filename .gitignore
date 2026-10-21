@@ -11,3 +11,6 @@ build/
 *.lock
 .gradle
 sdk/
+
+# Stale output from interpolating a Gradle DirectoryProperty as a path.
+property(*/

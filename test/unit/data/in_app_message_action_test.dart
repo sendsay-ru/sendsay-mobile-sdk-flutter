@@ -74,37 +74,34 @@ void main() {
             hasTrackingConsent: true,
             consentCategoryTracking: 'mock-consentCategoryTracking',
           ),
-          interaction: true
+          interaction: true,
         );
         expect(encode(inAppMessageAction), withInteraction);
       });
 
       test('with button value', () async {
         const inAppMessageAction = InAppMessageAction(
-            type: InAppMessageActionType.show,
-            message: InAppMessage(
-              id: 'mock-id',
-              name: 'mock-name',
-              frequency: 'mock-frequency',
-              variantId: 1,
-              variantName: 'mock-variantName',
-              messageType: 'mock-messageType',
-              payload: {'mock-payload-param': 'mock-payload-content'},
-              trigger: {'event_type': 'session_start', 'filter': []},
-              dateFilter: {'mock-dateFilter-param': 'mock-dateFilter-content'},
-              loadPriority: 1,
-              loadDelay: 1000,
-              closeTimeout: 2000,
-              payloadHtml: 'mock-payloadHtml',
-              isHtml: true,
-              hasTrackingConsent: true,
-              consentCategoryTracking: 'mock-consentCategoryTracking',
-            ),
-            interaction: true,
-            button: InAppMessageButton(
-              text: 'button',
-              url: "https://a.b.c",
-            )
+          type: InAppMessageActionType.show,
+          message: InAppMessage(
+            id: 'mock-id',
+            name: 'mock-name',
+            frequency: 'mock-frequency',
+            variantId: 1,
+            variantName: 'mock-variantName',
+            messageType: 'mock-messageType',
+            payload: {'mock-payload-param': 'mock-payload-content'},
+            trigger: {'event_type': 'session_start', 'filter': []},
+            dateFilter: {'mock-dateFilter-param': 'mock-dateFilter-content'},
+            loadPriority: 1,
+            loadDelay: 1000,
+            closeTimeout: 2000,
+            payloadHtml: 'mock-payloadHtml',
+            isHtml: true,
+            hasTrackingConsent: true,
+            consentCategoryTracking: 'mock-consentCategoryTracking',
+          ),
+          interaction: true,
+          button: InAppMessageButton(text: 'button', url: "https://a.b.c"),
         );
         expect(encode(inAppMessageAction), withButton);
       });
@@ -131,10 +128,7 @@ void main() {
             consentCategoryTracking: 'mock-consentCategoryTracking',
           ),
           interaction: true,
-          button: InAppMessageButton(
-            text: 'button',
-            url: "https://a.b.c",
-          ),
+          button: InAppMessageButton(text: 'button', url: "https://a.b.c"),
           errorMessage: "example error message",
         );
         expect(encode(inAppMessageAction), fullData);

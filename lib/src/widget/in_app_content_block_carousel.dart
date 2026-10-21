@@ -18,15 +18,35 @@ class InAppContentBlockCarousel extends StatefulWidget {
   final int? scrollDelay;
   final double? maxWidth;
   final double? maxHeight;
-  final Function(String placeholderId, InAppContentBlock contentBlock, InAppContentBlockAction action)? onActionClicked;
-  final Function(String placeholderId, InAppContentBlock contentBlock)? onCloseClicked;
-  final Function(String placeholderId, InAppContentBlock contentBlock, String errorMessage)? onError;
-  final Function(String placeholderId, InAppContentBlock contentBlock, int index, int count)? onMessageShown;
-  final Function(int count, List<InAppContentBlock> messages)? onMessagesChanged;
+  final Function(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    InAppContentBlockAction action,
+  )?
+  onActionClicked;
+  final Function(String placeholderId, InAppContentBlock contentBlock)?
+  onCloseClicked;
+  final Function(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    String errorMessage,
+  )?
+  onError;
+  final Function(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    int index,
+    int count,
+  )?
+  onMessageShown;
+  final Function(int count, List<InAppContentBlock> messages)?
+  onMessagesChanged;
   final Function(String placeholderId)? onNoMessageFound;
   final Function(String placeholderId, double height)? onHeightUpdate;
-  final List<InAppContentBlock> Function(List<InAppContentBlock> contentBlocks)? filterContentBlocks;
-  final List<InAppContentBlock> Function(List<InAppContentBlock> contentBlocks)? sortContentBlocks;
+  final List<InAppContentBlock> Function(List<InAppContentBlock> contentBlocks)?
+  filterContentBlocks;
+  final List<InAppContentBlock> Function(List<InAppContentBlock> contentBlocks)?
+  sortContentBlocks;
 
   const InAppContentBlockCarousel({
     Key? key,
@@ -49,7 +69,8 @@ class InAppContentBlockCarousel extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<InAppContentBlockCarousel> createState() => _InAppContentBlockCarouselState();
+  State<InAppContentBlockCarousel> createState() =>
+      _InAppContentBlockCarouselState();
 }
 
 class _InAppContentBlockCarouselState extends State<InAppContentBlockCarousel> {
@@ -58,10 +79,10 @@ class _InAppContentBlockCarouselState extends State<InAppContentBlockCarousel> {
 
   static const String _viewType = 'InAppContentBlockCarousel';
   static const String _channelName = 'ru.sendsay/InAppContentBlockCarousel';
-  static const _methodOnInAppContentBlockCarouselEvent = 'onInAppContentBlockCarouselEvent';
+  static const _methodOnInAppContentBlockCarouselEvent =
+      'onInAppContentBlockCarouselEvent';
   static const _methodFilterContentBlocks = 'filterContentBlocks';
   static const _methodSortContentBlocks = 'sortContentBlocks';
-
 
   MethodChannel? _channel;
   Widget? platformView;
@@ -80,28 +101,45 @@ class _InAppContentBlockCarouselState extends State<InAppContentBlockCarousel> {
           final placeholderId = call.arguments['placeholderId'];
           switch (eventType) {
             case 'onActionClicked':
-              final contentBlock = InAppContentBlockEncoder.decode(jsonDecode(call.arguments['contentBlock']));
-              final action = InAppContentBlockActionEncoder.decode(call.arguments['action']);
+              final contentBlock = InAppContentBlockEncoder.decode(
+                jsonDecode(call.arguments['contentBlock']),
+              );
+              final action = InAppContentBlockActionEncoder.decode(
+                call.arguments['action'],
+              );
               widget.onActionClicked?.call(placeholderId, contentBlock, action);
               break;
             case 'onCloseClicked':
-              final contentBlock = InAppContentBlockEncoder.decode(jsonDecode(call.arguments['contentBlock']));
+              final contentBlock = InAppContentBlockEncoder.decode(
+                jsonDecode(call.arguments['contentBlock']),
+              );
               widget.onCloseClicked?.call(placeholderId, contentBlock);
               break;
             case 'onError':
-              final contentBlock = InAppContentBlockEncoder.decode(jsonDecode(call.arguments['contentBlock']));
+              final contentBlock = InAppContentBlockEncoder.decode(
+                jsonDecode(call.arguments['contentBlock']),
+              );
               final errorMessage = call.arguments['errorMessage'];
               widget.onError?.call(placeholderId, contentBlock, errorMessage);
               break;
             case 'onMessageShown':
-              final contentBlock = InAppContentBlockEncoder.decode(jsonDecode(call.arguments['contentBlock']));
+              final contentBlock = InAppContentBlockEncoder.decode(
+                jsonDecode(call.arguments['contentBlock']),
+              );
               final index = call.arguments['index'];
               final count = call.arguments['count'];
-              widget.onMessageShown?.call(placeholderId, contentBlock, index, count);
+              widget.onMessageShown?.call(
+                placeholderId,
+                contentBlock,
+                index,
+                count,
+              );
               break;
             case 'onMessagesChanged':
               final count = call.arguments['count'];
-              final messages = (call.arguments['messages'] as List).map((e) => InAppContentBlockEncoder.decode(jsonDecode(e))).toList();
+              final messages = (call.arguments['messages'] as List)
+                  .map((e) => InAppContentBlockEncoder.decode(jsonDecode(e)))
+                  .toList();
               widget.onMessagesChanged?.call(count, messages);
               break;
             case 'onNoMessageFound':
@@ -128,16 +166,30 @@ class _InAppContentBlockCarouselState extends State<InAppContentBlockCarousel> {
         break;
       case _methodFilterContentBlocks:
         try {
-          final contentBlocks = (call.arguments as List).map((e) => InAppContentBlockEncoder.decode(jsonDecode(e))).toList();
+          final contentBlocks = (call.arguments as List)
+              .map((e) => InAppContentBlockEncoder.decode(jsonDecode(e)))
+              .toList();
           final result = widget.filterContentBlocks?.call(contentBlocks);
-          _channel?.invokeListMethod('filterContentBlocksResult', result!.map((e) => jsonEncode(InAppContentBlockEncoder.encode(e))).toList());
+          _channel?.invokeListMethod(
+            'filterContentBlocksResult',
+            result!
+                .map((e) => jsonEncode(InAppContentBlockEncoder.encode(e)))
+                .toList(),
+          );
         } catch (_) {}
         break;
       case _methodSortContentBlocks:
         try {
-          final contentBlocks = (call.arguments as List).map((e) => InAppContentBlockEncoder.decode(jsonDecode(e))).toList();
+          final contentBlocks = (call.arguments as List)
+              .map((e) => InAppContentBlockEncoder.decode(jsonDecode(e)))
+              .toList();
           final result = widget.sortContentBlocks?.call(contentBlocks);
-          _channel?.invokeListMethod('sortContentBlocksResult', result!.map((e) => jsonEncode(InAppContentBlockEncoder.encode(e))).toList());
+          _channel?.invokeListMethod(
+            'sortContentBlocksResult',
+            result!
+                .map((e) => jsonEncode(InAppContentBlockEncoder.encode(e)))
+                .toList(),
+          );
         } catch (_) {}
         break;
       default:

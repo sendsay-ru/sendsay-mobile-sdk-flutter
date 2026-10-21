@@ -83,7 +83,7 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   static const _trackPaymentEvent = 'trackPaymentEvent';
   static const _trackPushToken = 'trackPushToken';
   static const _trackHmsPushToken = 'trackHmsPushToken';
-  static const _trackRsmPushToken = 'trackRmsPushToken';
+  static const _trackRsmPushToken = 'trackRsmPushToken';
   static const _handlePushToken = 'handlePushToken';
   static const _handleHmsPushToken = 'handleHmsPushToken';
   static const _handleRsmPushToken = 'handleRsmPushToken';
@@ -613,15 +613,14 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
     return await _channel.invokeMethod<String>(_getGAID);
   }
 
-  /// TODO: Will be Added on Fix in v0.2.0 (android bug/func internal instead public)
-  // @override
-  // Future<String?> fetchGAID() async {
-  //   return await _channel.invokeMethod<String>(_fetchGAID);
-  // }
-  // @override
-  // Future<void> trackGAID() async {
-  //   await _channel.invokeMethod<void>(_trackGAID);
-  // }
+  @override
+  Future<String?> fetchGAID() async {
+    return await _channel.invokeMethod<String>(_fetchGAID);
+  }
+  @override
+  Future<void> trackGAID() async {
+    await _channel.invokeMethod<void>(_trackGAID);
+  }
 
   @override
   Future<String?> getIDFA() async {

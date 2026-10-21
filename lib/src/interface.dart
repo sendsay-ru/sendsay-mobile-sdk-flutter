@@ -238,13 +238,13 @@ abstract class BaseInterface {
   /// Track FCM/APNS push token
   Future<void> trackPushToken(String token);
 
-  /// Track HMS push token
-  /// Only for Android
-  Future<void> trackHmsPushToken(String token);
-
   /// Handle FCM/APNS push token.
   /// Android can persist the token before SDK configuration.
   Future<void> handlePushToken(String token);
+
+  /// Track HMS push token
+  /// Only for Android
+  Future<void> trackHmsPushToken(String token);
 
   /// Handle HMS push token on Android, including before SDK configuration.
   Future<void> handleHmsPushToken(String token);
@@ -266,6 +266,22 @@ abstract class BaseInterface {
   /// before collection finishes, or when ad tracking is restricted.
   /// Throws [PlatformException] with code `unsupported_platform` on iOS.
   Future<String?> getGAID();
+
+  /// Requests the advertising ID through the Google Play Services.
+  ///
+  /// Call while the app is active. Requires installed Play Services on
+  /// device. Returns the native value, which may be null or all zeros
+  /// when access is unavailable. Does not populate the SDK's GAID cache.
+  /// Throws [PlatformException] with code `unsupported_platform` on iOS.
+  Future<String?> fetchGAID();
+
+  /// Starts the iOS SDK's advertising ID collection and caching operation.
+  ///
+  /// Requires a configured SDK and an active app. Completion means the request
+  /// was submitted, not that permission was granted or the cache was updated.
+  /// Subject to the native SDK's remote configuration policy.
+  /// Throws [PlatformException] with code `unsupported_platform` on iOS.
+  Future<void> trackGAID();
 
   /// Returns the iOS SDK's cached advertising ID without requesting permission.
   ///

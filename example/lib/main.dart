@@ -26,7 +26,6 @@ void main() {
           systemNavigationBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.dark));
 
-
       runApp(const MyApp());
     },
     (error, stackTrace) => log(

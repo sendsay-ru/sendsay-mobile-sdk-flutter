@@ -25,19 +25,13 @@ void main() {
       });
 
       test('with email', () async {
-        const customer = Customer(
-          ids: {
-            'registered': 'test@mail.com',
-          },
-        );
+        const customer = Customer(ids: {'registered': 'test@mail.com'});
         expect(encode(customer), emailData);
       });
 
       test('full', () async {
         const customer = Customer(
-          ids: {
-            'registered': 'test@mail.com',
-          },
+          ids: {'registered': 'test@mail.com'},
           properties: {
             'str_test': 'abc-123',
             'double_test': 123.987,

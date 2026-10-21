@@ -12,7 +12,6 @@ class InAppContentBlockPersonalizedData {
   final Map<String, dynamic>? content;
   final String? loadedAt;
 
-
   const InAppContentBlockPersonalizedData({
     required this.id,
     this.status,

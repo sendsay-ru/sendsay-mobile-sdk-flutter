@@ -54,7 +54,7 @@ void main() {
           advancedAuthEnabled: true,
           inAppContentBlockPlaceholdersAutoLoad: [
             'mock-placeholder-1',
-            'mock-placeholder-2'
+            'mock-placeholder-2',
           ],
           pushTokenTrackingFrequency: TokenFrequency.daily,
           requirePushAuthorization: true,
@@ -107,7 +107,7 @@ void main() {
           advancedAuthEnabled: true,
           inAppContentBlockPlaceholdersAutoLoad: [
             'mock-placeholder-1',
-            'mock-placeholder-2'
+            'mock-placeholder-2',
           ],
           pushTokenTrackingFrequency: TokenFrequency.daily,
           requirePushAuthorization: true,
@@ -192,7 +192,10 @@ void main() {
         expect(decoded.automaticSessionTracking, true);
         expect(decoded.allowDefaultCustomerProperties, true);
         expect(decoded.advancedAuthEnabled, true);
-        expect(decoded.inAppContentBlockPlaceholdersAutoLoad, ["mock-placeholder-1", "mock-placeholder-2"]);
+        expect(decoded.inAppContentBlockPlaceholdersAutoLoad, [
+          "mock-placeholder-1",
+          "mock-placeholder-2",
+        ]);
         expect(decoded.pushTokenTrackingFrequency, TokenFrequency.daily);
         expect(decoded.requirePushAuthorization, true);
         expect(decoded.android != null, true);
@@ -203,8 +206,10 @@ void main() {
         expect(android.pushChannelName, 'mock-push-channel-name');
         expect(android.pushChannelDescription, 'mock-push-channel-description');
         expect(android.pushChannelId, 'mock-push-channel-id');
-        expect(android.pushNotificationImportance,
-            PushNotificationImportance.high);
+        expect(
+          android.pushNotificationImportance,
+          PushNotificationImportance.high,
+        );
         expect(android.httpLoggingLevel, HttpLoggingLevel.body);
         expect(android.appInboxDetailImageInset, 16);
         expect(android.allowWebViewCookies, true);
@@ -239,7 +244,10 @@ void main() {
         expect(decoded.automaticSessionTracking, true);
         expect(decoded.allowDefaultCustomerProperties, true);
         expect(decoded.advancedAuthEnabled, true);
-        expect(decoded.inAppContentBlockPlaceholdersAutoLoad, ["mock-placeholder-1", "mock-placeholder-2"]);
+        expect(decoded.inAppContentBlockPlaceholdersAutoLoad, [
+          "mock-placeholder-1",
+          "mock-placeholder-2",
+        ]);
         expect(decoded.pushTokenTrackingFrequency, TokenFrequency.daily);
         expect(decoded.requirePushAuthorization, true);
         expect(decoded.android != null, true);
@@ -250,8 +258,10 @@ void main() {
         expect(android.pushChannelName, 'mock-push-channel-name');
         expect(android.pushChannelDescription, 'mock-push-channel-description');
         expect(android.pushChannelId, 'mock-push-channel-id');
-        expect(android.pushNotificationImportance,
-            PushNotificationImportance.high);
+        expect(
+          android.pushNotificationImportance,
+          PushNotificationImportance.high,
+        );
         expect(android.httpLoggingLevel, HttpLoggingLevel.body);
         expect(android.appInboxDetailImageInset, 16);
         expect(android.allowWebViewCookies, true);

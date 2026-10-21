@@ -13,9 +13,7 @@ class InAppMessageButtonEncoder {
   }
 
   static Map<String, dynamic> encode(InAppMessageButton button) {
-    return {
-      'text': button.text,
-      'url': button.url,
-    }..removeWhere((key, value) => value == null);
+    return {'text': button.text, 'url': button.url}
+      ..removeWhere((key, value) => value == null);
   }
 }

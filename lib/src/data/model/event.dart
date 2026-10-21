@@ -6,11 +6,7 @@ class Event {
   final Map<String, dynamic> properties;
   final DateTime? timestamp;
 
-  const Event({
-    required this.name,
-    this.properties = const {},
-    this.timestamp,
-  });
+  const Event({required this.name, this.properties = const {}, this.timestamp});
 
   @override
   String toString() {

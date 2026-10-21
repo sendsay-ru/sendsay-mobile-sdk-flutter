@@ -27,10 +27,7 @@ void main() {
       test('deeplink', () async {
         const push = OpenedPush(
           action: PushActionType.deeplink,
-          data: {
-            'test': true,
-            'num': 1.23,
-          },
+          data: {'test': true, 'num': 1.23},
         );
         expect(encode(push), deeplinkData);
       });
@@ -68,10 +65,7 @@ void main() {
       test('deeplink', () async {
         const expected = OpenedPush(
           action: PushActionType.deeplink,
-          data: {
-            'test': true,
-            'num': 1.23,
-          },
+          data: {'test': true, 'num': 1.23},
         );
         final decoded = decode(deeplinkData);
 

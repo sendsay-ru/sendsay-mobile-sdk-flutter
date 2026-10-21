@@ -1,6 +1,6 @@
 name: example_flutter
 description: Demonstrates how to use the sendsay plugin.
-version: 0.1.4+14
+version: 0.1.5+15
 publish_to: 'none'
 
 environment:
@@ -14,6 +14,7 @@ dependencies:
   sendsay:
     path: ../
 
+  share_plus: ^13.3.1
   shared_preferences: ^2.2.3
   app_links: ^7.2.1
   intl: ^0.20.2

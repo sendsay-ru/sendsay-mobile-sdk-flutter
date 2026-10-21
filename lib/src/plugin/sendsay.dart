@@ -269,6 +269,12 @@ class SendsayPlugin implements BaseInterface {
   Future<String?> getGAID() => _platform.getGAID();
 
   @override
+  Future<String?> fetchGAID() => _platform.fetchGAID();
+
+  @override
+  Future<void> trackGAID() => _platform.trackGAID();
+
+  @override
   Future<String?> getIDFA() => _platform.getIDFA();
 
   @override

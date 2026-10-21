@@ -21,7 +21,9 @@ abstract class InAppContentBlockActionTypeEncoder {
       case 'CLOSE':
         return InAppContentBlockActionType.close;
       default:
-        throw UnsupportedError('`$value` is not a InAppContentBlockActionType!');
+        throw UnsupportedError(
+          '`$value` is not a InAppContentBlockActionType!',
+        );
     }
   }
 }

@@ -12,9 +12,6 @@ abstract class CustomerEncoder {
   }
 
   static Map<String, dynamic> encode(Customer customer) {
-    return {
-      'ids': customer.ids,
-      'properties': customer.properties,
-    };
+    return {'ids': customer.ids, 'properties': customer.properties};
   }
 }

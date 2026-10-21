@@ -13,11 +13,17 @@ class InAppMessageEncoder {
       name: data.getRequired('name'),
       messageType: data.getOptional('messageType'),
       frequency: data.getRequired('frequency'),
-      payload: data.getOptional("payload") != null ? jsonDecode(data.getOptional("payload")) as Map<String, dynamic> : null,
+      payload: data.getOptional("payload") != null
+          ? jsonDecode(data.getOptional("payload")) as Map<String, dynamic>
+          : null,
       variantId: data.getRequired('variantId'),
       variantName: data.getRequired('variantName'),
-      trigger: data.getOptional("trigger") != null ? jsonDecode(data.getOptional("trigger")) as Map<String, dynamic> : null,
-      dateFilter: data.getOptional("dateFilter")!= null ? jsonDecode(data.getOptional("dateFilter")) as Map<String, dynamic> : null,
+      trigger: data.getOptional("trigger") != null
+          ? jsonDecode(data.getOptional("trigger")) as Map<String, dynamic>
+          : null,
+      dateFilter: data.getOptional("dateFilter") != null
+          ? jsonDecode(data.getOptional("dateFilter")) as Map<String, dynamic>
+          : null,
       loadPriority: data.getOptional('loadPriority'),
       loadDelay: data.getOptional('loadDelay'),
       closeTimeout: data.getOptional('closeTimeout'),
