@@ -9,5 +9,12 @@
                 <action android:name="ru.rustore.sdk.pushclient.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="ru.rustore.sdk.pushclient.default_notification_channel_id"
+            android:value="@string/pushes_notification_channel_id" />
+        <meta-data
+            android:name="ru.rustore.sdk.pushclient.project_id"
+            android:value="sV1uKNzZ3HWbgOhgnxMUhnY3JyRGdx1j" />
     </application>
 </manifest>

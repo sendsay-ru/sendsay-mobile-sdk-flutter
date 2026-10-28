@@ -10,7 +10,7 @@ import java.util.concurrent.Executors
 class TokenTracker(private val context: Context) {
     private val executor = Executors.newSingleThreadExecutor()
 
-    fun getToken(complete: (String?, Exception?) -> Unit) {
+    fun getToken(complete: (String?, Throwable?) -> Unit) {
         executor.execute {
             try {
                 val appId = AGConnectServicesConfig.fromContext(context)

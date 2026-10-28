@@ -6,7 +6,7 @@ import ru.rustore.sdk.pushclient.RuStorePushClient
 /** Retrieves a token without tracking it or changing the clipboard. */
 class TokenTracker(private val context: Context) {
 
-    fun getToken(complete: (String?, Exception?) -> Unit) {
+    fun getToken(complete: (String?, Throwable?) -> Unit) {
         try {
             RuStorePushClient.getToken()
                 .addOnSuccessListener { complete(it, null) }

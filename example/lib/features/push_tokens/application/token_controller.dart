@@ -4,11 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sendsay/sendsay.dart';
 
+import '../../../core/platform/example_native_api_provider.dart';
 import '../data/token_repository.dart';
 
 /// Repository selected by the build flavor, replaceable in tests.
 final tokenRepositoryProvider = Provider<TokenRepository>((ref) {
-  return TokenRepository(flavor: appFlavor, sendsay: SendsayPlugin());
+  return TokenRepository(
+    flavor: appFlavor,
+    sendsay: SendsayPlugin(),
+    nativeApi: ref.watch(exampleNativeApiProvider),
+  );
 });
 
 /// Token operations and their loading/error state.

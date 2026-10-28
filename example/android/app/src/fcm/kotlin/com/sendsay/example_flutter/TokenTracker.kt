@@ -6,7 +6,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 /** Retrieves a token without tracking it or changing the clipboard. */
 class TokenTracker(private val context: Context) {
 
-    fun getToken(complete: (String?, Exception?) -> Unit) {
+    fun getToken(complete: (String?, Throwable?) -> Unit) {
         try {
             FirebaseMessaging.getInstance().token
                 .addOnSuccessListener { complete(it, null) }

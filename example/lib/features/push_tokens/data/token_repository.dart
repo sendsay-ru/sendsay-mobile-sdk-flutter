@@ -1,4 +1,4 @@
-import 'package:flutter/services.dart';
+import '../../../core/platform/example_native_api.dart';
 import 'package:sendsay/sendsay.dart';
 
 /// Accesses the example's flavor-specific Android push provider.
@@ -7,28 +7,19 @@ class TokenRepository {
   const TokenRepository({
     required this.flavor,
     required this.sendsay,
-    this.channel = const MethodChannel('com.sendsay.example/tokens'),
+    required this.nativeApi,
   });
 
   final String? flavor;
   final SendsayPlugin sendsay;
-  final MethodChannel channel;
+  final ExampleNativeApi nativeApi;
 
   /// Retrieves a real token, rejecting unsupported flavors and empty results.
   Future<String> getToken() async {
     if (!['fcm', 'hms', 'rsm'].contains(flavor)) {
       throw UnsupportedError('Run the Android example with fcm, hms or rsm.');
     }
-    final token = await channel
-        .invokeMethod<String>('getToken')
-        .timeout(const Duration(seconds: 30));
-    if (token == null || token.trim().isEmpty) {
-      throw PlatformException(
-        code: 'token_unavailable',
-        message: 'The push provider returned an empty token.',
-      );
-    }
-    return token;
+    return nativeApi.getPushToken();
   }
 
   /// Explicitly sends the current token to Sendsay on every call.

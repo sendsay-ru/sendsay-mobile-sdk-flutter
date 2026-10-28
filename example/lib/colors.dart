@@ -130,7 +130,7 @@ class AppColors {
   static const MaterialColor blurBackground = MaterialColor(0xFF40414E, {});
   static const Color surfaceSecondary = Color(0xffF5F5F5);
   static const Color chatNotification = Color(0xffffffff);
-  static const Color alertNotificationRed = Color(0xffffdcdc);
+  static const Color alertNotificationRed = Color(0xffff7f7f);
   static const Color alertNotificationText = Color(0xffff0000);
 
   static const List<BoxShadow> shadow = [
