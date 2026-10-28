@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer';
 
 import 'package:example_flutter/colors.dart';
-import 'package:sendsay/sendsay.dart';
 
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';

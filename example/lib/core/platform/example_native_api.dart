@@ -18,6 +18,7 @@ abstract interface class ExampleNativeApi {
 
   /// Retrieves a token from the current push provider.
   ///
-  /// Currently supported on Android only; does not track it in Sendsay.
+  /// Supports Android providers and APNs on iOS. The APNs registration
+  /// callback also reaches the SDK through its existing AppDelegate.
   Future<String> getPushToken();
 }

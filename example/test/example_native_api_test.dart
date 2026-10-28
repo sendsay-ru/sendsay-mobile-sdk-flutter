@@ -85,8 +85,28 @@ void main() {
     await expectLater(reader.getPushToken(), throwsA(isA<PlatformException>()));
   });
 
-  test('iOS token retrieval is explicitly unsupported for now', () async {
+  test('iOS retrieves APNs through the same channel', () async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    messenger.setMockMethodCallHandler(channel, (call) async {
+      expect(call.method, 'getPushToken');
+      return '00abff';
+    });
+    expect(await reader.getPushToken(), '00abff');
+  });
+
+  test('APNs registration failures reach Dart', () async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    messenger.setMockMethodCallHandler(channel, (_) async {
+      throw PlatformException(
+        code: 'token_unavailable',
+        message: 'APNs failed',
+      );
+    });
+    await expectLater(reader.getPushToken(), throwsA(isA<PlatformException>()));
+  });
+
+  test('unsupported platforms do not call the channel', () async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.linux;
     await expectLater(reader.getPushToken(), throwsUnsupportedError);
   });
 

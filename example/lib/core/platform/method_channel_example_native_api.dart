@@ -53,8 +53,12 @@ class MethodChannelExampleNativeApi implements ExampleNativeApi {
 
   @override
   Future<String> getPushToken() async {
-    if (!_isAndroid) {
-      throw UnsupportedError('Push token retrieval is implemented on Android.');
+    if (kIsWeb ||
+        ![
+          TargetPlatform.android,
+          TargetPlatform.iOS,
+        ].contains(defaultTargetPlatform)) {
+      throw UnsupportedError('Push token retrieval requires Android or iOS.');
     }
     final token = await _channel
         .invokeMethod<String>('getPushToken')

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:example_flutter/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../application/token_controller.dart';
 
-/// Manual token operations for the configured Android example.
+/// Manual token operations for the configured Android or iOS example.
 class TokenCard extends ConsumerWidget {
   const TokenCard({super.key});
 
@@ -22,26 +20,26 @@ class TokenCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Push token · ${appFlavor ?? "unknown"}',
+            'Push token · ${ref.watch(tokenRepositoryProvider).providerLabel}',
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 12),
           Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: AppColors.textEditBackground,
-                borderRadius: BorderRadius.circular(16.0),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: AppColors.textEditBackground,
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            padding: const EdgeInsetsGeometry.all(16),
+            child: switch (state) {
+              _ when state.isLoading => const LinearProgressIndicator(),
+              _ when state.hasError => Text(
+                'Token operation failed: ${state.error}',
+                style: const TextStyle(color: AppColors.alertNotificationRed),
               ),
-              padding: const EdgeInsetsGeometry.all(16),
-              child: switch (state) {
-                _ when state.isLoading => const LinearProgressIndicator(),
-                _ when state.hasError => Text(
-                  'Token operation failed: ${state.error}',
-                  style: const TextStyle(color: AppColors.alertNotificationRed),
-                ),
-                _ when token != null => SelectableText(token),
-                _ => const Text('Get a token from the selected push provider.'),
-              },
+              _ when token != null => SelectableText(token),
+              _ => const Text('Get a token from the selected push provider.'),
+            },
           ),
           const SizedBox(height: 12),
           Wrap(

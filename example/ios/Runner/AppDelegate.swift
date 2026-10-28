@@ -14,5 +14,11 @@ import sendsay
 
     func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
         GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
+        guard let registrar = engineBridge.pluginRegistry.registrar(
+            forPlugin: "ExampleNativeChannel"
+        ) else {
+            preconditionFailure("Could not register ExampleNativeChannel")
+        }
+        ExampleNativeChannel.register(with: registrar)
     }
 }

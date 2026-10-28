@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sendsay/sendsay.dart';
 
@@ -11,6 +12,7 @@ import '../data/token_repository.dart';
 final tokenRepositoryProvider = Provider<TokenRepository>((ref) {
   return TokenRepository(
     flavor: appFlavor,
+    platform: defaultTargetPlatform,
     sendsay: SendsayPlugin(),
     nativeApi: ref.watch(exampleNativeApiProvider),
   );
