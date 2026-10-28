@@ -82,6 +82,44 @@ void main() {
       });
     }
 
+    test('trackGAID submits a request without a return value', () async {
+      await plugin.trackGAID();
+      expectCall('trackGAID');
+    });
+
+    test('trackGAID propagates a native configuration error', () async {
+      platformError = PlatformException(
+        code: 'SendsayPlugin',
+        message: 'SDK is not configured',
+      );
+      await expectLater(
+        plugin.trackGAID(),
+        throwsA(
+          isA<PlatformException>().having(
+            (error) => error.code,
+            'code',
+            'SendsayPlugin',
+          ),
+        ),
+      );
+      expectCall('trackGAID');
+    });
+
+    test('fetchGAID reports the native SDK limitation', () async {
+      platformError = PlatformException(code: 'unsupported_operation');
+      await expectLater(
+        plugin.fetchGAID(),
+        throwsA(
+          isA<PlatformException>().having(
+            (error) => error.code,
+            'code',
+            'unsupported_operation',
+          ),
+        ),
+      );
+      expectCall('fetchGAID');
+    });
+
     test('trackIDFA submits a request without a return value', () async {
       await plugin.trackIDFA();
       expectCall('trackIDFA');

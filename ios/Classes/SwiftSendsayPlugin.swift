@@ -26,7 +26,7 @@ enum METHOD_NAME: String {
     case methodGetFlushPeriod = "getFlushPeriod"
     case methodSetFlushPeriod = "setFlushPeriod"
     case methodTrackEvent = "trackEvent"
-    case methodTrackSSEC = "trackSSEC"
+    case methodTrackSSECEvent = "trackSSECEvent"
     case methodTrackSessionStart = "trackSessionStart"
     case methodTrackSessionEnd = "trackSessionEnd"
     case methodFetchConsents = "fetchConsents"
@@ -373,7 +373,7 @@ public class SwiftSendsayPlugin: NSObject, FlutterPlugin, FlutterSceneLifeCycleD
             setFlushPeriod(call.arguments, with: result)
         case .methodTrackEvent:
             trackEvent(call.arguments, with: result)
-        case .methodTrackSSEC:
+        case .methodTrackSSECEvent:
             trackSSEC(call.arguments, with: result)
         case .methodTrackSessionStart:
             trackSessionStart(call.arguments, with: result)

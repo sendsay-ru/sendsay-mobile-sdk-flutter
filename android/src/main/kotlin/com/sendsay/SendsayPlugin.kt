@@ -294,8 +294,16 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
             METHOD_TRACK_RSM_PUSH_TOKEN -> trackRsmPushToken(call.arguments, result)
             METHOD_HANDLE_RSM_PUSH_TOKEN -> handleRsmPushToken(call.arguments, result)
             METHOD_GET_GAID -> runWithResult(result) { Sendsay.getGAID() }
-//            METHOD_FETCH_GAID -> runWithResult(result) { Sendsay.fetchGAID() }
-//            METHOD_TRACK_GAID -> runWithResult(result) { Sendsay.trackGAID() }
+            METHOD_FETCH_GAID -> result.error(
+                "unsupported_operation",
+                "fetchGAID is not public in Sendsay Android SDK 0.1.5. " +
+                    "Use trackGAID to start collection and getGAID to read the cache.",
+                null
+            )
+            METHOD_TRACK_GAID -> runWithNoResult(result) {
+                requireConfigured()
+                Sendsay.trackGAID(context)
+            }
             METHOD_GET_IDFA, METHOD_FETCH_IDFA, METHOD_TRACK_IDFA -> result.error(
                 "unsupported_platform",
                 "${call.method} is available only on iOS.",

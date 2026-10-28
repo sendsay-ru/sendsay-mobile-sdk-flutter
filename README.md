@@ -68,25 +68,25 @@ The minimum supported Android API level is 24. Set your application's Android
 The linked integration guides are currently in Russian. Items marked as work in
 progress retain the status shown in the original README.
 
-- [Initial SDK setup](docs/setup.md)
-  - [Configuration](docs/configuration.md)
-  - [Authorization](docs/authorization.md)
-  - [Data flushing](docs/data-flushing.md)
-- [Tracking](docs/tracking.md)
-- [Universal links and app links](docs/app-links.md) (work in progress)
-- [Push notifications](docs/push-notifications.md)
-  - [Apple Push Notification service (APNs) setup](docs/push-ios.md)
-  - [Firebase Cloud Messaging setup](docs/push-android.md)
+- [Initial SDK setup](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/setup.md)
+  - [Configuration](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/configuration.md)
+  - [Authorization](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/authorization.md)
+  - [Data flushing](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/data-flushing.md)
+- [Tracking](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/tracking.md)
+- [Universal links and app links](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/app-links.md) (work in progress)
+- [Push notifications](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/push-notifications.md)
+  - [Apple Push Notification service (APNs) setup](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/push-ios.md)
+  - [Firebase Cloud Messaging setup](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/push-android.md)
 - Data fetching (work in progress)
 - In-app personalization (work in progress)
   - In-app messages (work in progress)
   - In-app content blocks (work in progress)
 - In-app Inbox (work in progress)
 - Segmentation (work in progress)
-- [Development](docs/development.md)
-- [Example application](docs/example-app.md)
+- [Development](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/development.md)
+- [Example application](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/docs/example-app.md)
 
 ## Release notes
 
-See the [changelog](CHANGELOG.md) for changes and known limitations, including
-those affecting version 0.1.4.
+See the [changelog](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/CHANGELOG.md) for changes and known limitations, including
+those affecting version 0.1.5.

@@ -170,19 +170,34 @@ _plugin.trackSSECEvent(event.toSsecMap())
 Сначала создайте объект `Customer`, содержащий как минимум один идентификатор клиента и, опционально, словарь с дополнительными свойствами клиента:
 
 ```dart
+
 final customer = Customer(
-  ids: {
-    'registered': 'jane.doe@example.com',
-  },
-  properties: {
-    'first_name': 'Jane',
-    'last_name': 'Doe',
-    'age', 32
-  },
+    ids: {
+      'registered': 'jane.doe@example.com',
+    },
+    properties: [
+      "dk": {
+        'first_name': 'Jane',
+        'last_name': 'Doe',
+        'age', 32
+      },
+      "datakey": [
+        ["propertyName", "set/update/delete" + ".copy"(optional), "value/newValue"],
+        // пример возможных(не всех) значений установки/обновления/удаления строкового свойства
+        ["anotherPropertyName", "update.copy", 123]
+        // рабочий пример обновления числового свойства
+      ]
+    ]
 );
 ```
 
-Передайте объект клиента в `identifyCustomer()`:
+> ❗️
+> Оба способа - и dk и datakey - можно использовать как по отдельности так и вместе
+>
+> Указанное в datakey исполняется после указанного в dk
+> Любая ошибка при изменении данных приводит к тому, что они не меняются вообще.
+
+Созданные словари нужно передать в `identifyCustomer()`:
 
 ```dart
 _plugin.identifyCustomer(customer);

@@ -12,12 +12,11 @@ parentDocSlug: flutter-sdk
 
 #### October 21, 2026
 
-### Added
+### Features
 
-- Android `getGAID()` for reading the native SDK's cached advertising ID, and the
-  optional `AndroidSendsayConfiguration.isGAIDEnabled` configuration flag.
-- iOS `getIDFA()`, `fetchIDFA()`, and `trackIDFA()` bridges, with application-state
-  and `NSUserTrackingUsageDescription` checks before requesting IDFA access.
+- Experimental Advertising ID support for Android and iOS is under development
+  and testing. Test APIs include `get`, `track`, and `fetch`; availability varies
+  by platform and native SDK version.
 - `stopIntegration()` and `clearLocalCustomerData()` on Android and iOS. Cleanup
   requires an inactive SDK; iOS additionally requires the previous App Group.
 - Android RuStore token handling through `handleRsmPushToken()` and native
@@ -25,7 +24,7 @@ parentDocSlug: flutter-sdk
 
 ### Changed
 
-- Updated the native Sendsay iOS (and Android) dependencies to 0.1.4 (and 0.1.5 respectively).
+- Updated the native Sendsay iOS dependencies to 0.1.4 and Android dependencies to 0.1.5(RSM cause).
 - Raised the Dart SDK constraint to `>=3.12.0 <4.0.0`.
 - Registered the iOS plugin for the Flutter scene lifecycle and migrated the
   example application's iOS integration to `UIScene`.
@@ -39,15 +38,23 @@ parentDocSlug: flutter-sdk
 
 ### Fixed
 
-- Excluded stale Gradle `property(...)` build directories from Git and the pub
-  package.
-
 - Routed iOS SSEC events through the native `trackSSEC` API and returned an error
   for unknown event types.
 - Removed the Android SSEC debug error response that preceded a success response
   for the same method-channel call.
 - Corrected the example application's RuStore Maven repository URL and messaging
   service integration.
+
+### Important Migration status
+
+- Preparation for Android built-in Kotlin and iOS Swift Package Manager support
+  is in progress for the planned 0.2.0 release; validation is still pending.
+- Android uses `kotlin.compilerOptions`, but the Flutter plugin still applies
+  `kotlin-android`; built-in Kotlin migration is not complete.
+- The iOS example integrates SwiftPM-compatible plugins, but Sendsay still uses
+  CocoaPods. The Flutter plugin does not yet include its own `Package.swift`.
+
+
 
 ## Release Notes for 0.1.0
 

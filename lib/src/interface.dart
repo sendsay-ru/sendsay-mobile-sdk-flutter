@@ -267,19 +267,19 @@ abstract class BaseInterface {
   /// Throws [PlatformException] with code `unsupported_platform` on iOS.
   Future<String?> getGAID();
 
-  /// Requests the advertising ID through the Google Play Services.
+  /// Requests a Google advertising ID without populating the SDK's cache.
   ///
-  /// Call while the app is active. Requires installed Play Services on
-  /// device. Returns the native value, which may be null or all zeros
-  /// when access is unavailable. Does not populate the SDK's GAID cache.
-  /// Throws [PlatformException] with code `unsupported_platform` on iOS.
+  /// Not available in native Android SDK 0.1.5: its fetch method is private.
+  /// Throws [PlatformException] with code `unsupported_operation` on Android
+  /// and `unsupported_platform` on iOS.
   Future<String?> fetchGAID();
 
-  /// Starts the iOS SDK's advertising ID collection and caching operation.
+  /// Starts the Android SDK's advertising ID collection and caching operation.
   ///
-  /// Requires a configured SDK and an active app. Completion means the request
-  /// was submitted, not that permission was granted or the cache was updated.
-  /// Subject to the native SDK's remote configuration policy.
+  /// Requires a configured SDK. Completion means the request was submitted,
+  /// not that collection finished; [getGAID] may still return null afterwards.
+  /// Subject to the native SDK's advertising configuration policy. Native
+  /// collection failures are logged and are not reported by this Future.
   /// Throws [PlatformException] with code `unsupported_platform` on iOS.
   Future<void> trackGAID();
 
