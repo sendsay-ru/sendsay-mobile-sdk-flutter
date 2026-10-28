@@ -1,4 +1,6 @@
 import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer';
 
 import 'package:example_flutter/colors.dart';
@@ -26,7 +28,7 @@ void main() {
           systemNavigationBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.dark));
 
-      runApp(const MyApp());
+      runApp(const ProviderScope(child: MyApp()));
     },
     (error, stackTrace) => log(
       error.toString(),

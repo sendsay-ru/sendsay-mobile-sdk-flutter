@@ -10,7 +10,7 @@ import 'package:example_flutter/home_blocks/flush_period_block.dart';
 import 'package:example_flutter/home_blocks/log_level_block.dart';
 import 'package:example_flutter/home_blocks/other_buttons_block.dart';
 import 'package:example_flutter/home_blocks/push_events_block.dart';
-import 'package:example_flutter/home_blocks/sdk_logger_block.dart';
+import 'package:example_flutter/features/push_tokens/presentation/token_card.dart';
 import 'package:example_flutter/home_blocks/ssec_block.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
   final _flushModeController = ValueNotifier<FlushMode?>(FlushMode.manual);
   final _logLevelController = ValueNotifier<LogLevel?>(LogLevel.info);
   final _pushController = ValueNotifier<String>('- none -');
-  final _lastTokenController = ValueNotifier<String>('- none -');
   late final StreamSubscription<OpenedPush> _openedPushSub;
   late final StreamSubscription<ReceivedPush> _receivedPushSub;
   late final StreamSubscription<InAppMessageAction> _inAppMessageActionSub;
@@ -100,37 +99,7 @@ class _HomePageState extends State<HomePage> {
               pushController: _pushController,
               requestPushCallback: _requestPushAuthorization,
               isConfiguredCallback: _checkIsConfigured),
-          if (!Platform.isIOS)
-            SdkLoggerBlock(
-              key: UniqueKey(),
-              onShareLog: (log) {
-                String msg = (log.isEmpty)
-                    ? "Нечего отправлять, лог пустой"
-                    : log.toString();
-
-                final snackBar = SnackBar(
-                  content: Text(msg),
-                  duration: const Duration(seconds: 2),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                SharePlus.instance.share(
-                  ShareParams(text: "Shared text"),
-                );
-              },
-              onGetToken: () async {
-                await _getTokenFromService(context);
-
-                await Clipboard.setData(
-                    ClipboardData(text: _lastTokenController.value));
-                final snackBar = SnackBar(
-                  content: Text("Скопирован: ${_lastTokenController.value}"),
-                  duration: const Duration(seconds: 2),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              },
-              lastTokenController: _lastTokenController,
-            ),
+          if (Platform.isAndroid) const TokenCard(),
           // AdvertisingBlock(
           //   key: UniqueKey(),
           // ),
@@ -282,19 +251,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  Future<void> _getTokenFromService(BuildContext context) =>
-      _runAndShowResult(context, () async {
-        switch (appFlavor) {
-          case "gms":
-            return await _plugin.handlePushToken(_lastTokenController.value);
-          case "hms":
-            return await _plugin.handleHmsPushToken();
-          case "rsm":
-            return await _plugin.handleRsmPushToken();
-          default: break;
-        }
-      });
 
   Future<void> _trackSSEC(BuildContext context, SSECEvent ssec) =>
       _runAndShowResult(context, () async {

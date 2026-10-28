@@ -4,8 +4,8 @@ Demonstrates how to use the sendsay plugin.
 
 # flavors
 
-This example application contains 2 flavors: `gms` and `hms`.
-So make to use `---flavor gms` or `--flavor hms` when running the app.
+This example application contains 3 flavors: `fcm`, `hms` and `rsm`.
+Use `--flavor fcm`, `--flavor hms` or `--flavor rsm` when running the app.
 
 ## Getting Started
 

@@ -58,7 +58,9 @@ class _SdkLoggerBlockState extends State<SdkLoggerBlock> {
               SizedBox(
                 width: 54,
                 child: ElevatedButton(
-                  onPressed: widget.logs.isEmpty ? null : widget.onShareLog?.call(widget.logs),
+                  onPressed: widget.logs.isEmpty || widget.onShareLog == null
+                      ? null
+                      : () => widget.onShareLog!(widget.logs),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     foregroundColor: AppColors.accentDark,

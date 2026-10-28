@@ -3,6 +3,7 @@ buildscript {
         minSdkVersion = 24
         targetSdkVersion = 35
 
+        sendsaySdkVersion = '0.1.5'
         kotlinVersion = '2.2.20'
         multidexVersion = '2.0.1'
         agpVersion = '8.13.2'
@@ -10,7 +11,6 @@ buildscript {
         agconnectVersion = '1.9.1.300'
         hmsVersion = '6.11.0.300'
         googleServicesVersion = '4.4.2'
-        sendsaySdkVersion = '0.1.5'
         gsonVersion = '2.10.1'
     }
     repositories {

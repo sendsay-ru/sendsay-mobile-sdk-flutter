@@ -48,7 +48,7 @@ android {
 
     flavorDimensions.add("service")
     productFlavors {
-        create("gms") {
+        create("fcm") {
             dimension = "service"
 //            applicationId = "com.sendsay.example_flutter"
 //            buildConfigField("String", "1", "\"2\"")
@@ -80,7 +80,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("com.google.code.gson:gson:$gsonVersion")
 
-    gmsImplementation("com.google.firebase:firebase-messaging:$firebaseVersion")
+    fcmImplementation("com.google.firebase:firebase-messaging:$firebaseVersion")
     hmsImplementation("com.huawei.agconnect:agconnect-core:$agconnectVersion")
     hmsImplementation("com.huawei.hms:push:$hmsVersion")
     rsmImplementation("ru.rustore.sdk:pushclient:$rsmVersion")
@@ -104,7 +104,7 @@ dependencies {
 }
 
 
-if (gradle.startParameter.taskRequests.toString().lowercase().contains("gms")) {
+if (gradle.startParameter.taskRequests.toString().lowercase().contains("fcm")) {
     apply(plugin = "com.google.gms.google-services")
 }
 if (gradle.startParameter.taskRequests.toString().lowercase().contains("hms")) {
@@ -112,8 +112,8 @@ if (gradle.startParameter.taskRequests.toString().lowercase().contains("hms")) {
 }
 
 // extentions over
-fun org.gradle.api.artifacts.dsl.DependencyHandler.gmsImplementation(dep: Any) {
-    add("gmsImplementation", dep)
+fun org.gradle.api.artifacts.dsl.DependencyHandler.fcmImplementation(dep: Any) {
+    add("fcmImplementation", dep)
 }
 fun org.gradle.api.artifacts.dsl.DependencyHandler.hmsImplementation(dep: Any) {
     add("hmsImplementation", dep)
