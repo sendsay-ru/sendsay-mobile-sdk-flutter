@@ -119,10 +119,10 @@ class TrackSSECData {
 
     // subscription / favorites
     if (subscriptionAdd != null) {
-      out['add'] = subscriptionAdd!.map((e) => e.toJson()).toList();
+      out['subscriptionAdd'] = subscriptionAdd!.map((e) => e.toJson()).toList();
     }
-    put('delete', subscriptionDelete);
-    put('clear', subscriptionClear);
+    put('subscriptionDelete', subscriptionDelete);
+    put('subscriptionClear', subscriptionClear);
 
     return out;
   }
@@ -201,7 +201,9 @@ enum SSECTransactionStatus {
   deliveryHandedOver(6, 'Доставка: передан в доставку'),
   deliveryShipped(7, 'Доставка: отправлен'),
   deliveryCourierOrPoint(
-      8, 'Доставка: поступил в пункт-выдачи / передан курьеру'),
+    8,
+    'Доставка: поступил в пункт-выдачи / передан курьеру',
+  ),
   deliveryReceived(9, 'Доставка: получен'),
   canceled(10, 'Заказ Отменен: отмена заказа'),
   canceledReturn(11, 'Заказ Отменен: возврат заказа'),

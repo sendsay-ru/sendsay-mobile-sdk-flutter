@@ -72,6 +72,9 @@ class SendsayConfigurationParser {
 
     private fun parseAndroidConfig(map: Map<String, Any?>, configuration: SendsayConfiguration) {
         configuration.apply {
+            map.getOptional<Boolean>("isGAIDEnabled")?.let {
+                isGAIDEnabled = it
+            }
             map.getOptional<Boolean>("automaticPushNotifications")?.let {
                 automaticPushNotification = it
             }

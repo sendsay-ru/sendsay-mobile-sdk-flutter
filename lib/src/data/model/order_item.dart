@@ -43,9 +43,7 @@ class OrderItem {
 
   /// То, что реально пойдёт в JSON / SSEC payload.
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{
-      'id': id,
-    };
+    final map = <String, dynamic>{'id': id};
 
     void put(String key, dynamic value) {
       if (value != null) map[key] = value;

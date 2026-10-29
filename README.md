@@ -1,54 +1,92 @@
+**English** | [Русский](README.ru.md)
+
 <p align="center">
-  <img src="./docs/img/sendsay-logo.png?raw=true" alt="Sendsay"/>
+  <img src="./doc/img/sendsay-logo.png?raw=true" alt="Sendsay"/>
 </p>
 
+# Flutter Sendsay SDK
 
-# Что такое Flutter Sendsay SDK
-Flutter Sendsay SDK позволяет интегрировать ваше мобильное приложение с [Sendsay CDP](https://www.sendsay.ru/) и отслеживать поведение ваших клиентов в приложении. Интеграция SDK в ваше приложение позволит вам отправлять push-уведомления и отслеживать события и свойства клиентов.
+Flutter Sendsay SDK integrates your mobile application with
+[Sendsay CDP](https://www.sendsay.ru/) and tracks customer behavior in your app.
+Integrating the SDK lets you send push notifications and track customer events
+and properties.
 
-Этот SDK реализован как обертка над [native Android SDK](https://github.com/sendsay-ru/sendsay-mobile-sdk-android) и [native iOS SDK](https://github.com/sendsay-ru/sendsay-mobile-sdk-ios).
+The SDK wraps the
+[native Android SDK](https://github.com/sendsay-ru/sendsay-mobile-sdk-android)
+and the [native iOS SDK](https://github.com/sendsay-ru/sendsay-mobile-sdk-ios).
 
-> Очень рекомендуется обновить Flutter до версии 3.35.4 и выше, если вы тестируете приложение на устройствах с iOs 26+ (https://github.com/flutter/flutter/issues/175490).
+> Flutter 3.35.4 or later is strongly recommended when testing on devices running
+> iOS 26 or later. See
+> [Flutter issue #175490](https://github.com/flutter/flutter/issues/175490).
+> You must also satisfy the Dart SDK requirement below.
 
-## Начало работы
+## Supported platforms and requirements
 
-В файле `pubspec.yaml` вашего проекта добавьте зависимость Flutter Sendsay SDK:
+- Android: API level 24 or later.
+- iOS: version 13.0 or later.
+- Dart: `>=3.12.0 <4.0.0`, as declared in `pubspec.yaml`.
+- Flutter: a release that bundles Dart 3.12.0 or later (below Dart 4.0.0).
+
+## Getting started
+
+Add Flutter Sendsay SDK to your application's `pubspec.yaml`:
+
+```yaml
+dependencies:
+  sendsay: ^0.1.5
 ```
-sendsay: x.y.z
+
+Then install the dependencies:
+
+```sh
+flutter pub get
 ```
-и выполните
-* `$ flutter pub get`
 
-### установка для iOS: 
+### iOS setup
 
-* `$ cd ios`
-* `$ pod install`
+The minimum supported iOS version is 13.0. You may need to update the platform
+setting in your application's `ios/Podfile`:
 
-Минимальная поддерживаемая версия iOS для Sendsay SDK — 13.0. Возможно, вам потребуется изменить версию iOS в первой строке вашего `ios/Podfile` на `platform :ios, '13.0'` или выше.
+```ruby
+platform :ios, '13.0'
+```
 
-### установка для Android
+Install the CocoaPods dependencies:
 
-Минимальный поддерживаемый уровень API Android для Sendsay SDK — 24.
+```sh
+cd ios
+pod install
+```
 
-- [Первоначальная настройка SDK](docs/setup.md)
-  - [Конфигурация](docs/configuration.md)
-  - [Авторизация](docs/authorization.md)
-  - [Отправка данных](docs/data-flushing.md)
-- [Отслеживание](docs/tracking.md)
-- [Универсальные ссылки](docs/app-links.md) (продолжает дорабатываться)
-- [Push-уведомления](docs/push-notifications.md)
-  - [Настройка Apple Push Notification Service(APNs)](docs/push-ios.md)
-  - [Настройка Google(Firebase) Messages Service](docs/push-android.md)
-- Получение данных (в разработке)
-- In-app персонализация (в разработке)
-  - In-app сообщения (в разработке)
-  - Блоки контента в приложении (в разработке)
-- In-app Inbox (в разработке)
-- Сегментация (в разработке)
-- [Разработка](docs/development.md)
-- [Пример приложения](docs/example-app.md)
+### Android setup
 
+The minimum supported Android API level is 24. Set your application's Android
+`minSdk` to 24 or later.
 
-## Примечания к версии
+## Documentation
 
-[Примечания к версии](CHANGELOG.md) для Sendsay SDK
+The linked integration guides are currently in Russian. Items marked as work in
+progress retain the status shown in the original README.
+
+- [Initial SDK setup](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/setup.md)
+  - [Configuration](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/configuration.md)
+  - [Authorization](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/authorization.md)
+  - [Data flushing](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/data-flushing.md)
+- [Tracking](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/tracking.md)
+- [Universal links and app links](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/app-links.md) (work in progress)
+- [Push notifications](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/push-notifications.md)
+  - [Apple Push Notification service (APNs) setup](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/push-ios.md)
+  - [Firebase Cloud Messaging setup](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/push-android.md)
+- Data fetching (work in progress)
+- In-app personalization (work in progress)
+  - In-app messages (work in progress)
+  - In-app content blocks (work in progress)
+- In-app Inbox (work in progress)
+- Segmentation (work in progress)
+- [Development](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/development.md)
+- [Example application](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/doc/example-app.md)
+
+## Release notes
+
+See the [changelog](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/CHANGELOG.md) for changes and known limitations, including
+those affecting version 0.1.5.

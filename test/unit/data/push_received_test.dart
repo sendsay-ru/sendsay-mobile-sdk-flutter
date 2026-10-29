@@ -25,12 +25,7 @@ void main() {
       });
 
       test('full data', () async {
-        const push = ReceivedPush(
-          data: {
-            'test': true,
-            'num': 1.23,
-          },
-        );
+        const push = ReceivedPush(data: {'test': true, 'num': 1.23});
         expect(encode(push), fullData);
       });
     });
@@ -66,12 +61,7 @@ void main() {
       });
 
       test('full data', () async {
-        const expected = ReceivedPush(
-          data: {
-            'test': true,
-            'num': 1.23,
-          },
-        );
+        const expected = ReceivedPush(data: {'test': true, 'num': 1.23});
         final decoded = decode(fullData);
 
         expect(decoded.data, expected.data);

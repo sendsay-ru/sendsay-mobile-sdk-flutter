@@ -16,7 +16,9 @@ abstract class InAppContentBlockPersonalizedDataEncoder {
     );
   }
 
-  static Map<String, dynamic> encode(InAppContentBlockPersonalizedData contentBlockPersonalizedData) {
+  static Map<String, dynamic> encode(
+    InAppContentBlockPersonalizedData contentBlockPersonalizedData,
+  ) {
     return {
       'id': contentBlockPersonalizedData.id,
       'status': contentBlockPersonalizedData.status,

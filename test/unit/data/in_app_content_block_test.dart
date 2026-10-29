@@ -166,9 +166,7 @@ void main() {
             variantId: 123,
             variantName: "mock-variant",
             contentType: "mock-content-type",
-            content: {
-              "mock-key": "mock-value"
-            },
+            content: {"mock-key": "mock-value"},
             loadedAt: "mock-loaded-at",
           ),
         );
@@ -194,7 +192,9 @@ void main() {
         final decoded = decode(withDateFilter);
         expect(decoded.id, 'mock-id');
         expect(decoded.name, 'mock-name');
-        expect(decoded.dateFilter, {'mock-date_filter-param': 'mock-date_filter-content'});
+        expect(decoded.dateFilter, {
+          'mock-date_filter-param': 'mock-date_filter-content',
+        });
         expect(decoded.frequency, null);
         expect(decoded.loadPriority, null);
         expect(decoded.consentCategoryTracking, null);
@@ -207,7 +207,9 @@ void main() {
         final decoded = decode(withFrequency);
         expect(decoded.id, 'mock-id');
         expect(decoded.name, 'mock-name');
-        expect(decoded.dateFilter, {'mock-date_filter-param': 'mock-date_filter-content'});
+        expect(decoded.dateFilter, {
+          'mock-date_filter-param': 'mock-date_filter-content',
+        });
         expect(decoded.frequency, 'mock-frequency');
         expect(decoded.loadPriority, null);
         expect(decoded.consentCategoryTracking, null);
@@ -220,7 +222,9 @@ void main() {
         final decoded = decode(withLoadPriority);
         expect(decoded.id, 'mock-id');
         expect(decoded.name, 'mock-name');
-        expect(decoded.dateFilter, {'mock-date_filter-param': 'mock-date_filter-content'});
+        expect(decoded.dateFilter, {
+          'mock-date_filter-param': 'mock-date_filter-content',
+        });
         expect(decoded.frequency, 'mock-frequency');
         expect(decoded.loadPriority, 1);
         expect(decoded.consentCategoryTracking, null);
@@ -233,10 +237,15 @@ void main() {
         final decoded = decode(withConsentCategoryTracking);
         expect(decoded.id, 'mock-id');
         expect(decoded.name, 'mock-name');
-        expect(decoded.dateFilter, {'mock-date_filter-param': 'mock-date_filter-content'});
+        expect(decoded.dateFilter, {
+          'mock-date_filter-param': 'mock-date_filter-content',
+        });
         expect(decoded.frequency, 'mock-frequency');
         expect(decoded.loadPriority, 1);
-        expect(decoded.consentCategoryTracking, 'mock-consent_category_tracking');
+        expect(
+          decoded.consentCategoryTracking,
+          'mock-consent_category_tracking',
+        );
         expect(decoded.contentType, null);
         expect(decoded.content, null);
         expect(decoded.placeholders, []);
@@ -246,10 +255,15 @@ void main() {
         final decoded = decode(withContentType);
         expect(decoded.id, 'mock-id');
         expect(decoded.name, 'mock-name');
-        expect(decoded.dateFilter, {'mock-date_filter-param': 'mock-date_filter-content'});
+        expect(decoded.dateFilter, {
+          'mock-date_filter-param': 'mock-date_filter-content',
+        });
         expect(decoded.frequency, 'mock-frequency');
         expect(decoded.loadPriority, 1);
-        expect(decoded.consentCategoryTracking, 'mock-consent_category_tracking');
+        expect(
+          decoded.consentCategoryTracking,
+          'mock-consent_category_tracking',
+        );
         expect(decoded.contentType, 'mock-content_type');
         expect(decoded.content, null);
         expect(decoded.placeholders, []);
@@ -259,10 +273,15 @@ void main() {
         final decoded = decode(withContent);
         expect(decoded.id, 'mock-id');
         expect(decoded.name, 'mock-name');
-        expect(decoded.dateFilter, {'mock-date_filter-param': 'mock-date_filter-content'});
+        expect(decoded.dateFilter, {
+          'mock-date_filter-param': 'mock-date_filter-content',
+        });
         expect(decoded.frequency, 'mock-frequency');
         expect(decoded.loadPriority, 1);
-        expect(decoded.consentCategoryTracking, 'mock-consent_category_tracking');
+        expect(
+          decoded.consentCategoryTracking,
+          'mock-consent_category_tracking',
+        );
         expect(decoded.contentType, 'mock-content_type');
         expect(decoded.content, {'mock-content_param': 'mock-content_value'});
         expect(decoded.placeholders, []);
@@ -272,10 +291,15 @@ void main() {
         final decoded = decode(withPlaceholders);
         expect(decoded.id, 'mock-id');
         expect(decoded.name, 'mock-name');
-        expect(decoded.dateFilter, {'mock-date_filter-param': 'mock-date_filter-content'});
+        expect(decoded.dateFilter, {
+          'mock-date_filter-param': 'mock-date_filter-content',
+        });
         expect(decoded.frequency, 'mock-frequency');
         expect(decoded.loadPriority, 1);
-        expect(decoded.consentCategoryTracking, 'mock-consent_category_tracking');
+        expect(
+          decoded.consentCategoryTracking,
+          'mock-consent_category_tracking',
+        );
         expect(decoded.contentType, 'mock-content_type');
         expect(decoded.content, {'mock-content_param': 'mock-content_value'});
         expect(decoded.placeholders, ['placeholder1', 'placeholder2']);
@@ -285,29 +309,46 @@ void main() {
         final decoded = decode(withCustomerIds);
         expect(decoded.id, 'mock-id');
         expect(decoded.name, 'mock-name');
-        expect(decoded.dateFilter, {'mock-date_filter-param': 'mock-date_filter-content'});
+        expect(decoded.dateFilter, {
+          'mock-date_filter-param': 'mock-date_filter-content',
+        });
         expect(decoded.frequency, 'mock-frequency');
         expect(decoded.loadPriority, 1);
-        expect(decoded.consentCategoryTracking, 'mock-consent_category_tracking');
+        expect(
+          decoded.consentCategoryTracking,
+          'mock-consent_category_tracking',
+        );
         expect(decoded.contentType, 'mock-content_type');
         expect(decoded.content, {'mock-content_param': 'mock-content_value'});
         expect(decoded.placeholders, ['placeholder1', 'placeholder2']);
-        expect(decoded.customerIds, {'mock-customer_id-key': 'mock-customer_id-value'});
+        expect(decoded.customerIds, {
+          'mock-customer_id-key': 'mock-customer_id-value',
+        });
       });
 
       test('full data', () async {
         final decoded = decode(fullData);
         expect(decoded.id, 'mock-id');
         expect(decoded.name, 'mock-name');
-        expect(decoded.dateFilter, {'mock-date_filter-param': 'mock-date_filter-content'});
+        expect(decoded.dateFilter, {
+          'mock-date_filter-param': 'mock-date_filter-content',
+        });
         expect(decoded.frequency, 'mock-frequency');
         expect(decoded.loadPriority, 1);
-        expect(decoded.consentCategoryTracking, 'mock-consent_category_tracking');
+        expect(
+          decoded.consentCategoryTracking,
+          'mock-consent_category_tracking',
+        );
         expect(decoded.contentType, 'mock-content_type');
         expect(decoded.content, {'mock-content_param': 'mock-content_value'});
         expect(decoded.placeholders, ['placeholder1', 'placeholder2']);
-        expect(decoded.customerIds, {'mock-customer_id-key': 'mock-customer_id-value'});
-        expect(decoded.personalizedData, isA<InAppContentBlockPersonalizedData>());
+        expect(decoded.customerIds, {
+          'mock-customer_id-key': 'mock-customer_id-value',
+        });
+        expect(
+          decoded.personalizedData,
+          isA<InAppContentBlockPersonalizedData>(),
+        );
       });
     });
   });

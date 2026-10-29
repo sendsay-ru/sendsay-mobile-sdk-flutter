@@ -8,9 +8,8 @@ class SendsayPlugin implements BaseInterface {
   @override
   Future<void> anonymize([
     SendsayConfigurationChange configurationChange =
-    const SendsayConfigurationChange(),
-  ]) =>
-      _platform.anonymize(configurationChange);
+        const SendsayConfigurationChange(),
+  ]) => _platform.anonymize(configurationChange);
 
   @override
   Future<void> checkPushSetup() => _platform.checkPushSetup();
@@ -24,8 +23,8 @@ class SendsayPlugin implements BaseInterface {
 
   @override
   Future<List<Recommendation>> fetchRecommendations(
-      RecommendationOptions options) =>
-      _platform.fetchRecommendations(options);
+    RecommendationOptions options,
+  ) => _platform.fetchRecommendations(options);
 
   @override
   Future<void> flushData() => _platform.flushData();
@@ -58,7 +57,8 @@ class SendsayPlugin implements BaseInterface {
       _platform.requestPushAuthorization();
 
   @Deprecated(
-      "Will be removed in a later version of the SDK, use 'requestPushAuthorization()' instead")
+    "Will be removed in a later version of the SDK, use 'requestPushAuthorization()' instead",
+  )
   @override
   Future<bool> requestIosPushAuthorization() =>
       _platform.requestIosPushAuthorization();
@@ -102,18 +102,20 @@ class SendsayPlugin implements BaseInterface {
 
   @override
   Future<void> trackAppInboxOpenedWithoutTrackingConsent(
-      AppInboxMessage message) =>
-      _platform.trackAppInboxOpenedWithoutTrackingConsent(message);
+    AppInboxMessage message,
+  ) => _platform.trackAppInboxOpenedWithoutTrackingConsent(message);
 
   @override
-  Future<void> trackAppInboxClick(AppInboxAction action,
-      AppInboxMessage message) =>
-      _platform.trackAppInboxClick(action, message);
+  Future<void> trackAppInboxClick(
+    AppInboxAction action,
+    AppInboxMessage message,
+  ) => _platform.trackAppInboxClick(action, message);
 
   @override
-  Future<void> trackAppInboxClickWithoutTrackingConsent(AppInboxAction action,
-      AppInboxMessage message) =>
-      _platform.trackAppInboxClickWithoutTrackingConsent(action, message);
+  Future<void> trackAppInboxClickWithoutTrackingConsent(
+    AppInboxAction action,
+    AppInboxMessage message,
+  ) => _platform.trackAppInboxClickWithoutTrackingConsent(action, message);
 
   @override
   Future<bool> markAppInboxAsRead(AppInboxMessage message) =>
@@ -127,80 +129,118 @@ class SendsayPlugin implements BaseInterface {
       _platform.fetchAppInboxItem(messageId);
 
   @override
-  Future<void> trackInAppContentBlockClick(String placeholderId,
-      InAppContentBlock contentBlock, InAppContentBlockAction action) =>
-      _platform.trackInAppContentBlockClick(
-          placeholderId, contentBlock, action);
+  Future<void> trackInAppContentBlockClick(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    InAppContentBlockAction action,
+  ) => _platform.trackInAppContentBlockClick(
+    placeholderId,
+    contentBlock,
+    action,
+  );
 
   @override
   Future<void> trackInAppContentBlockClickWithoutTrackingConsent(
-      String placeholderId, InAppContentBlock contentBlock,
-      InAppContentBlockAction action) =>
-      _platform.trackInAppContentBlockClickWithoutTrackingConsent(
-          placeholderId, contentBlock, action);
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    InAppContentBlockAction action,
+  ) => _platform.trackInAppContentBlockClickWithoutTrackingConsent(
+    placeholderId,
+    contentBlock,
+    action,
+  );
 
   @override
-  Future<void> trackInAppContentBlockClose(String placeholderId,
-      InAppContentBlock contentBlock) =>
-      _platform.trackInAppContentBlockClose(placeholderId, contentBlock);
+  Future<void> trackInAppContentBlockClose(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) => _platform.trackInAppContentBlockClose(placeholderId, contentBlock);
 
   @override
   Future<void> trackInAppContentBlockCloseWithoutTrackingConsent(
-      String placeholderId, InAppContentBlock contentBlock) =>
-      _platform.trackInAppContentBlockCloseWithoutTrackingConsent(
-          placeholderId, contentBlock);
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) => _platform.trackInAppContentBlockCloseWithoutTrackingConsent(
+    placeholderId,
+    contentBlock,
+  );
 
   @override
-  Future<void> trackInAppContentBlockShown(String placeholderId,
-      InAppContentBlock contentBlock) =>
-      _platform.trackInAppContentBlockShown(placeholderId, contentBlock);
+  Future<void> trackInAppContentBlockShown(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) => _platform.trackInAppContentBlockShown(placeholderId, contentBlock);
 
   @override
   Future<void> trackInAppContentBlockShownWithoutTrackingConsent(
-      String placeholderId, InAppContentBlock contentBlock) =>
-      _platform.trackInAppContentBlockShownWithoutTrackingConsent(
-          placeholderId, contentBlock);
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) => _platform.trackInAppContentBlockShownWithoutTrackingConsent(
+    placeholderId,
+    contentBlock,
+  );
 
   @override
-  Future<void> trackInAppContentBlockError(String placeholderId,
-      InAppContentBlock contentBlock, String errorMessage) =>
-      _platform.trackInAppContentBlockError(
-          placeholderId, contentBlock, errorMessage);
+  Future<void> trackInAppContentBlockError(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    String errorMessage,
+  ) => _platform.trackInAppContentBlockError(
+    placeholderId,
+    contentBlock,
+    errorMessage,
+  );
 
   @override
   Future<void> trackInAppContentBlockErrorWithoutTrackingConsent(
-      String placeholderId, InAppContentBlock contentBlock,
-      String errorMessage) =>
-      _platform.trackInAppContentBlockErrorWithoutTrackingConsent(
-          placeholderId, contentBlock, errorMessage);
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    String errorMessage,
+  ) => _platform.trackInAppContentBlockErrorWithoutTrackingConsent(
+    placeholderId,
+    contentBlock,
+    errorMessage,
+  );
 
   @override
-  Future<void> trackInAppMessageClick(InAppMessage message,
-      InAppMessageButton button) =>
-      _platform.trackInAppMessageClick(message, button);
+  Future<void> trackInAppMessageClick(
+    InAppMessage message,
+    InAppMessageButton button,
+  ) => _platform.trackInAppMessageClick(message, button);
 
   @override
   Future<void> trackInAppMessageClickWithoutTrackingConsent(
-      InAppMessage message, InAppMessageButton button) =>
-      _platform.trackInAppMessageClickWithoutTrackingConsent(message, button);
+    InAppMessage message,
+    InAppMessageButton button,
+  ) => _platform.trackInAppMessageClickWithoutTrackingConsent(message, button);
 
   @override
-  Future<void> trackInAppMessageClose(InAppMessage message,
-      {InAppMessageButton? button, bool interaction = true}) =>
-      _platform.trackInAppMessageClose(
-          message, button: button, interaction: interaction);
+  Future<void> trackInAppMessageClose(
+    InAppMessage message, {
+    InAppMessageButton? button,
+    bool interaction = true,
+  }) => _platform.trackInAppMessageClose(
+    message,
+    button: button,
+    interaction: interaction,
+  );
 
   @override
   Future<void> trackInAppMessageCloseWithoutTrackingConsent(
-      InAppMessage message,
-      {InAppMessageButton? button, bool interaction = true}) =>
-      _platform.trackInAppMessageCloseWithoutTrackingConsent(
-          message, button: button, interaction: interaction);
+    InAppMessage message, {
+    InAppMessageButton? button,
+    bool interaction = true,
+  }) => _platform.trackInAppMessageCloseWithoutTrackingConsent(
+    message,
+    button: button,
+    interaction: interaction,
+  );
 
   @override
-  Future<void> trackPaymentEvent(PurchasedItem purchasedItem,
-      {DateTime? timestamp}) =>
-      _platform.trackPaymentEvent(purchasedItem, timestamp: timestamp);
+  Future<void> trackPaymentEvent(
+    PurchasedItem purchasedItem, {
+    DateTime? timestamp,
+  }) => _platform.trackPaymentEvent(purchasedItem, timestamp: timestamp);
 
   @override
   Future<void> trackPushToken(String token) => _platform.trackPushToken(token);
@@ -218,13 +258,46 @@ class SendsayPlugin implements BaseInterface {
       _platform.handleHmsPushToken(token);
 
   @override
+  Future<void> trackRsmPushToken(String token) =>
+      _platform.trackRsmPushToken(token);
+
+  @override
+  Future<void> handleRsmPushToken(String token) =>
+      _platform.handleRsmPushToken(token);
+
+  @override
+  Future<String?> getGAID() => _platform.getGAID();
+
+  @override
+  Future<String?> fetchGAID() => _platform.fetchGAID();
+
+  @override
+  Future<void> trackGAID() => _platform.trackGAID();
+
+  @override
+  Future<String?> getIDFA() => _platform.getIDFA();
+
+  @override
+  Future<String?> fetchIDFA() => _platform.fetchIDFA();
+
+  @override
+  Future<void> trackIDFA() => _platform.trackIDFA();
+
+  @override
+  Future<void> stopIntegration() => _platform.stopIntegration();
+
+  @override
+  Future<void> clearLocalCustomerData({String? appGroup}) =>
+      _platform.clearLocalCustomerData(appGroup: appGroup);
+
+  @override
   Future<void> trackClickedPush(Map<String, dynamic> data) =>
       _platform.trackClickedPush(data);
 
   @override
   Future<void> trackClickedPushWithoutTrackingConsent(
-      Map<String, dynamic> data) =>
-      _platform.trackClickedPushWithoutTrackingConsent(data);
+    Map<String, dynamic> data,
+  ) => _platform.trackClickedPushWithoutTrackingConsent(data);
 
   @override
   Future<void> trackDeliveredPush(Map<String, dynamic> data) =>
@@ -232,8 +305,8 @@ class SendsayPlugin implements BaseInterface {
 
   @override
   Future<void> trackDeliveredPushWithoutTrackingConsent(
-      Map<String, dynamic> data) =>
-      _platform.trackDeliveredPushWithoutTrackingConsent(data);
+    Map<String, dynamic> data,
+  ) => _platform.trackDeliveredPushWithoutTrackingConsent(data);
 
   @override
   Future<bool> isSendsayNotification(Map<String, String> data) =>
@@ -250,11 +323,13 @@ class SendsayPlugin implements BaseInterface {
   Stream<ReceivedPush> get receivedPushStream => _platform.receivedPushStream;
 
   @override
-  Stream<InAppMessageAction> inAppMessageActionStream(
-      {bool overrideDefaultBehavior = false, bool trackActions = true}) =>
-      _platform.inAppMessageActionStream(
-          overrideDefaultBehavior: overrideDefaultBehavior,
-          trackActions: trackActions);
+  Stream<InAppMessageAction> inAppMessageActionStream({
+    bool overrideDefaultBehavior = false,
+    bool trackActions = true,
+  }) => _platform.inAppMessageActionStream(
+    overrideDefaultBehavior: overrideDefaultBehavior,
+    trackActions: trackActions,
+  );
 
   @override
   Future<void> handlePushNotificationOpened(Map<String, dynamic> data) =>
@@ -262,17 +337,21 @@ class SendsayPlugin implements BaseInterface {
 
   @override
   Future<void> handlePushNotificationOpenedWithoutTrackingConsent(
-      Map<String, dynamic> data) =>
-      _platform.handlePushNotificationOpenedWithoutTrackingConsent(data);
+    Map<String, dynamic> data,
+  ) => _platform.handlePushNotificationOpenedWithoutTrackingConsent(data);
 
   @override
-  Future<List<Map<String, String>>> getSegments(String exposingCategory,
-      {bool force = false}) =>
-      _platform.getSegments(exposingCategory, force: force);
+  Future<List<Map<String, String>>> getSegments(
+    String exposingCategory, {
+    bool force = false,
+  }) => _platform.getSegments(exposingCategory, force: force);
 
   @override
   Future<Stream<List<Map<String, String>>>> segmentationDataStream(
-      String exposingCategory, {bool includeFirstLoad = false}) =>
-      _platform.segmentationDataStream(
-          exposingCategory, includeFirstLoad: includeFirstLoad);
+    String exposingCategory, {
+    bool includeFirstLoad = false,
+  }) => _platform.segmentationDataStream(
+    exposingCategory,
+    includeFirstLoad: includeFirstLoad,
+  );
 }

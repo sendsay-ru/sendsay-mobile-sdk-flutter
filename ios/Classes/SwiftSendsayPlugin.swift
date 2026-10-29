@@ -26,7 +26,7 @@ enum METHOD_NAME: String {
     case methodGetFlushPeriod = "getFlushPeriod"
     case methodSetFlushPeriod = "setFlushPeriod"
     case methodTrackEvent = "trackEvent"
-    case methodTrackSSEC = "trackSSEC"
+    case methodTrackSSECEvent = "trackSSECEvent"
     case methodTrackSessionStart = "trackSessionStart"
     case methodTrackSessionEnd = "trackSessionEnd"
     case methodFetchConsents = "fetchConsents"
@@ -307,12 +307,13 @@ public class CustomInAppContentBlockCallback: InAppContentBlockCallbackType {
     }
 }
 
-public class SwiftSendsayPlugin: NSObject, FlutterPlugin {
+public class SwiftSendsayPlugin: NSObject, FlutterPlugin, FlutterSceneLifeCycleDelegate {
 
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: channelName, binaryMessenger: registrar.messenger())
         let instance = SwiftSendsayPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
+        registrar.addSceneDelegate(instance)
 
         let openedPushEventChannel = FlutterEventChannel(name: openedPushStreamName, binaryMessenger: registrar.messenger())
         openedPushEventChannel.setStreamHandler(OpenedPushStreamHandler.newInstance())
@@ -337,6 +338,9 @@ public class SwiftSendsayPlugin: NSObject, FlutterPlugin {
     var segmentationDataCallbacks: [FlutterSegmentationDataCallback] = []
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        if handlePlatformMethod(call, result: result) {
+            return
+        }
         guard let method = METHOD_NAME(rawValue: call.method) else {
             let error = FlutterError(code: errorCode, message: "\(call.method) is not supported by iOS", details: nil)
             result(error)
@@ -369,7 +373,7 @@ public class SwiftSendsayPlugin: NSObject, FlutterPlugin {
             setFlushPeriod(call.arguments, with: result)
         case .methodTrackEvent:
             trackEvent(call.arguments, with: result)
-        case .methodTrackSSEC:
+        case .methodTrackSSECEvent:
             trackSSEC(call.arguments, with: result)
         case .methodTrackSessionStart:
             trackSessionStart(call.arguments, with: result)
@@ -928,6 +932,86 @@ public class SwiftSendsayPlugin: NSObject, FlutterPlugin {
         result(nil)
     }
 
+    private func handlePlatformMethod(
+        _ call: FlutterMethodCall,
+        result: @escaping FlutterResult
+    ) -> Bool {
+        switch call.method {
+        case "trackHmsPushToken", "handleHmsPushToken",
+             "trackRsmPushToken", "handleRsmPushToken",
+             "getGAID", "fetchGAID", "trackGAID":
+            result(FlutterError(
+                code: "unsupported_platform",
+                message: "\(call.method) is available only on Android.",
+                details: nil
+            ))
+        case "getIDFA":
+            result(Sendsay.shared.getIDFA())
+        case "fetchIDFA":
+            guard requireAdvertisingIdRequest(with: result) else { return true }
+            Sendsay.shared.fetchIDFA { value in
+                DispatchQueue.main.async {
+                    result(value)
+                }
+            }
+        case "trackIDFA":
+            guard requireConfigured(with: result),
+                  requireAdvertisingIdRequest(with: result) else { return true }
+            Sendsay.shared.trackIDFA()
+            result(nil)
+        case "stopIntegration":
+            guard requireConfigured(with: result) else { return true }
+            sendsayInstance.stopIntegration()
+            result(nil)
+        case "clearLocalCustomerData":
+            guard requireNotConfigured(with: result) else { return true }
+            guard let arguments = call.arguments as? [String: Any],
+                  let appGroup = arguments["appGroup"] as? String,
+                  !appGroup.trimmingCharacters(in: .whitespacesAndNewlines)
+                      .isEmpty else {
+                result(FlutterError(
+                    code: "invalid_arguments",
+                    message: "A nonempty appGroup is required on iOS.",
+                    details: nil
+                ))
+                return true
+            }
+            sendsayInstance.clearLocalCustomerData(appGroup: appGroup)
+            result(nil)
+        default:
+            return false
+        }
+        return true
+    }
+
+    /// Prevents an ATT request without the host app's required configuration.
+    private func requireAdvertisingIdRequest(with result: FlutterResult) -> Bool {
+        guard UIApplication.shared.applicationState == .active else {
+            result(FlutterError(
+                code: "application_not_active",
+                message: "Request the advertising ID while the app is active.",
+                details: nil
+            ))
+            return false
+        }
+        if #available(iOS 14.5, *) {
+            let description = Bundle.main.object(
+                forInfoDictionaryKey: "NSUserTrackingUsageDescription"
+            ) as? String
+            guard let description = description,
+                  !description.trimmingCharacters(in: .whitespacesAndNewlines)
+                      .isEmpty else {
+                result(FlutterError(
+                    code: "invalid_configuration",
+                    message: "NSUserTrackingUsageDescription is required.",
+                    details: nil
+                ))
+                return false
+            }
+        }
+        return true
+    }
+
     private func trackPushToken(_ args: Any?, with result: FlutterResult) {
         guard requireConfigured(with: result) else { return }
         guard let token = args as? String else {
@@ -1285,9 +1369,18 @@ public class SwiftSendsayPlugin: NSObject, FlutterPlugin {
     private func trackSSEC(_ args: Any?, with result: FlutterResult) {
         guard requireConfigured(with: result) else { return }
         do {
-            let data = args as! [String:Any?]
+            guard let data = args as? [String: Any?] else {
+                throw SendsayDataError.invalidType(for: "ssec")
+            }
             let ssec = try SendsaySSEC(data)
-            sendsayInstance.trackEvent(properties: ssec.data, timestamp: nil, eventType: TrackingSSECType.find(value: ssec.type)?.rawValue)
+            guard let eventType = TrackingSSECType.find(value: ssec.type) else {
+                throw SendsayDataError.invalidValue(for: "type")
+            }
+            Sendsay.shared.trackSSEC(
+                properties: ssec.data,
+                timestamp: nil,
+                eventType: eventType.rawValue
+            )
             result(nil)
         } catch {
             let error = FlutterError(code: errorCode, message: error.localizedDescription, details: nil)
@@ -1427,6 +1520,63 @@ public class SwiftSendsayPlugin: NSObject, FlutterPlugin {
 }
 
 extension SwiftSendsayPlugin: PushNotificationManagerDelegate {
+    /// TODO: надо ли это реализовывать / удалить ?
+    public func windowScene(
+        _ windowScene: UIWindowScene,
+        performActionFor shortcutItem: UIApplicationShortcutItem,
+        completionHandler: @escaping (Bool) -> Void
+    ) -> Bool {
+        return false
+    }
+
+    public func sceneDidDisconnect(_ scene: UIScene) { }
+
+    public func sceneWillEnterForeground(_ scene: UIScene) { }
+
+    public func sceneDidBecomeActive(_ scene: UIScene) { }
+
+    public func sceneWillResignActive(_ scene: UIScene) { }
+
+    public func sceneDidEnterBackground(_ scene: UIScene) { }
+
+    public func scene(
+        _ scene: UIScene,
+        openURLContexts URLContexts: Set<UIOpenURLContext>
+    ) -> Bool {
+        return false
+    }
+    /// TODO: надо ли ?
+
+    /// Tracks campaign links that caused a scene to connect.
+    public func scene(
+        _ scene: UIScene,
+        willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions?
+    ) -> Bool {
+        guard let connectionOptions = connectionOptions else {
+            return false
+        }
+
+        for userActivity in connectionOptions.userActivities {
+            Self.continueUserActivity(userActivity)
+        }
+
+        // Preserve connection options for other plugins.
+        return false
+    }
+
+    /// Tracks campaign links delivered to an existing scene.
+    public func scene(
+        _ scene: UIScene,
+        continue userActivity: NSUserActivity
+    ) -> Bool {
+        Self.continueUserActivity(userActivity)
+
+        // Allow navigation handlers to process the same link.
+        return false
+    }
+
+
     public func pushNotificationOpened(
         with action: SendsayNotificationActionType,
         value: String?,

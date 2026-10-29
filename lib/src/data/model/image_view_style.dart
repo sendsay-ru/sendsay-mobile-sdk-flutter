@@ -13,9 +13,6 @@ class ImageViewStyle extends Encodable {
 
   @override
   Map<String, dynamic> encode() {
-    return {
-      'visible': visible,
-      'backgroundColor': backgroundColor
-    };
+    return {'visible': visible, 'backgroundColor': backgroundColor};
   }
 }

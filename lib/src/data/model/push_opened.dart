@@ -10,11 +10,7 @@ class OpenedPush {
   /// Additional data defined on Sendsay web app when creating the push
   final Map<String, dynamic>? data;
 
-  const OpenedPush({
-    required this.action,
-    this.url,
-    this.data,
-  });
+  const OpenedPush({required this.action, this.url, this.data});
 
   @override
   String toString() {

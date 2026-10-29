@@ -1,4 +1,6 @@
 import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:developer';
 
 import 'package:example_flutter/colors.dart';
@@ -19,31 +21,31 @@ void main() {
       await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
       // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       //     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
-      await SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           systemNavigationBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark));
+          statusBarIconBrightness: Brightness.dark,
+        ),
+      );
 
-
-      runApp(const MyApp());
+      runApp(const ProviderScope(child: MyApp()));
     },
+    // Ошибки виджетов (необработанные)
     (error, stackTrace) => log(
       error.toString(),
       stackTrace: stackTrace,
       name: 'runZonedGuarded OnError',
     ),
   );
-  // runZonedGuarded(() async {
-  // }, (error, stackTrace) {
-  //   // Ошибки виджетов (необработанные)
-  //   log('!!!*** runZonedGuarded.onError: ${error.toString()}');
-  // });
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -85,11 +87,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _handleIncomingLinks() {
-    _linkSub = AppLinks().stringLinkStream.listen((String link) {
-      _showSnackBarMessage('App resumed with link: $link');
-    }, onError: (err) {
-      _showSnackBarMessage('App resume with link failed: $err');
-    });
+    _linkSub = AppLinks().stringLinkStream.listen(
+      (String link) {
+        _showSnackBarMessage('App resumed with link: $link');
+      },
+      onError: (err) {
+        _showSnackBarMessage('App resume with link failed: $err');
+      },
+    );
   }
 
   void _showSnackBarMessage(String text) {
@@ -111,10 +116,13 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         // useMaterial3: true,
         progressIndicatorTheme: const ProgressIndicatorThemeData(
-          color: AppColors.white, // Color of the progress indicator
+          color: AppColors.white,
+          // Color of the progress indicator
           // linearTrackColor: AppColors.accentDark, // Color of the linear track
-          circularTrackColor: AppColors.primary, // Color of the circular track
-          strokeWidth: 4.0, // Thickness of the circular indicator
+          circularTrackColor: AppColors.primary,
+          // Color of the circular track
+          strokeWidth: 4.0,
+          // Thickness of the circular indicator
           strokeCap: StrokeCap.round, // Rounded ends for circular indicator
         ),
         colorScheme: const ColorScheme.light(
@@ -124,14 +132,20 @@ class _MyAppState extends State<MyApp> {
           onSurface: AppColors.white,
           outline: AppColors.primary,
         ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: WidgetStateProperty.all<Color>(
+              AppColors.textPrimary,
+            ),
+            backgroundColor: WidgetStateProperty.all<Color>(AppColors.primary),
+          ),
+        ),
       ),
       home: Builder(
         builder: (context) => ConfigPage(
           doneCallback: (config) {
             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (context) => HomePage(config: config),
-              ),
+              MaterialPageRoute(builder: (context) => HomePage(config: config)),
               (route) => false,
             );
           },

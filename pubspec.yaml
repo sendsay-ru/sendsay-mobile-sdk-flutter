@@ -1,12 +1,17 @@
 name: sendsay
 description: >-
   A full featured wrapper for Sendsay SDK that supports Android and iOS.
-version: 0.1.0
+version: 0.1.5
 homepage: https://sendsay.ru
 repository: https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter
 
+# Native implementations are available only for Android and iOS.
+platforms:
+  android:
+  ios:
+
 environment:
-  sdk: '>=2.17.0 <4.0.0'
+  sdk: '>=3.12.0 <4.0.0'
   flutter: '>=3.0.0'
 
 dependencies:
@@ -32,6 +37,7 @@ flutter:
       ios:
         pluginClass: SendsayPlugin
 
-#false_secrets:
-# - /example/android/app/google-services.json
-# - /example/android/app/agconnect-services.json
+false_secrets:
+ - /example/android/app/google-services.json
+ - /example/ios/GoogleService-Info.plist
+ - /example/lib/firebase_options.dart

@@ -23,27 +23,26 @@ class _PushEventsBlockState extends State<PushEventsBlock> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          ListTile(
-            title: const Text('Push events'),
-            subtitle: ValueListenableBuilder<String>(
-              valueListenable: widget.pushController,
-              builder: (context, value, _) => Text(value),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => widget.requestPushCallback(context),
-              child: const Text('Request Push Authorization'),
-            ),
-          ),
-          ListTile(
-            title: ElevatedButton(
-              onPressed: () => widget.isConfiguredCallback(context),
-              child: const Text('Configured?'),
-            ),
-          ),
-        ]);
+    return Column(children: [
+      ListTile(
+        title: const Text('Push events'),
+        subtitle: ValueListenableBuilder<String>(
+          valueListenable: widget.pushController,
+          builder: (context, value, _) => Text(value),
+        ),
+      ),
+      ListTile(
+        title: ElevatedButton(
+          onPressed: () => widget.requestPushCallback(context),
+          child: const Text('Request Push Authorization'),
+        ),
+      ),
+      ListTile(
+        title: ElevatedButton(
+          onPressed: () => widget.isConfiguredCallback(context),
+          child: const Text('Configured?'),
+        ),
+      ),
+    ]);
   }
 }

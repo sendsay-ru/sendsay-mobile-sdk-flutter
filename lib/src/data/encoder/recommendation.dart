@@ -39,9 +39,9 @@ abstract class RecommendationEncoder {
       itemId: data.getRequired('itemId'),
       recommendationId: data.getRequired('recommendationId'),
       recommendationVariantId: data.getOptional('recommendationVariantId'),
-      data: jsonDecode(data
-          .getRequired<String>('data'))
-          .map<String, dynamic>((k, v) => MapEntry(k.toString(), v)),
+      data: jsonDecode(
+        data.getRequired<String>('data'),
+      ).map<String, dynamic>((k, v) => MapEntry(k.toString(), v)),
     );
   }
 

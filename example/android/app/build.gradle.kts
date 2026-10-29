@@ -1,35 +1,30 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
-    id("com.google.gms.google-services")
 }
 
 val minSdkVersion = 24
 val targetSdkVersion = 35
 
-val agpVersion = "8.10.2"
-//val kotlinVersion = "1.9.24"
+val agpVersion = "8.13.2"
 val multidexVersion = "2.0.1"
 val firebaseVersion = "23.0.0"
 val agconnectVersion = "1.9.1.300"
 val hmsVersion = "6.11.0.300"
-//val googleServicesVersion = "4.4.2"
+val rsmVersion = "7.2.0"
 val gsonVersion = "2.10.1"
 
 android {
     namespace = "com.sendsay.example_flutter"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     defaultConfig {
@@ -53,16 +48,26 @@ android {
 
     flavorDimensions.add("service")
     productFlavors {
-        create("gms") {
+        create("fcm") {
             dimension = "service"
 //            applicationId = "com.sendsay.example_flutter"
 //            buildConfigField("String", "1", "\"2\"")
         }
         create("hms") {
             dimension = "service"
-//            applicationId = "com.sendsay.example_flutter.test"
+//            applicationId = "com.sendsay.example_flutter_hms"
 //            buildConfigField("String", "qa1", "\"2 Test\"")
         }
+        create("rsm") {
+            dimension = "service"
+//            applicationId = "com.sendsay.example_flutter_rsm"
+        }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
     }
 }
 
@@ -72,19 +77,13 @@ flutter {
 
 
 dependencies {
-//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-//    implementation "androidx.multidex:multidex:$multidexVersion"
-//    implementation "androidx.appcompat:appcompat:1.5.0"
-//    implementation "com.sendsay.sdk:sdk:$sendsaySdkVersion"
-//    implementation project(":sdk")
-//    implementation(files("../../sdk"))
-
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("com.google.code.gson:gson:$gsonVersion")
 
-    gmsImplementation("com.google.firebase:firebase-messaging:$firebaseVersion")
+    fcmImplementation("com.google.firebase:firebase-messaging:$firebaseVersion")
     hmsImplementation("com.huawei.agconnect:agconnect-core:$agconnectVersion")
     hmsImplementation("com.huawei.hms:push:$hmsVersion")
+    rsmImplementation("ru.rustore.sdk:pushclient:$rsmVersion")
 
     // libraries to avoid specific crashes on Android 12L devices
 //    implementation "androidx.window:window:1.3.0"
@@ -105,7 +104,7 @@ dependencies {
 }
 
 
-if (gradle.startParameter.taskRequests.toString().lowercase().contains("gms")) {
+if (gradle.startParameter.taskRequests.toString().lowercase().contains("fcm")) {
     apply(plugin = "com.google.gms.google-services")
 }
 if (gradle.startParameter.taskRequests.toString().lowercase().contains("hms")) {
@@ -113,9 +112,12 @@ if (gradle.startParameter.taskRequests.toString().lowercase().contains("hms")) {
 }
 
 // extentions over
-fun org.gradle.api.artifacts.dsl.DependencyHandler.gmsImplementation(dep: Any) {
-    add("gmsImplementation", dep)
+fun org.gradle.api.artifacts.dsl.DependencyHandler.fcmImplementation(dep: Any) {
+    add("fcmImplementation", dep)
 }
 fun org.gradle.api.artifacts.dsl.DependencyHandler.hmsImplementation(dep: Any) {
     add("hmsImplementation", dep)
+}
+fun org.gradle.api.artifacts.dsl.DependencyHandler.rsmImplementation(dep: Any) {
+    add("rsmImplementation", dep)
 }

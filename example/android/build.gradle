@@ -3,14 +3,14 @@ buildscript {
         minSdkVersion = 24
         targetSdkVersion = 35
 
-        agpVersion = '8.10.1'
-        kotlinVersion = '1.9.24'
+        sendsaySdkVersion = '0.1.5'
+        kotlinVersion = '2.2.20'
         multidexVersion = '2.0.1'
+        agpVersion = '8.13.2'
         firebaseVersion = '23.0.0'
         agconnectVersion = '1.9.1.300'
         hmsVersion = '6.11.0.300'
         googleServicesVersion = '4.4.2'
-        sendsaySdkVersion = '0.1.1'
         gsonVersion = '2.10.1'
     }
     repositories {
@@ -18,11 +18,12 @@ buildscript {
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://developer.huawei.com/repo/' }
+        maven { url "https://nexus-external.vkteam.ru/repository/maven/" }
     }
 
     dependencies {
         classpath "com.android.tools.build:gradle:$agpVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "com.huawei.agconnect:agcp:$agconnectVersion"
     }
@@ -35,15 +36,21 @@ allprojects {
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://developer.huawei.com/repo/' }
+        maven { url "https://nexus-external.rustore.ru/repository/maven/" }
     }
 }
 
-rootProject.buildDir = '../build'
+rootProject.layout.buildDirectory.set(
+        rootProject.layout.projectDirectory.dir('../build')
+)
+
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.layout.buildDirectory.set(
+            rootProject.layout.buildDirectory.dir(project.name)
+    )
     project.evaluationDependsOn(':app')
 }
 
 tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+    delete rootProject.layout.buildDirectory
 }

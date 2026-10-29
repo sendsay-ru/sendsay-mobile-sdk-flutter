@@ -14,6 +14,7 @@ data class SSECEvent(val type: String, val data: Map<String, Any>) {
         val orderItemJavaType = object : TypeToken<List<OrderItem>>(){}.type
 
         fun fromMap(map: Map<String, Any?>): SSECEvent {
+//            val ssec = map["ssec"] as Map<String, Any>? ?: throw IllegalStateException("SSECEvent.data.SSEC is required!")
             return SSECEvent(
                 type = map["type"] as String? ?: throw IllegalStateException("SSECEvent.type is required!"),
                 data = (map["data"] as Map<String, Any>?) ?: throw IllegalStateException("SSECEvent.data is required!")
@@ -61,7 +62,7 @@ data class SSECEvent(val type: String, val data: Map<String, Any>) {
                         gson.fromJson(json, orderItemJavaType)
                     },
                 subscriptionDelete  = (this["subscriptionDelete"] as? List<Int>),
-                cp                  = this["cp"] as? Map<String, Any>?,
+//                cp                  = this["cp"] as? Map<String, Any>?,
             )
         }
     }

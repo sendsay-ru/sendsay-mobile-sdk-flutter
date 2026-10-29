@@ -18,7 +18,9 @@ abstract class InAppContentBlockEncoder {
           .map((it) => it.toString())
           .toList(growable: false),
       customerIds: data.getOptional<Map<String, dynamic>>('customerIds'),
-      personalizedData: data.getOptional<Map<dynamic, dynamic>>('personalizedData')?.let(InAppContentBlockPersonalizedDataEncoder.decode),
+      personalizedData: data
+          .getOptional<Map<dynamic, dynamic>>('personalizedData')
+          ?.let(InAppContentBlockPersonalizedDataEncoder.decode),
     );
   }
 
@@ -34,7 +36,9 @@ abstract class InAppContentBlockEncoder {
       'content': contentBlock.content,
       'placeholders': contentBlock.placeholders,
       'customerIds': contentBlock.customerIds,
-      'personalizedData': contentBlock.personalizedData?.let(InAppContentBlockPersonalizedDataEncoder.encode),
+      'personalizedData': contentBlock.personalizedData?.let(
+        InAppContentBlockPersonalizedDataEncoder.encode,
+      ),
     }..removeWhere((key, value) => value == null);
   }
 }

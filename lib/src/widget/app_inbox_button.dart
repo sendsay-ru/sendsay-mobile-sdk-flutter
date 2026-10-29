@@ -8,9 +8,9 @@ class AppInboxProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (defaultTargetPlatform == TargetPlatform.android){
+    if (defaultTargetPlatform == TargetPlatform.android) {
       return const AndroidView(viewType: viewType);
-    } else if (defaultTargetPlatform == TargetPlatform.iOS){
+    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
       return const UiKitView(viewType: viewType);
     } else {
       return const SizedBox.shrink();

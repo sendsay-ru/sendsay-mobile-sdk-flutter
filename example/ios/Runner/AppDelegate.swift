@@ -3,16 +3,22 @@ import Flutter
 import sendsay
 
 @main
-@objc class AppDelegate: SendsayFlutterAppDelegate {
+@objc class AppDelegate: SendsayFlutterAppDelegate, FlutterImplicitEngineDelegate {
 
     override func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        GeneratedPluginRegistrant.register(with: self)
-        
-        
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
-}
 
+    func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
+        GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
+        guard let registrar = engineBridge.pluginRegistry.registrar(
+            forPlugin: "ExampleNativeChannel"
+        ) else {
+            preconditionFailure("Could not register ExampleNativeChannel")
+        }
+        ExampleNativeChannel.register(with: registrar)
+    }
+}

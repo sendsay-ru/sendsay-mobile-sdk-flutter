@@ -5,7 +5,7 @@
     <application
         android:enableOnBackInvokedCallback="true">
         <meta-data android:name="SendsayFlutterSDK" android:value="true" />
-        <meta-data android:name="SendsayFlutterSDKVersion" android:value="0.1.0" />
+        <meta-data android:name="SendsayFlutterSDKVersion" android:value="0.1.5" />
         <receiver
             android:name=".SendsayPushReceiver"
             android:enabled="true"

@@ -103,6 +103,11 @@ class SendsayPlugin : FlutterPlugin, ActivityAware {
             Sendsay.trackHmsPushToken(token)
         }
 
+        fun trackRsmPushToken(token: String) {
+            Log.d(TAG, "trackRsmPushToken($token)")
+            Sendsay.trackRsmPushToken(token)
+        }
+
         fun handleNewGmsToken(context: Context, token: String) {
             Log.d(TAG, "handleNewGmsToken($token)")
             Sendsay.handleNewToken(context, token)
@@ -111,6 +116,11 @@ class SendsayPlugin : FlutterPlugin, ActivityAware {
         fun handleNewHmsToken(context: Context, token: String) {
             Log.d(TAG, "handleNewHmsToken($token)")
             Sendsay.handleNewHmsToken(context, token)
+        }
+
+        fun handleNewRsmToken(context: Context, token: String) {
+            Log.d(TAG, "handleNewRsmToken($token)")
+            Sendsay.handleNewRsmToken(context, token)
         }
     }
 
@@ -212,7 +222,19 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         private const val METHOD_GET_FLUSH_PERIOD = "getFlushPeriod"
         private const val METHOD_SET_FLUSH_PERIOD = "setFlushPeriod"
         private const val METHOD_TRACK_EVENT = "trackEvent"
-        private const val METHOD_TRACK_SSEC = "trackSSEC"
+        private const val METHOD_TRACK_SSEC = "trackSSECEvent"
+
+        private const val METHOD_CLEAR_CUSTOMER_DATA = "clearLocalCustomerData"
+        private const val METHOD_STOP_INTEGRATION = "stopIntegration"
+        private const val METHOD_GET_IDFA = "getIDFA"
+        private const val METHOD_FETCH_IDFA = "fetchIDFA"
+        private const val METHOD_TRACK_IDFA = "trackIDFA"
+        private const val METHOD_GET_GAID = "getGAID"
+        private const val METHOD_FETCH_GAID = "fetchGAID"
+        private const val METHOD_TRACK_GAID = "trackGAID"
+        private const val METHOD_HANDLE_RSM_PUSH_TOKEN = "handleRsmPushToken"
+        private const val METHOD_TRACK_RSM_PUSH_TOKEN = "trackRsmPushToken"
+
         private const val METHOD_TRACK_SESSION_START = "trackSessionStart"
         private const val METHOD_TRACK_SESSION_END = "trackSessionEnd"
         private const val METHOD_FETCH_CONSENTS = "fetchConsents"
@@ -269,6 +291,32 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         Log.i(TAG, "onMethodCall(${call.method})")
 
         when (call.method) {
+            METHOD_TRACK_RSM_PUSH_TOKEN -> trackRsmPushToken(call.arguments, result)
+            METHOD_HANDLE_RSM_PUSH_TOKEN -> handleRsmPushToken(call.arguments, result)
+            METHOD_GET_GAID -> runWithResult(result) { Sendsay.getGAID() }
+            METHOD_FETCH_GAID -> result.error(
+                "unsupported_operation",
+                "fetchGAID is not public in Sendsay Android SDK 0.1.5. " +
+                    "Use trackGAID to start collection and getGAID to read the cache.",
+                null
+            )
+            METHOD_TRACK_GAID -> runWithNoResult(result) {
+                requireConfigured()
+                Sendsay.trackGAID(context)
+            }
+            METHOD_GET_IDFA, METHOD_FETCH_IDFA, METHOD_TRACK_IDFA -> result.error(
+                "unsupported_platform",
+                "${call.method} is available only on iOS.",
+                null
+            )
+            METHOD_STOP_INTEGRATION -> runWithNoResult(result) {
+                requireConfigured()
+                Sendsay.stopIntegration()
+            }
+            METHOD_CLEAR_CUSTOMER_DATA -> runWithNoResult(result) {
+                requireNotConfigured()
+                Sendsay.clearLocalCustomerData()
+            }
             METHOD_CONFIGURE -> {
                 configure(call.arguments, result)
             }
@@ -688,6 +736,24 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         Sendsay.trackPaymentEvent(timestamp = timestamp ?: currentTimeSeconds(),  purchasedItem = purchasedItem)
     }
 
+    private fun trackRsmPushToken(args: Any?, result: Result) =
+        runWithNoResult(result) {
+            requireConfigured()
+            Sendsay.trackRsmPushToken(requirePushToken(args))
+        }
+
+    private fun handleRsmPushToken(args: Any?, result: Result) =
+        runWithNoResult(result) {
+            // The native SDK persists tokens received before initialization.
+            Sendsay.handleNewRsmToken(context, requirePushToken(args))
+        }
+
+    private fun requirePushToken(args: Any?): String {
+        val token = args as? String
+        require(!token.isNullOrBlank()) { "A nonempty push token is required." }
+        return token
+    }
+
     private fun trackPushToken(args: Any?, result: Result) = runWithNoResult(result) {
         requireConfigured()
         val token = args as String
@@ -701,14 +767,12 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
     }
 
     private fun handlePushToken(args: Any?, result: Result) = runWithNoResult(result) {
-        requireConfigured()
-        val token = args as String
+        val token = requirePushToken(args)
         Sendsay.handleNewToken(activity ?: context, token)
     }
 
     private fun handleHmsPushToken(args: Any?, result: Result) = runWithNoResult(result) {
-        requireConfigured()
-        val token = args as String
+        val token = requirePushToken(args)
         Sendsay.handleNewHmsToken(activity ?: context, token)
     }
 
@@ -1050,15 +1114,11 @@ private class SendsayMethodHandler(private val context: Context) : MethodCallHan
         requireConfigured()
         val data = args as Map<String, Any?>
         val ssec = SSECEvent.fromMap(data)
-        val trackType = TrackingSSECType.find(value = ssec.type, id = null)
+        val trackType = requireNotNull(
+            TrackingSSECType.find(value = ssec.type, id = null)
+        ) { "Unsupported SSEC event type: ${ssec.type}" }
         val trackData = ssec.data.toTrackSSECData()
-
-        result.error(TAG + "( trackSSEC() ) : trackData =>", trackData.toString() + "====" + ssec.data.toString(), null)
-
-        Sendsay.trackSSECEvent(
-            trackType!!,
-            trackData
-        )
+        Sendsay.trackSSECEvent(trackType, trackData)
     }
 }
 

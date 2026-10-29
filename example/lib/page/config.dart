@@ -1,4 +1,6 @@
 import 'package:example_flutter/colors.dart';
+import 'package:example_flutter/core/platform/example_native_api_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sendsay/sendsay.dart';
@@ -10,21 +12,16 @@ final _plugin = SendsayPlugin();
 
 typedef ConfigCallback = void Function(SendsayConfiguration configuration);
 
-class ConfigPage extends StatefulWidget {
+class ConfigPage extends ConsumerStatefulWidget {
   final ConfigCallback doneCallback;
 
-  const ConfigPage({
-    super.key,
-    required this.doneCallback,
-  });
+  const ConfigPage({super.key, required this.doneCallback});
 
   @override
-  _ConfigPageState createState() => _ConfigPageState();
+  ConsumerState<ConfigPage> createState() => _ConfigPageState();
 }
 
-class _ConfigPageState extends State<ConfigPage> {
-  static const _platform = MethodChannel("com.sendsay/utils");
-
+class _ConfigPageState extends ConsumerState<ConfigPage> {
   static const _spKeyProject = 'project_token';
   static const _spKeyAuth = 'auth_token';
 
@@ -42,14 +39,6 @@ class _ConfigPageState extends State<ConfigPage> {
   // late final TextEditingController _advancedAuthTokenController;
   late final TextEditingController _baseUrlController;
   late final ValueNotifier<bool> _sessionTrackingController;
-
-  Future<int?> getAndroidPushIcon() async {
-    try {
-      return await _platform.invokeMethod<int?>('getAndroidPushIcon');
-    } catch (e) {
-      return null;
-    }
-  }
 
   @override
   void initState() {
@@ -91,9 +80,11 @@ class _ConfigPageState extends State<ConfigPage> {
                   child: Column(
                     children: [
                       Padding(
-                          padding: const EdgeInsets.all(32),
-                          child: Image.asset(
-                              'assets/images/white_logo_sendsay.webp')),
+                        padding: const EdgeInsets.all(32),
+                        child: Image.asset(
+                          'assets/images/white_logo_sendsay.webp',
+                        ),
+                      ),
                       ListTile(
                         title: TextFormField(
                           controller: _projectIdController,
@@ -103,11 +94,10 @@ class _ConfigPageState extends State<ConfigPage> {
                             labelText: 'Project Id / Account Id',
                             labelStyle: TextStyle(color: AppColors.white),
                             errorStyle: TextStyle(
-                                color: AppColors.alertNotificationText),
+                              color: AppColors.alertNotificationText,
+                            ),
                             errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.primary,
-                              ),
+                              borderSide: BorderSide(color: AppColors.primary),
                             ),
                           ),
                           validator: (value) {
@@ -127,11 +117,10 @@ class _ConfigPageState extends State<ConfigPage> {
                             labelText: 'Authentication Token (optional)',
                             labelStyle: TextStyle(color: AppColors.white),
                             errorStyle: TextStyle(
-                                color: AppColors.alertNotificationText),
+                              color: AppColors.alertNotificationText,
+                            ),
                             errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: AppColors.primary,
-                              ),
+                              borderSide: BorderSide(color: AppColors.primary),
                             ),
                           ),
                           validator: (value) {
@@ -156,38 +145,41 @@ class _ConfigPageState extends State<ConfigPage> {
                           decoration: InputDecoration(
                             labelText: 'Base URL',
                             errorStyle: const TextStyle(
-                                color: AppColors.alertNotificationText),
-                            suffixIconConstraints:
-                                const BoxConstraints(minWidth: 0, minHeight: 0),
+                              color: AppColors.alertNotificationText,
+                            ),
+                            suffixIconConstraints: const BoxConstraints(
+                              minWidth: 0,
+                              minHeight: 0,
+                            ),
                             suffixIcon: Row(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 IconButton(
                                   onPressed: () => confirmCustomDialog(
-                                      context,
-                                      "точно стереть",
-                                      () => _baseUrlController.clear()),
-                                  icon: const Icon(
-                                    Icons.close,
-                                    size: 24,
+                                    context,
+                                    "точно стереть",
+                                    () => _baseUrlController.clear(),
                                   ),
+                                  icon: const Icon(Icons.close, size: 24),
                                   padding: EdgeInsets.zero,
                                   visualDensity: const VisualDensity(
-                                      horizontal: -4, vertical: -4),
+                                    horizontal: -4,
+                                    vertical: -4,
+                                  ),
                                 ),
                                 IconButton(
                                   onPressed: () => confirmCustomDialog(
-                                      context,
-                                      "вернуть по умолчанию",
-                                      () => _baseUrlController.text = baseUrl),
-                                  icon: const Icon(
-                                    Icons.refresh,
-                                    size: 24,
+                                    context,
+                                    "вернуть по умолчанию",
+                                    () => _baseUrlController.text = baseUrl,
                                   ),
+                                  icon: const Icon(Icons.refresh, size: 24),
                                   padding: EdgeInsets.zero,
                                   visualDensity: const VisualDensity(
-                                      horizontal: -4, vertical: -4),
+                                    horizontal: -4,
+                                    vertical: -4,
+                                  ),
                                 ),
                               ],
                             ),
@@ -217,16 +209,16 @@ class _ConfigPageState extends State<ConfigPage> {
               ValueListenableBuilder<bool>(
                 valueListenable: _loading,
                 builder: (context, loading, _) => loading
-                    ? const CircularProgressIndicator(
-                        year2023: false,
-                      )
+                    ? const CircularProgressIndicator(year2023: false)
                     : ElevatedButton(
                         onPressed: () => _formKey.currentState!.validate()
-                            ? _configure(context)
+                            ? _configure()
                             : null,
                         style: const ButtonStyle(
-                            surfaceTintColor:
-                                WidgetStatePropertyAll(AppColors.primary)),
+                          surfaceTintColor: WidgetStatePropertyAll(
+                            AppColors.primary,
+                          ),
+                        ),
                         child: const Text(
                           'Configure',
                           style: TextStyle(color: Colors.white),
@@ -241,23 +233,26 @@ class _ConfigPageState extends State<ConfigPage> {
     );
   }
 
-  Future<void> _configure(BuildContext context) async {
-    final pushIcon = await getAndroidPushIcon();
-
+  Future<void> _configure() async {
+    if (_loading.value) return;
     _loading.value = true;
-    final projectToken = _projectIdController.text.trim();
-    final authToken = _authTokenController.text.trim().split(' ').last;
-    final rawBaseUrl = _baseUrlController.text.trim();
-    final baseUrl = rawBaseUrl.isNotEmpty ? rawBaseUrl : null;
-    final sessionTracking = _sessionTrackingController.value;
+    try {
+      final resources = await ref.read(exampleNativeApiProvider).getResources();
+      final pushResources = resources.androidNotifications;
+      if (!mounted) return;
+      final projectToken = _projectIdController.text.trim();
+      final authToken = _authTokenController.text.trim().split(' ').last;
+      final rawBaseUrl = _baseUrlController.text.trim();
+      final baseUrl = rawBaseUrl.isNotEmpty ? rawBaseUrl : null;
+      final sessionTracking = _sessionTrackingController.value;
 
-    final sp = await SharedPreferences.getInstance();
-    await sp.setString(_spKeyProject, projectToken);
-    await sp.setString(_spKeyAuth, authToken);
-    await sp.setString(_spKeyBaseUrl, rawBaseUrl);
-    await sp.setBool(_spKeySessionTracking, sessionTracking);
+      final sp = await SharedPreferences.getInstance();
+      await sp.setString(_spKeyProject, projectToken);
+      await sp.setString(_spKeyAuth, authToken);
+      await sp.setString(_spKeyBaseUrl, rawBaseUrl);
+      await sp.setBool(_spKeySessionTracking, sessionTracking);
 
-    final config = SendsayConfiguration(
+      final config = SendsayConfiguration(
         projectToken: projectToken,
         authorizationToken: authToken,
         baseUrl: baseUrl,
@@ -271,7 +266,7 @@ class _ConfigPageState extends State<ConfigPage> {
           'double': 1.2,
           'int': 10,
           'bool': true,
-          'fontWeight': "normal"
+          'fontWeight': "normal",
         },
         allowDefaultCustomerProperties: false,
         // projectMapping: {
@@ -287,22 +282,23 @@ class _ConfigPageState extends State<ConfigPage> {
         android: AndroidSendsayConfiguration(
           automaticPushNotifications: true,
           httpLoggingLevel: HttpLoggingLevel.body,
-          pushChannelDescription: 'test-channel-desc',
-          pushChannelId: 'test-channel-id',
-          pushChannelName: 'test-channel-name',
+          pushChannelDescription: pushResources?.channelDescription,
+          pushChannelId: pushResources?.channelId,
+          pushChannelName: pushResources?.channelName,
           pushNotificationImportance: PushNotificationImportance.normal,
           pushAccentColor: 0xFFFFD500,
-          pushIcon: pushIcon,
+          pushIcon: pushResources?.icon,
         ),
         ios: const IOSSendsayConfiguration(
           appGroup: 'group.ru.sendsay.SendsaySDK',
         ),
         inAppContentBlockPlaceholdersAutoLoad: const [
           'example_top',
-          'example_list'
-        ]);
-    try {
-      _plugin.setAppInboxProvider(AppInboxStyle(
+          'example_list',
+        ],
+      );
+      _plugin.setAppInboxProvider(
+        AppInboxStyle(
           appInboxButton: SimpleButtonStyle(
             backgroundColor: 'rgb(245, 195, 68)',
             borderRadius: '10dp',
@@ -314,37 +310,41 @@ class _ConfigPageState extends State<ConfigPage> {
             textColor: 'white',
           ),
           detailView: DetailViewStyle(
-              button: SimpleButtonStyle(backgroundColor: 'red'),
-              title: TextViewStyle(
-                  textSize: '20sp',
-                  textOverride: 'TEST',
-                  textWeight: 'bold',
-                  textColor: 'rgba(100, 100, 100, 1.0)')),
+            button: SimpleButtonStyle(backgroundColor: 'red'),
+            title: TextViewStyle(
+              textSize: '20sp',
+              textOverride: 'TEST',
+              textWeight: 'bold',
+              textColor: 'rgba(100, 100, 100, 1.0)',
+            ),
+          ),
           listView: ListScreenStyle(
-              errorTitle: TextViewStyle(textColor: 'red'),
-              errorMessage: TextViewStyle(textColor: 'red'),
-              list: AppInboxListViewStyle(
-                  backgroundColor: 'blue',
-                  item: AppInboxListItemStyle(
-                      backgroundColor: 'yellow',
-                      content: TextViewStyle(
-                          textColor: '#FFF', textWeight: '700'))))));
+            errorTitle: TextViewStyle(textColor: 'red'),
+            errorMessage: TextViewStyle(textColor: 'red'),
+            list: AppInboxListViewStyle(
+              backgroundColor: 'blue',
+              item: AppInboxListItemStyle(
+                backgroundColor: 'yellow',
+                content: TextViewStyle(textColor: '#FFF', textWeight: '700'),
+              ),
+            ),
+          ),
+        ),
+      );
       final configured = await _plugin.configure(config);
+      if (!mounted) return;
       if (!configured) {
-        const snackBar = SnackBar(
-          content: Text('SDK was already configured'),
-        );
+        const snackBar = SnackBar(content: Text('SDK was already configured'));
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
       _plugin.setLogLevel(LogLevel.verbose);
       widget.doneCallback.call(config);
     } on PlatformException catch (err) {
-      final snackBar = SnackBar(
-        content: Text('Configuration failed: $err'),
-      );
+      if (!mounted) return;
+      final snackBar = SnackBar(content: Text('Configuration failed: $err'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      _loading.value = false;
+    } finally {
+      if (mounted) _loading.value = false;
     }
-    _loading.value = false;
   }
 }

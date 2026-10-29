@@ -14,8 +14,8 @@ class InAppCbPage extends StatelessWidget {
     List<Widget> items = [];
     for (int i = 0; i < 100; i++) {
       if (i % contentBlockFrequency == 0) {
-        items.add(const InAppContentBlockPlaceholder(
-            placeholderId: 'example_list'));
+        items.add(
+            const InAppContentBlockPlaceholder(placeholderId: 'example_list'));
       } else {
         items.add(
           const ListTile(
@@ -40,19 +40,24 @@ class InAppCbPage extends StatelessWidget {
             InAppContentBlockPlaceholder(
               placeholderId: 'example_top',
               onMessageShown: (placeholderId, contentBlock) {
-                print('InAppContentBlockPlaceholder $placeholderId: onMessageShown invoked');
+                print(
+                    'InAppContentBlockPlaceholder $placeholderId: onMessageShown invoked');
               },
               onNoMessageFound: (placeholderId) {
-                print('InAppContentBlockPlaceholder $placeholderId: onNoMessageFound invoked');
+                print(
+                    'InAppContentBlockPlaceholder $placeholderId: onNoMessageFound invoked');
               },
               onActionClicked: (placeholderId, contentBlock, action) {
-                print('InAppContentBlockPlaceholder $placeholderId: onActionClicked invoked');
+                print(
+                    'InAppContentBlockPlaceholder $placeholderId: onActionClicked invoked');
               },
               onCloseClicked: (placeholderId, contentBlock) {
-                print('InAppContentBlockPlaceholder $placeholderId: onCloseClicked invoked');
+                print(
+                    'InAppContentBlockPlaceholder $placeholderId: onCloseClicked invoked');
               },
               onError: (placeholderId, contentBlock, errorMessage) {
-                print('InAppContentBlockPlaceholder $placeholderId: onError invoked');
+                print(
+                    'InAppContentBlockPlaceholder $placeholderId: onError invoked');
               },
             ),
             const Text('Placeholder: platformSpecificPlaceholderId'),

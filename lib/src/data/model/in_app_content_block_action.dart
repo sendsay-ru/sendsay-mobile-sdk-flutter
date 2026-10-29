@@ -8,11 +8,7 @@ class InAppContentBlockAction {
   final String? name;
   final String? url;
 
-  const InAppContentBlockAction({
-    required this.type,
-    this.name,
-    this.url,
-  });
+  const InAppContentBlockAction({required this.type, this.name, this.url});
 
   @override
   String toString() {

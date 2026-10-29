@@ -37,7 +37,7 @@ class InAppMessage {
     this.isHtml,
     this.hasTrackingConsent,
     this.consentCategoryTracking,
-    this.isRichText
+    this.isRichText,
   });
 
   @override

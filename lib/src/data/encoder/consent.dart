@@ -7,7 +7,9 @@ abstract class ConsentEncoder {
       id: data.getRequired('id'),
       legitimateInterest: data.getRequired('legitimateInterest'),
       sources: ConsentSourcesEncoder.decode(data.getRequired('sources')),
-      translations: data.getRequired<Map>('translations').map(
+      translations: data
+          .getRequired<Map>('translations')
+          .map(
             (key, value) => MapEntry(
               key.toString(),
               (value as Map).map(

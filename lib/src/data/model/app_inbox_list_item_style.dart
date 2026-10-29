@@ -1,7 +1,5 @@
-
 import 'package:sendsay/sendsay.dart';
-
-import '../util/Codable.dart';
+import 'package:sendsay/src/data/util/codable.dart';
 
 class AppInboxListItemStyle extends Encodable {
   final String? backgroundColor;
@@ -11,8 +9,14 @@ class AppInboxListItemStyle extends Encodable {
   final TextViewStyle? content;
   final ImageViewStyle? image;
 
-  AppInboxListItemStyle({this.backgroundColor, this.readFlag, this.receivedTime,
-      this.title, this.content, this.image});
+  AppInboxListItemStyle({
+    this.backgroundColor,
+    this.readFlag,
+    this.receivedTime,
+    this.title,
+    this.content,
+    this.image,
+  });
 
   @override
   String toString() {
@@ -27,7 +31,7 @@ class AppInboxListItemStyle extends Encodable {
       'receivedTime': receivedTime?.encodeClean(),
       'title': title?.encodeClean(),
       'content': content?.encodeClean(),
-      'image': image?.encodeClean()
+      'image': image?.encodeClean(),
     };
   }
 }

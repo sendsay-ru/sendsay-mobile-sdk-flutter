@@ -1,6 +1,3 @@
-import 'package:sendsay/sendsay.dart';
-import 'package:flutter/material.dart';
-
 import '../util/Codable.dart';
 
 class TextViewStyle extends Encodable {
@@ -11,11 +8,12 @@ class TextViewStyle extends Encodable {
   final String? textOverride;
 
   TextViewStyle({
-      this.visible,
-      this.textColor,
-      this.textSize,
-      this.textWeight,
-      this.textOverride});
+    this.visible,
+    this.textColor,
+    this.textSize,
+    this.textWeight,
+    this.textOverride,
+  });
 
   @override
   String toString() {
@@ -31,8 +29,7 @@ class TextViewStyle extends Encodable {
       'textColor': textColor,
       'textSize': textSize,
       'textWeight': textWeight,
-      'textOverride': textOverride
+      'textOverride': textOverride,
     };
   }
-
 }

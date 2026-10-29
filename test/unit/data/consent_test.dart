@@ -100,11 +100,15 @@ void main() {
         expect(decoded.sources.createdFromCRM, expected.sources.createdFromCRM);
         expect(decoded.sources.imported, expected.sources.imported);
         expect(
-            decoded.sources.fromConsentPage, expected.sources.fromConsentPage);
+          decoded.sources.fromConsentPage,
+          expected.sources.fromConsentPage,
+        );
         expect(decoded.sources.privateAPI, expected.sources.privateAPI);
         expect(decoded.sources.publicAPI, expected.sources.publicAPI);
-        expect(decoded.sources.trackedFromScenario,
-            expected.sources.trackedFromScenario);
+        expect(
+          decoded.sources.trackedFromScenario,
+          expected.sources.trackedFromScenario,
+        );
         expect(decoded.translations, expected.translations);
       });
 
@@ -131,11 +135,15 @@ void main() {
         expect(decoded.sources.createdFromCRM, expected.sources.createdFromCRM);
         expect(decoded.sources.imported, expected.sources.imported);
         expect(
-            decoded.sources.fromConsentPage, expected.sources.fromConsentPage);
+          decoded.sources.fromConsentPage,
+          expected.sources.fromConsentPage,
+        );
         expect(decoded.sources.privateAPI, expected.sources.privateAPI);
         expect(decoded.sources.publicAPI, expected.sources.publicAPI);
-        expect(decoded.sources.trackedFromScenario,
-            expected.sources.trackedFromScenario);
+        expect(
+          decoded.sources.trackedFromScenario,
+          expected.sources.trackedFromScenario,
+        );
         expect(decoded.translations, expected.translations);
       });
     });

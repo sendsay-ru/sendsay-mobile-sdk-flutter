@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:example_flutter/home_blocks/customer_block.dart';
 import 'package:example_flutter/home_blocks/default_props_block.dart';
@@ -9,11 +10,13 @@ import 'package:example_flutter/home_blocks/flush_period_block.dart';
 import 'package:example_flutter/home_blocks/log_level_block.dart';
 import 'package:example_flutter/home_blocks/other_buttons_block.dart';
 import 'package:example_flutter/home_blocks/push_events_block.dart';
+import 'package:example_flutter/features/push_tokens/presentation/token_card.dart';
 import 'package:example_flutter/home_blocks/ssec_block.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sendsay/sendsay.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 
@@ -23,10 +26,7 @@ final logger = Logger();
 class HomePage extends StatefulWidget {
   final SendsayConfiguration config;
 
-  const HomePage({
-    super.key,
-    required this.config,
-  });
+  const HomePage({super.key, required this.config});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -41,33 +41,39 @@ class _HomePageState extends State<HomePage> {
   late final StreamSubscription<ReceivedPush> _receivedPushSub;
   late final StreamSubscription<InAppMessageAction> _inAppMessageActionSub;
   late final StreamSubscription<List<Map<String, dynamic>>>
-      _discoverySubscription;
+  _discoverySubscription;
   late final StreamSubscription<List<Map<String, dynamic>>>
-      _contentSubscription;
+  _contentSubscription;
   late final StreamSubscription<List<Map<String, dynamic>>>
-      _merchandisingSubscription;
+  _merchandisingSubscription;
 
   Future<void> initializeSegmentationDataStreams() async {
     final discoverySegmentationDataStream = await _plugin
         .segmentationDataStream('discovery', includeFirstLoad: true);
-    _discoverySubscription = discoverySegmentationDataStream
-        .listen((event) => _onSegmentationDataEvent('discovery', event));
-    final contentSegmentationDataStream =
-        await _plugin.segmentationDataStream('content', includeFirstLoad: true);
-    _contentSubscription = contentSegmentationDataStream
-        .listen((event) => _onSegmentationDataEvent('content', event));
+    _discoverySubscription = discoverySegmentationDataStream.listen(
+      (event) => _onSegmentationDataEvent('discovery', event),
+    );
+    final contentSegmentationDataStream = await _plugin.segmentationDataStream(
+      'content',
+      includeFirstLoad: true,
+    );
+    _contentSubscription = contentSegmentationDataStream.listen(
+      (event) => _onSegmentationDataEvent('content', event),
+    );
     final merchandisingSegmentationDataStream = await _plugin
         .segmentationDataStream('merchandising', includeFirstLoad: true);
-    _merchandisingSubscription = merchandisingSegmentationDataStream
-        .listen((event) => _onSegmentationDataEvent('merchandising', event));
+    _merchandisingSubscription = merchandisingSegmentationDataStream.listen(
+      (event) => _onSegmentationDataEvent('merchandising', event),
+    );
   }
 
   @override
   void initState() {
     _openedPushSub = _plugin.openedPushStream.listen(_onPushEvent);
     _receivedPushSub = _plugin.receivedPushStream.listen(_onPushEvent);
-    _inAppMessageActionSub =
-        _plugin.inAppMessageActionStream().listen(_onInAppMessageActionEvent);
+    _inAppMessageActionSub = _plugin.inAppMessageActionStream().listen(
+      _onInAppMessageActionEvent,
+    );
     initializeSegmentationDataStreams();
     super.initState();
   }
@@ -92,24 +98,31 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         children: [
           PushEventsBlock(
-              key: UniqueKey(),
-              pushController: _pushController,
-              requestPushCallback: _requestPushAuthorization,
-              isConfiguredCallback: _checkIsConfigured),
-          CustomerBlock(
-              key: UniqueKey(),
-              cookieCall: _getCustomerCookie,
-              identifyCall: _identifyCustomer,
-              anonymizeCall: _anonymize),
-          DefaultPropsBlock(
-              key: UniqueKey(),
-              getDefPropsCall: _getDefaultProps,
-              setDefPropsCall: _setDefaultProps),
-          FetchBlock(
             key: UniqueKey(),
-            consentsCall: _fetchConsents,
-            recommendCall: _fetchRecommendations,
+            pushController: _pushController,
+            requestPushCallback: _requestPushAuthorization,
+            isConfiguredCallback: _checkIsConfigured,
           ),
+          const TokenCard(),
+          // AdvertisingBlock(
+          //   key: UniqueKey(),
+          // ),
+          CustomerBlock(
+            key: UniqueKey(),
+            cookieCall: _getCustomerCookie,
+            identifyCall: _identifyCustomer,
+            anonymizeCall: _anonymize,
+          ),
+          DefaultPropsBlock(
+            key: UniqueKey(),
+            getDefPropsCall: _getDefaultProps,
+            setDefPropsCall: _setDefaultProps,
+          ),
+          // FetchBlock(
+          //   key: UniqueKey(),
+          //   consentsCall: _fetchConsents,
+          //   recommendCall: _fetchRecommendations,
+          // ),
           FlushModeBlock(
             key: UniqueKey(),
             flushModeController: _flushModeController,
@@ -135,7 +148,8 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () => _trackEvent(context),
                   style: const ButtonStyle(
                     padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
+                      EdgeInsets.symmetric(horizontal: 16),
+                    ),
                   ),
                   child: const Text('Event'),
                 ),
@@ -146,7 +160,8 @@ class _HomePageState extends State<HomePage> {
                       : () => _trackSessionStart(context),
                   style: const ButtonStyle(
                     padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
+                      EdgeInsets.symmetric(horizontal: 16),
+                    ),
                   ),
                   child: const Text('Session Start'),
                 ),
@@ -157,54 +172,10 @@ class _HomePageState extends State<HomePage> {
                       : () => _trackSessionEnd(context),
                   style: const ButtonStyle(
                     padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
+                      EdgeInsets.symmetric(horizontal: 16),
+                    ),
                   ),
                   child: const Text('Session End'),
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            title: const Text('Trigger in-app message by event:'),
-            subtitle: Wrap(
-              alignment: WrapAlignment.start,
-              spacing: 16,
-              children: [
-                ElevatedButton(
-                  onPressed: () =>
-                      _triggerInAppMessage(context, 'test_msg_modal'),
-                  style: const ButtonStyle(
-                    padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
-                  ),
-                  child: const Text('Modal'),
-                ),
-                ElevatedButton(
-                  onPressed: () =>
-                      _triggerInAppMessage(context, 'test_msg_fullscreen'),
-                  style: const ButtonStyle(
-                    padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
-                  ),
-                  child: const Text('Fullscreen'),
-                ),
-                ElevatedButton(
-                  onPressed: () =>
-                      _triggerInAppMessage(context, 'test_msg_slide'),
-                  style: const ButtonStyle(
-                    padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
-                  ),
-                  child: const Text('Slide-in'),
-                ),
-                ElevatedButton(
-                  onPressed: () =>
-                      _triggerInAppMessage(context, 'test_msg_alert'),
-                  style: const ButtonStyle(
-                    padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16)),
-                  ),
-                  child: const Text('Alert'),
                 ),
               ],
             ),
@@ -217,11 +188,6 @@ class _HomePageState extends State<HomePage> {
             key: UniqueKey(),
             callback: (ssec) => _trackSSEC(context, ssec),
           ),
-          // ListTile(
-          //     title: const Text('App Inbox'),
-          //     subtitle: Row(children: const [
-          //       SizedBox(width: 150, height: 50, child: AppInboxProvider()),
-          //     ])),
           const Padding(
             padding: EdgeInsets.all(16),
             child: Divider(color: Colors.white),
@@ -237,7 +203,8 @@ class _HomePageState extends State<HomePage> {
             pluginSegmentsCallback: (ctx) async {
               final data = await _plugin.getSegments('discovery');
               debugPrint(
-                  'Segments: received segments for category discovery with IDs: $data');
+                'Segments: received segments for category discovery with IDs: $data',
+              );
             },
           ),
         ],
@@ -248,10 +215,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _trackSSEC(BuildContext context, SSECEvent ssec) =>
       _runAndShowResult(context, () async {
         // debugPrint(ssec.toString());
-        final event = SSECEvent(
-          type: ssec.type,
-          data: ssec.data,
-        );
+        final event = SSECEvent(type: ssec.type, data: ssec.data);
         await _plugin.trackSSECEvent(event.toSsecMap());
       });
 
@@ -284,9 +248,13 @@ class _HomePageState extends State<HomePage> {
     var messages = await _plugin.fetchAppInbox();
     if (messages.isEmpty) return;
     return await _plugin.trackAppInboxClick(
-        const AppInboxAction(
-            title: 'Google', action: 'browser', url: 'https://www.google.com'),
-        messages.first);
+      const AppInboxAction(
+        title: 'Google',
+        action: 'browser',
+        url: 'https://www.google.com',
+      ),
+      messages.first,
+    );
   }
 
   Future<void> _trackPaymentEvent(BuildContext context) =>
@@ -341,9 +309,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _setDefaultProps(BuildContext context) =>
       _runAndShowResult(context, () async {
-        await _plugin.setDefaultProperties({
-          'default_prop_1': 'test',
-        });
+        await _plugin.setDefaultProperties({'default_prop_1': 'test'});
       });
 
   Future<void> _fetchConsents(BuildContext context) =>
@@ -393,10 +359,11 @@ class _HomePageState extends State<HomePage> {
         const event = Event(
           name: 'event_name',
           properties: {
-            'property': '5s',
-            'int': 12,
-            'double': 34.56,
-            'string': 'test'
+            /// test properties:
+            // 'property': '5s',
+            // 'int': 12,
+            // 'double': 34.56,
+            // 'string': 'test',
           },
         );
         await _plugin.trackEvent(event);
@@ -470,7 +437,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onSegmentationDataEvent(
-      String exposingCategory, List<Map<String, String>> data) {
+    String exposingCategory,
+    List<Map<String, String>> data,
+  ) {
     print('Segments: New for category $exposingCategory with IDs: $data');
   }
 }

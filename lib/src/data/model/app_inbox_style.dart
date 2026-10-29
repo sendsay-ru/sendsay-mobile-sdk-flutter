@@ -1,4 +1,3 @@
-
 import 'package:sendsay/sendsay.dart';
 
 import '../util/Codable.dart';
@@ -20,8 +19,7 @@ class AppInboxStyle extends Encodable {
     return {
       'appInboxButton': appInboxButton?.encodeClean(),
       'detailView': detailView?.encodeClean(),
-      'listView': listView?.encodeClean()
+      'listView': listView?.encodeClean(),
     };
   }
-
 }

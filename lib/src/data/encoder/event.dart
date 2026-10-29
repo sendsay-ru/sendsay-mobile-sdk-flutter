@@ -8,8 +8,9 @@ abstract class EventEncoder {
       name: data.getRequired('name'),
       properties:
           data.getOptional<Map<String, dynamic>>('properties') ?? const {},
-      timestamp:
-          data.getOptional<double>('timestamp')?.let(DateTimeEncoder.decode),
+      timestamp: data
+          .getOptional<double>('timestamp')
+          ?.let(DateTimeEncoder.decode),
     );
   }
 

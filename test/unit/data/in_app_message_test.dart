@@ -322,7 +322,9 @@ void main() {
         expect(decoded.messageType, 'mock-messageType');
         expect(decoded.payload, {"mock-payload-param": "mock-payload-content"});
         expect(decoded.trigger, {"mock-trigger-param": "mock-trigger-content"});
-        expect(decoded.dateFilter, {"mock-dateFilter-param": "mock-dateFilter-content"});
+        expect(decoded.dateFilter, {
+          "mock-dateFilter-param": "mock-dateFilter-content",
+        });
         expect(decoded.loadPriority, null);
         expect(decoded.loadDelay, null);
         expect(decoded.closeTimeout, null);
@@ -342,7 +344,9 @@ void main() {
         expect(decoded.messageType, 'mock-messageType');
         expect(decoded.payload, {"mock-payload-param": "mock-payload-content"});
         expect(decoded.trigger, {"mock-trigger-param": "mock-trigger-content"});
-        expect(decoded.dateFilter, {"mock-dateFilter-param": "mock-dateFilter-content"});
+        expect(decoded.dateFilter, {
+          "mock-dateFilter-param": "mock-dateFilter-content",
+        });
         expect(decoded.loadPriority, 1);
         expect(decoded.loadDelay, null);
         expect(decoded.closeTimeout, null);
@@ -362,7 +366,9 @@ void main() {
         expect(decoded.messageType, 'mock-messageType');
         expect(decoded.payload, {"mock-payload-param": "mock-payload-content"});
         expect(decoded.trigger, {"mock-trigger-param": "mock-trigger-content"});
-        expect(decoded.dateFilter, {"mock-dateFilter-param": "mock-dateFilter-content"});
+        expect(decoded.dateFilter, {
+          "mock-dateFilter-param": "mock-dateFilter-content",
+        });
         expect(decoded.loadPriority, 1);
         expect(decoded.loadDelay, 1000);
         expect(decoded.closeTimeout, null);
@@ -382,7 +388,9 @@ void main() {
         expect(decoded.messageType, 'mock-messageType');
         expect(decoded.payload, {"mock-payload-param": "mock-payload-content"});
         expect(decoded.trigger, {"mock-trigger-param": "mock-trigger-content"});
-        expect(decoded.dateFilter, {"mock-dateFilter-param": "mock-dateFilter-content"});
+        expect(decoded.dateFilter, {
+          "mock-dateFilter-param": "mock-dateFilter-content",
+        });
         expect(decoded.loadPriority, 1);
         expect(decoded.loadDelay, 1000);
         expect(decoded.closeTimeout, 2000);
@@ -402,7 +410,9 @@ void main() {
         expect(decoded.messageType, 'mock-messageType');
         expect(decoded.payload, {"mock-payload-param": "mock-payload-content"});
         expect(decoded.trigger, {"mock-trigger-param": "mock-trigger-content"});
-        expect(decoded.dateFilter, {"mock-dateFilter-param": "mock-dateFilter-content"});
+        expect(decoded.dateFilter, {
+          "mock-dateFilter-param": "mock-dateFilter-content",
+        });
         expect(decoded.loadPriority, 1);
         expect(decoded.loadDelay, 1000);
         expect(decoded.closeTimeout, 2000);
@@ -422,7 +432,9 @@ void main() {
         expect(decoded.messageType, 'mock-messageType');
         expect(decoded.payload, {"mock-payload-param": "mock-payload-content"});
         expect(decoded.trigger, {"mock-trigger-param": "mock-trigger-content"});
-        expect(decoded.dateFilter, {"mock-dateFilter-param": "mock-dateFilter-content"});
+        expect(decoded.dateFilter, {
+          "mock-dateFilter-param": "mock-dateFilter-content",
+        });
         expect(decoded.loadPriority, 1);
         expect(decoded.loadDelay, 1000);
         expect(decoded.closeTimeout, 2000);
@@ -442,7 +454,9 @@ void main() {
         expect(decoded.messageType, 'mock-messageType');
         expect(decoded.payload, {"mock-payload-param": "mock-payload-content"});
         expect(decoded.trigger, {"mock-trigger-param": "mock-trigger-content"});
-        expect(decoded.dateFilter, {"mock-dateFilter-param": "mock-dateFilter-content"});
+        expect(decoded.dateFilter, {
+          "mock-dateFilter-param": "mock-dateFilter-content",
+        });
         expect(decoded.loadPriority, 1);
         expect(decoded.loadDelay, 1000);
         expect(decoded.closeTimeout, 2000);
@@ -462,7 +476,9 @@ void main() {
         expect(decoded.messageType, 'mock-messageType');
         expect(decoded.payload, {"mock-payload-param": "mock-payload-content"});
         expect(decoded.trigger, {"mock-trigger-param": "mock-trigger-content"});
-        expect(decoded.dateFilter, {"mock-dateFilter-param": "mock-dateFilter-content"});
+        expect(decoded.dateFilter, {
+          "mock-dateFilter-param": "mock-dateFilter-content",
+        });
         expect(decoded.loadPriority, 1);
         expect(decoded.loadDelay, 1000);
         expect(decoded.closeTimeout, 2000);

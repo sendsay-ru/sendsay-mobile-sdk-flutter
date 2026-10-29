@@ -11,14 +11,15 @@ class SimpleButtonStyle extends Encodable {
   final String? textWeight;
 
   SimpleButtonStyle({
-      this.textOverride,
-      this.textColor,
-      this.backgroundColor,
-      this.showIcon,
-      this.textSize,
-      this.enabled,
-      this.borderRadius,
-      this.textWeight});
+    this.textOverride,
+    this.textColor,
+    this.backgroundColor,
+    this.showIcon,
+    this.textSize,
+    this.enabled,
+    this.borderRadius,
+    this.textWeight,
+  });
 
   @override
   String toString() {
@@ -35,7 +36,7 @@ class SimpleButtonStyle extends Encodable {
       'textSize': textSize,
       'enabled': enabled,
       'borderRadius': borderRadius,
-      'textWeight': textWeight
+      'textWeight': textWeight,
     };
   }
 }

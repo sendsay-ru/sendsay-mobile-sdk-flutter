@@ -11,8 +11,12 @@ class InAppMessageActionEncoder {
   static InAppMessageAction decode(Map<dynamic, dynamic> data) {
     return InAppMessageAction(
       type: InAppMessageActionTypeEncoder.decode(data.getRequired('type')),
-      message: data.getOptional<Map<dynamic, dynamic>>('message')?.let(InAppMessageEncoder.decode),
-      button: data.getOptional<Map<dynamic, dynamic>>('button')?.let(InAppMessageButtonEncoder.decode),
+      message: data
+          .getOptional<Map<dynamic, dynamic>>('message')
+          ?.let(InAppMessageEncoder.decode),
+      button: data
+          .getOptional<Map<dynamic, dynamic>>('button')
+          ?.let(InAppMessageButtonEncoder.decode),
       interaction: data.getOptional('interaction'),
       errorMessage: data.getOptional('errorMessage'),
     );

@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart' show PlatformException;
+
 import '../sendsay.dart';
 
 ///
@@ -63,7 +65,7 @@ abstract class BaseInterface {
 
   /// Track custom event to Sendsay backend.
   Future<void> trackEvent(Event event);
-  
+
   /// Track SSEC event to Sendsay backend.
   Future<void> trackSSECEvent(Map<String, dynamic> ssec);
 
@@ -101,14 +103,17 @@ abstract class BaseInterface {
   /// Don't forget to call cancel on the subscription when no longer listening.
   /// If overrideDefaultBehavior is set to true, default in-app action will not be performed ( e.g. deep link )
   /// If trackActions is set to false, click and close in-app events will not be tracked automatically
-  Stream<InAppMessageAction> inAppMessageActionStream({bool overrideDefaultBehavior = false, bool trackActions = true});
+  Stream<InAppMessageAction> inAppMessageActionStream({
+    bool overrideDefaultBehavior = false,
+    bool trackActions = true,
+  });
 
   /// Request push authorization on Android or iOS.
   Future<bool> requestPushAuthorization();
 
-  // /// Request push authorization on iOS.
-  // @Deprecated("Will be removed in a later version of the SDK, use 'requestPushAuthorization()' instead")
-  // Future<bool> requestIosPushAuthorization();
+  /// Request push authorization on iOS.
+  @Deprecated("Will be removed in a later version of the SDK, use 'requestPushAuthorization()' instead")
+  Future<bool> requestIosPushAuthorization();
 
   /// Set AppInboxProvider
   Future<void> setAppInboxProvider(AppInboxStyle style);
@@ -118,16 +123,24 @@ abstract class BaseInterface {
   Future<void> trackAppInboxOpened(AppInboxMessage message);
 
   /// Track AppInbox message detail opened event
-  Future<void> trackAppInboxOpenedWithoutTrackingConsent(AppInboxMessage message);
+  Future<void> trackAppInboxOpenedWithoutTrackingConsent(
+    AppInboxMessage message,
+  );
 
   /// Track AppInbox message click event
   /// Event is tracked if one or both conditions met:
   ///     - parameter 'message' has TRUE value of 'hasTrackingConsent' property
   ///     - parameter 'buttonLink' has TRUE value of query parameter 'xnpe_force_track'
-  Future<void> trackAppInboxClick(AppInboxAction action, AppInboxMessage message);
+  Future<void> trackAppInboxClick(
+    AppInboxAction action,
+    AppInboxMessage message,
+  );
 
   /// Track AppInbox message click event
-  Future<void> trackAppInboxClickWithoutTrackingConsent(AppInboxAction action, AppInboxMessage message);
+  Future<void> trackAppInboxClickWithoutTrackingConsent(
+    AppInboxAction action,
+    AppInboxMessage message,
+  );
 
   /// Marks AppInbox message as read
   Future<bool> markAppInboxAsRead(AppInboxMessage message);
@@ -139,69 +152,186 @@ abstract class BaseInterface {
   Future<AppInboxMessage> fetchAppInboxItem(String messageId);
 
   /// Track in-app content block click event
-  Future<void> trackInAppContentBlockClick(String placeholderId, InAppContentBlock contentBlock, InAppContentBlockAction action);
+  Future<void> trackInAppContentBlockClick(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    InAppContentBlockAction action,
+  );
 
   /// Track in-app content block click event
-  Future<void> trackInAppContentBlockClickWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock, InAppContentBlockAction action);
+  Future<void> trackInAppContentBlockClickWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    InAppContentBlockAction action,
+  );
 
   /// Track in-app content block close event
-  Future<void> trackInAppContentBlockClose(String placeholderId, InAppContentBlock contentBlock);
+  Future<void> trackInAppContentBlockClose(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  );
 
   /// Track in-app content block close event
-  Future<void> trackInAppContentBlockCloseWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock);
+  Future<void> trackInAppContentBlockCloseWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  );
 
   /// Track in-app content block show event
-  Future<void> trackInAppContentBlockShown(String placeholderId, InAppContentBlock contentBlock);
+  Future<void> trackInAppContentBlockShown(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  );
 
   /// Track in-app content block show event
-  Future<void> trackInAppContentBlockShownWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock);
+  Future<void> trackInAppContentBlockShownWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  );
 
   /// Track in-app content block error event
-  Future<void> trackInAppContentBlockError(String placeholderId, InAppContentBlock contentBlock, String errorMessage);
+  Future<void> trackInAppContentBlockError(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    String errorMessage,
+  );
 
   /// Track in-app content block error event
-  Future<void> trackInAppContentBlockErrorWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock, String errorMessage);
-  
-  /// Track in-app message click event
-  Future<void> trackInAppMessageClick(InAppMessage message, InAppMessageButton button);
+  Future<void> trackInAppContentBlockErrorWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    String errorMessage,
+  );
 
   /// Track in-app message click event
-  Future<void> trackInAppMessageClickWithoutTrackingConsent(InAppMessage message, InAppMessageButton button);
+  Future<void> trackInAppMessageClick(
+    InAppMessage message,
+    InAppMessageButton button,
+  );
+
+  /// Track in-app message click event
+  Future<void> trackInAppMessageClickWithoutTrackingConsent(
+    InAppMessage message,
+    InAppMessageButton button,
+  );
 
   /// Track in-app message close event
-  Future<void> trackInAppMessageClose(InAppMessage message, {InAppMessageButton? button, bool interaction = true});
+  Future<void> trackInAppMessageClose(
+    InAppMessage message, {
+    InAppMessageButton? button,
+    bool interaction = true,
+  });
 
   /// Track in-app message close event
-  Future<void> trackInAppMessageCloseWithoutTrackingConsent(InAppMessage message, {InAppMessageButton? button, bool interaction = true});
+  Future<void> trackInAppMessageCloseWithoutTrackingConsent(
+    InAppMessage message, {
+    InAppMessageButton? button,
+    bool interaction = true,
+  });
 
   /// Track payment event.
-  Future<void> trackPaymentEvent(PurchasedItem purchasedItem, {DateTime? timestamp});
+  Future<void> trackPaymentEvent(
+    PurchasedItem purchasedItem, {
+    DateTime? timestamp,
+  });
 
   /// Track FCM/APNS push token
   Future<void> trackPushToken(String token);
+
+  /// Handle FCM/APNS push token.
+  /// Android can persist the token before SDK configuration.
+  Future<void> handlePushToken(String token);
 
   /// Track HMS push token
   /// Only for Android
   Future<void> trackHmsPushToken(String token);
 
-  /// Handle FCM/APNS push token
-  Future<void> handlePushToken(String token);
-
-  /// Handle HMS push token
-  /// Only for Android
+  /// Handle HMS push token on Android, including before SDK configuration.
   Future<void> handleHmsPushToken(String token);
+
+  /// Tracks a RuStore push token on Android on every call.
+  ///
+  /// Throws [PlatformException] with code `unsupported_platform` on iOS.
+  Future<void> trackRsmPushToken(String token);
+
+  /// Handles a new RuStore token using the Android SDK's tracking policy.
+  ///
+  /// May be called before configuration; the native SDK can save the token.
+  /// Throws [PlatformException] with code `unsupported_platform` on iOS.
+  Future<void> handleRsmPushToken(String token);
+
+  /// Returns the Android SDK's cached Google advertising ID, if available.
+  ///
+  /// Does not initiate collection. May return null without Google Play services,
+  /// before collection finishes, or when ad tracking is restricted.
+  /// Throws [PlatformException] with code `unsupported_platform` on iOS.
+  Future<String?> getGAID();
+
+  /// Requests a Google advertising ID without populating the SDK's cache.
+  ///
+  /// Not available in native Android SDK 0.1.5: its fetch method is private.
+  /// Throws [PlatformException] with code `unsupported_operation` on Android
+  /// and `unsupported_platform` on iOS.
+  Future<String?> fetchGAID();
+
+  /// Starts the Android SDK's advertising ID collection and caching operation.
+  ///
+  /// Requires a configured SDK. Completion means the request was submitted,
+  /// not that collection finished; [getGAID] may still return null afterwards.
+  /// Subject to the native SDK's advertising configuration policy. Native
+  /// collection failures are logged and are not reported by this Future.
+  /// Throws [PlatformException] with code `unsupported_platform` on iOS.
+  Future<void> trackGAID();
+
+  /// Returns the iOS SDK's cached advertising ID without requesting permission.
+  ///
+  /// This is the native cache value, not a check of current ATT authorization.
+  /// Throws [PlatformException] with code `unsupported_platform` on Android.
+  Future<String?> getIDFA();
+
+  /// Requests the advertising ID through the iOS SDK, including ATT permission.
+  ///
+  /// Call while the app is active. Requires NSUserTrackingUsageDescription on
+  /// iOS 14.5 and later. Returns the native value, which may be null or all zeros
+  /// when access is unavailable. Does not populate the SDK's IDFA cache.
+  /// Throws [PlatformException] with code `unsupported_platform` on Android.
+  Future<String?> fetchIDFA();
+
+  /// Starts the iOS SDK's advertising ID collection and caching operation.
+  ///
+  /// Requires a configured SDK and an active app. Completion means the request
+  /// was submitted, not that permission was granted or the cache was updated.
+  /// Subject to the native SDK's remote configuration policy.
+  /// Throws [PlatformException] with code `unsupported_platform` on Android.
+  Future<void> trackIDFA();
+
+  /// Stops a configured native SDK and clears its local integration data.
+  ///
+  /// This is destructive. It is not a temporary pause or [anonymize].
+  Future<void> stopIntegration();
+
+  /// Clears local data from a previous integration while the SDK is inactive.
+  ///
+  /// On iOS, [appGroup] must be the nonempty App Group used by that integration.
+  /// Android uses its application context and ignores [appGroup].
+  /// A previous persisted configuration is required by the native SDK.
+  Future<void> clearLocalCustomerData({String? appGroup});
 
   /// Track clicked push notification
   Future<void> trackClickedPush(Map<String, dynamic> data);
 
   /// Track clicked push notification
-  Future<void> trackClickedPushWithoutTrackingConsent(Map<String, dynamic> data);
+  Future<void> trackClickedPushWithoutTrackingConsent(
+    Map<String, dynamic> data,
+  );
 
   /// Track delivered push notification
   Future<void> trackDeliveredPush(Map<String, dynamic> data);
 
   /// Track delivered push notification
-  Future<void> trackDeliveredPushWithoutTrackingConsent(Map<String, dynamic> data);
+  Future<void> trackDeliveredPushWithoutTrackingConsent(
+    Map<String, dynamic> data,
+  );
 
   /// Checks if push notifications originate from sendsay
   Future<bool> isSendsayNotification(Map<String, String> data);
@@ -213,11 +343,19 @@ abstract class BaseInterface {
   Future<void> handlePushNotificationOpened(Map<String, dynamic> data);
 
   /// Handle push notification Opened
-  Future<void> handlePushNotificationOpenedWithoutTrackingConsent(Map<String, dynamic> data);
+  Future<void> handlePushNotificationOpenedWithoutTrackingConsent(
+    Map<String, dynamic> data,
+  );
 
   /// Returns segments for the exposing category
-  Future<List<Map<String, String>>> getSegments(String exposingCategory, {bool force = false});
+  Future<List<Map<String, String>>> getSegments(
+    String exposingCategory, {
+    bool force = false,
+  });
 
   /// Returns stream segments for the exposing category
-  Future<Stream<List<Map<String, String>>>> segmentationDataStream(String exposingCategory, {bool includeFirstLoad = false});
+  Future<Stream<List<Map<String, String>>>> segmentationDataStream(
+    String exposingCategory, {
+    bool includeFirstLoad = false,
+  });
 }

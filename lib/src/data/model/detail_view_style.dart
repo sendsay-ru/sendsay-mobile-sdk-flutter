@@ -1,4 +1,3 @@
-
 import 'package:sendsay/sendsay.dart';
 
 import '../util/Codable.dart';
@@ -11,7 +10,12 @@ class DetailViewStyle extends Encodable {
   final SimpleButtonStyle? button;
 
   DetailViewStyle({
-      this.title, this.content, this.receivedTime, this.image, this.button});
+    this.title,
+    this.content,
+    this.receivedTime,
+    this.image,
+    this.button,
+  });
 
   @override
   String toString() {
@@ -25,8 +29,7 @@ class DetailViewStyle extends Encodable {
       'content': content?.encodeClean(),
       'receivedTime': receivedTime?.encodeClean(),
       'image': image?.encodeClean(),
-      'button': button?.encodeClean()
+      'button': button?.encodeClean(),
     };
   }
-
 }

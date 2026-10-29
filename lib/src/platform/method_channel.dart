@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io' show Platform;
 
 import 'package:sendsay/sendsay.dart';
 import 'package:flutter/services.dart';
@@ -10,20 +9,25 @@ import '../data/util/object.dart';
 /// An implementation of [SendsayPlatform] that uses method channels.
 class MethodChannelSendsayPlatform extends SendsayPlatform {
   static const _channelName = "com.sendsay";
-      // "${Platform.isAndroid ? 'com' : 'ru'}.sendsay.example";
   static const _channel = MethodChannel(_channelName);
 
   static const _openedPushStreamName = "$_channelName/opened_push";
   static const _openedPushEventChannel = EventChannel(_openedPushStreamName);
 
   static const _receivedPushStreamName = "$_channelName/received_push";
-  static const _receivedPushEventChannel = EventChannel(_receivedPushStreamName);
+  static const _receivedPushEventChannel = EventChannel(
+    _receivedPushStreamName,
+  );
 
   static const _inAppMessageActionStreamName = '$_channelName/in_app_messages';
-  static const _inAppMessageActionEventChannel = EventChannel(_inAppMessageActionStreamName);
+  static const _inAppMessageActionEventChannel = EventChannel(
+    _inAppMessageActionStreamName,
+  );
 
   static const _segmentationDataStreamName = '$_channelName/segmentation_data';
-  static const _segmentationDataEventChannel = EventChannel(_segmentationDataStreamName);
+  static const _segmentationDataEventChannel = EventChannel(
+    _segmentationDataStreamName,
+  );
 
   static const _methodConfigure = 'configure';
   static const _methodIsConfigured = 'isConfigured';
@@ -38,7 +42,7 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   static const _methodGetFlushPeriod = 'getFlushPeriod';
   static const _methodSetFlushPeriod = 'setFlushPeriod';
   static const _methodTrackEvent = 'trackEvent';
-  static const _methodTrackSSECEvent = 'trackSSEC';
+  static const _methodTrackSSECEvent = 'trackSSECEvent';
   static const _methodTrackSessionStart = 'trackSessionStart';
   static const _methodTrackSessionEnd = 'trackSessionEnd';
   static const _methodFetchConsents = 'fetchConsents';
@@ -49,41 +53,63 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   static const _methodRequestPushAuthorization = 'requestPushAuthorization';
   static const _setAppInboxProvider = 'setAppInboxProvider';
   static const _trackAppInboxOpened = 'trackAppInboxOpened';
-  static const _trackAppInboxOpenedWithoutTrackingConsent = 'trackAppInboxOpenedWithoutTrackingConsent';
+  static const _trackAppInboxOpenedWithoutTrackingConsent =
+      'trackAppInboxOpenedWithoutTrackingConsent';
   static const _trackAppInboxClick = 'trackAppInboxClick';
-  static const _trackAppInboxClickWithoutTrackingConsent = 'trackAppInboxClickWithoutTrackingConsent';
+  static const _trackAppInboxClickWithoutTrackingConsent =
+      'trackAppInboxClickWithoutTrackingConsent';
   static const _markAppInboxAsRead = 'markAppInboxAsRead';
   static const _fetchAppInbox = 'fetchAppInbox';
   static const _fetchAppInboxItem = 'fetchAppInboxItem';
   static const _setInAppMessageActionHandler = 'setInAppMessageActionHandler';
   static const _trackInAppContentBlockClick = 'trackInAppContentBlockClick';
-  static const _trackInAppContentBlockClickWithoutTrackingConsent = 'trackInAppContentBlockClickWithoutTrackingConsent';
+  static const _trackInAppContentBlockClickWithoutTrackingConsent =
+      'trackInAppContentBlockClickWithoutTrackingConsent';
   static const _trackInAppContentBlockClose = 'trackInAppContentBlockClose';
-  static const _trackInAppContentBlockCloseWithoutTrackingConsent = 'trackInAppContentBlockCloseWithoutTrackingConsent';
+  static const _trackInAppContentBlockCloseWithoutTrackingConsent =
+      'trackInAppContentBlockCloseWithoutTrackingConsent';
   static const _trackInAppContentBlockShown = 'trackInAppContentBlockShown';
-  static const _trackInAppContentBlockShownWithoutTrackingConsent = 'trackInAppContentBlockShownWithoutTrackingConsent';
+  static const _trackInAppContentBlockShownWithoutTrackingConsent =
+      'trackInAppContentBlockShownWithoutTrackingConsent';
   static const _trackInAppContentBlockError = 'trackInAppContentBlockError';
-  static const _trackInAppContentBlockErrorWithoutTrackingConsent = 'trackInAppContentBlockErrorWithoutTrackingConsent';
+  static const _trackInAppContentBlockErrorWithoutTrackingConsent =
+      'trackInAppContentBlockErrorWithoutTrackingConsent';
   static const _trackInAppMessageClick = 'trackInAppMessageClick';
-  static const _trackInAppMessageClickWithoutTrackingConsent = 'trackInAppMessageClickWithoutTrackingConsent';
+  static const _trackInAppMessageClickWithoutTrackingConsent =
+      'trackInAppMessageClickWithoutTrackingConsent';
   static const _trackInAppMessageClose = 'trackInAppMessageClose';
-  static const _trackInAppMessageCloseWithoutTrackingConsent = 'trackInAppMessageCloseWithoutTrackingConsent';
+  static const _trackInAppMessageCloseWithoutTrackingConsent =
+      'trackInAppMessageCloseWithoutTrackingConsent';
   static const _trackPaymentEvent = 'trackPaymentEvent';
   static const _trackPushToken = 'trackPushToken';
   static const _trackHmsPushToken = 'trackHmsPushToken';
+  static const _trackRsmPushToken = 'trackRsmPushToken';
   static const _handlePushToken = 'handlePushToken';
   static const _handleHmsPushToken = 'handleHmsPushToken';
+  static const _handleRsmPushToken = 'handleRsmPushToken';
+  static const _getGAID = 'getGAID';
+  static const _fetchGAID = 'fetchGAID';
+  static const _trackGAID = 'trackGAID';
+  static const _getIDFA = 'getIDFA';
+  static const _fetchIDFA = 'fetchIDFA';
+  static const _trackIDFA = 'trackIDFA';
+  static const _clearLocalCustomerData = 'clearLocalCustomerData';
   static const _trackClickedPush = 'trackClickedPush';
-  static const _trackClickedPushWithoutTrackingConsent = 'trackClickedPushWithoutTrackingConsent';
+  static const _trackClickedPushWithoutTrackingConsent =
+      'trackClickedPushWithoutTrackingConsent';
   static const _trackDeliveredPush = 'trackDeliveredPush';
-  static const _trackDeliveredPushWithoutTrackingConsent = 'trackDeliveredPushWithoutTrackingConsent';
+  static const _trackDeliveredPushWithoutTrackingConsent =
+      'trackDeliveredPushWithoutTrackingConsent';
   static const _isSendsayNotification = 'isSendsayNotification';
   static const _handleCampaignClick = 'handleCampaignClick';
   static const _handlePushNotificationOpened = 'handlePushNotificationOpened';
-  static const _handlePushNotificationOpenedWithoutTrackingConsent = 'handlePushNotificationOpenedWithoutTrackingConsent';
+  static const _handlePushNotificationOpenedWithoutTrackingConsent =
+      'handlePushNotificationOpenedWithoutTrackingConsent';
   static const _getSegments = 'getSegments';
-  static const _registerSegmentationDataStream = 'registerSegmentationDataStream';
-  static const _unregisterSegmentationDataStream = 'unregisterSegmentationDataStream';
+  static const _registerSegmentationDataStream =
+      'registerSegmentationDataStream';
+  static const _unregisterSegmentationDataStream =
+      'unregisterSegmentationDataStream';
 
   late SegmentationStreamDataHandler _segmentationStreamDataHandler;
   Stream<OpenedPush>? _openedPushStream;
@@ -92,12 +118,15 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
 
   MethodChannelSendsayPlatform() {
     _segmentationStreamDataHandler = SegmentationStreamDataHandler(
-      onStreamClosed: (instanceId) => unregisterSegmentationDataStream(instanceId),
+      onStreamClosed: (instanceId) =>
+          unregisterSegmentationDataStream(instanceId),
     );
     _segmentationDataEventChannel
         .receiveBroadcastStream()
         .cast<Map<dynamic, dynamic>>()
-        .listen((data) => _segmentationStreamDataHandler.handleSegmentationData(data));
+        .listen(
+          (data) => _segmentationStreamDataHandler.handleSegmentationData(data),
+        );
   }
 
   @override
@@ -133,8 +162,9 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
 
   @override
   Future<Map<String, dynamic>> getDefaultProperties() async {
-    return (await _channel
-        .invokeMapMethod<String, dynamic>(_methodGetDefaultProperties))!;
+    return (await _channel.invokeMapMethod<String, dynamic>(
+      _methodGetDefaultProperties,
+    ))!;
   }
 
   @override
@@ -197,10 +227,12 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
 
   @override
   Future<List<Consent>> fetchConsents() async {
-    final outData =
-        (await _channel.invokeListMethod<Map>(_methodFetchConsents))!;
-    final res =
-        outData.map((it) => ConsentEncoder.decode(it)).toList(growable: false);
+    final outData = (await _channel.invokeListMethod<Map>(
+      _methodFetchConsents,
+    ))!;
+    final res = outData
+        .map((it) => ConsentEncoder.decode(it))
+        .toList(growable: false);
     return res;
   }
 
@@ -236,14 +268,14 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
-  Stream<InAppMessageAction> inAppMessageActionStream({bool overrideDefaultBehavior = false, bool trackActions = true}) {
-    _channel.invokeMethod<void>(
-      _setInAppMessageActionHandler,
-      {
-        'overrideDefaultBehavior': overrideDefaultBehavior,
-        'trackActions': trackActions,
-      },
-    );
+  Stream<InAppMessageAction> inAppMessageActionStream({
+    bool overrideDefaultBehavior = false,
+    bool trackActions = true,
+  }) {
+    _channel.invokeMethod<void>(_setInAppMessageActionHandler, {
+      'overrideDefaultBehavior': overrideDefaultBehavior,
+      'trackActions': trackActions,
+    });
     _inAppMessageActionStream ??= _inAppMessageActionEventChannel
         .receiveBroadcastStream()
         .cast<Map<dynamic, dynamic>>()
@@ -258,14 +290,16 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
 
   @override
   Future<bool> requestPushAuthorization() async {
-    return (await _channel
-        .invokeMethod<bool>(_methodRequestPushAuthorization))!;
+    return (await _channel.invokeMethod<bool>(
+      _methodRequestPushAuthorization,
+    ))!;
   }
 
   @override
   Future<bool> requestIosPushAuthorization() async {
-    return (await _channel
-        .invokeMethod<bool>(_methodRequestPushAuthorization))!;
+    return (await _channel.invokeMethod<bool>(
+      _methodRequestPushAuthorization,
+    ))!;
   }
 
   @override
@@ -293,21 +327,35 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
-  Future<void> trackAppInboxOpenedWithoutTrackingConsent(AppInboxMessage message) async {
+  Future<void> trackAppInboxOpenedWithoutTrackingConsent(
+    AppInboxMessage message,
+  ) async {
     final data = AppInboxCoder.encodeMessage(message);
-    await _channel.invokeMethod<void>(_trackAppInboxOpenedWithoutTrackingConsent, data);
+    await _channel.invokeMethod<void>(
+      _trackAppInboxOpenedWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
-  Future<void> trackAppInboxClick(AppInboxAction action, AppInboxMessage message) async {
+  Future<void> trackAppInboxClick(
+    AppInboxAction action,
+    AppInboxMessage message,
+  ) async {
     final data = AppInboxCoder.encodeActionMessage(action, message);
     await _channel.invokeMethod<void>(_trackAppInboxClick, data);
   }
 
   @override
-  Future<void> trackAppInboxClickWithoutTrackingConsent(AppInboxAction action, AppInboxMessage message) async {
+  Future<void> trackAppInboxClickWithoutTrackingConsent(
+    AppInboxAction action,
+    AppInboxMessage message,
+  ) async {
     final data = AppInboxCoder.encodeActionMessage(action, message);
-    await _channel.invokeMethod<void>(_trackAppInboxClickWithoutTrackingConsent, data);
+    await _channel.invokeMethod<void>(
+      _trackAppInboxClickWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
@@ -318,10 +366,10 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
 
   @override
   Future<List<AppInboxMessage>> fetchAppInbox() async {
-    final outData =
-    (await _channel.invokeListMethod<Map>(_fetchAppInbox))!;
-    final res =
-    outData.map((it) => AppInboxCoder.decodeMessage(it)).toList(growable: false);
+    final outData = (await _channel.invokeListMethod<Map>(_fetchAppInbox))!;
+    final res = outData
+        .map((it) => AppInboxCoder.decodeMessage(it))
+        .toList(growable: false);
     return res;
   }
 
@@ -329,34 +377,51 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   Future<AppInboxMessage> fetchAppInboxItem(String messageId) async {
     const method = _fetchAppInboxItem;
     final inData = messageId;
-    final outData = (await _channel.invokeMapMethod<String, dynamic>(method, inData))!;
+    final outData = (await _channel.invokeMapMethod<String, dynamic>(
+      method,
+      inData,
+    ))!;
     return AppInboxCoder.decodeMessage(outData);
   }
 
   @override
-  Future<void> trackInAppContentBlockClick(String placeholderId, InAppContentBlock contentBlock, InAppContentBlockAction action) async {
+  Future<void> trackInAppContentBlockClick(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    InAppContentBlockAction action,
+  ) async {
     final contentBlockData = InAppContentBlockEncoder.encode(contentBlock);
     final data = {
       'placeholderId': placeholderId,
       'contentBlock': jsonEncode(contentBlockData),
-      'action': InAppContentBlockActionEncoder.encode(action)
+      'action': InAppContentBlockActionEncoder.encode(action),
     };
     await _channel.invokeMethod<void>(_trackInAppContentBlockClick, data);
   }
 
   @override
-  Future<void> trackInAppContentBlockClickWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock, InAppContentBlockAction action) async {
+  Future<void> trackInAppContentBlockClickWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    InAppContentBlockAction action,
+  ) async {
     final contentBlockData = InAppContentBlockEncoder.encode(contentBlock);
     final data = {
       'placeholderId': placeholderId,
       'contentBlock': jsonEncode(contentBlockData),
-      'action': InAppContentBlockActionEncoder.encode(action)
+      'action': InAppContentBlockActionEncoder.encode(action),
     };
-    await _channel.invokeMethod<void>(_trackInAppContentBlockClickWithoutTrackingConsent, data);
+    await _channel.invokeMethod<void>(
+      _trackInAppContentBlockClickWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
-  Future<void> trackInAppContentBlockClose(String placeholderId, InAppContentBlock contentBlock) async {
+  Future<void> trackInAppContentBlockClose(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) async {
     final contentBlockData = InAppContentBlockEncoder.encode(contentBlock);
     final data = {
       'placeholderId': placeholderId,
@@ -366,17 +431,26 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
-  Future<void> trackInAppContentBlockCloseWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock) async {
+  Future<void> trackInAppContentBlockCloseWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) async {
     final contentBlockData = InAppContentBlockEncoder.encode(contentBlock);
     final data = {
       'placeholderId': placeholderId,
       'contentBlock': jsonEncode(contentBlockData),
     };
-    await _channel.invokeMethod<void>(_trackInAppContentBlockCloseWithoutTrackingConsent, data);
+    await _channel.invokeMethod<void>(
+      _trackInAppContentBlockCloseWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
-  Future<void> trackInAppContentBlockShown(String placeholderId, InAppContentBlock contentBlock) async {
+  Future<void> trackInAppContentBlockShown(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) async {
     final contentBlockData = InAppContentBlockEncoder.encode(contentBlock);
     final data = {
       'placeholderId': placeholderId,
@@ -386,17 +460,27 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
-  Future<void> trackInAppContentBlockShownWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock) async {
+  Future<void> trackInAppContentBlockShownWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+  ) async {
     final contentBlockData = InAppContentBlockEncoder.encode(contentBlock);
     final data = {
       'placeholderId': placeholderId,
       'contentBlock': jsonEncode(contentBlockData),
     };
-    await _channel.invokeMethod<void>(_trackInAppContentBlockShownWithoutTrackingConsent, data);
+    await _channel.invokeMethod<void>(
+      _trackInAppContentBlockShownWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
-  Future<void> trackInAppContentBlockError(String placeholderId, InAppContentBlock contentBlock, String errorMessage) async {
+  Future<void> trackInAppContentBlockError(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    String errorMessage,
+  ) async {
     final contentBlockData = InAppContentBlockEncoder.encode(contentBlock);
     final data = {
       'placeholderId': placeholderId,
@@ -407,18 +491,28 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
-  Future<void> trackInAppContentBlockErrorWithoutTrackingConsent(String placeholderId, InAppContentBlock contentBlock, String errorMessage) async {
+  Future<void> trackInAppContentBlockErrorWithoutTrackingConsent(
+    String placeholderId,
+    InAppContentBlock contentBlock,
+    String errorMessage,
+  ) async {
     final contentBlockData = InAppContentBlockEncoder.encode(contentBlock);
     final data = {
       'placeholderId': placeholderId,
       'contentBlock': jsonEncode(contentBlockData),
       'errorMessage': errorMessage,
     };
-    await _channel.invokeMethod<void>(_trackInAppContentBlockErrorWithoutTrackingConsent, data);
+    await _channel.invokeMethod<void>(
+      _trackInAppContentBlockErrorWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
-  Future<void> trackInAppMessageClick(InAppMessage message, InAppMessageButton button) async {
+  Future<void> trackInAppMessageClick(
+    InAppMessage message,
+    InAppMessageButton button,
+  ) async {
     final data = {
       'message': InAppMessageEncoder.encode(message),
       'button': InAppMessageButtonEncoder.encode(button),
@@ -427,16 +521,26 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
-  Future<void> trackInAppMessageClickWithoutTrackingConsent(InAppMessage message, InAppMessageButton button) async {
+  Future<void> trackInAppMessageClickWithoutTrackingConsent(
+    InAppMessage message,
+    InAppMessageButton button,
+  ) async {
     final data = {
       'message': InAppMessageEncoder.encode(message),
       'button': InAppMessageButtonEncoder.encode(button),
     };
-    await _channel.invokeMethod<void>(_trackInAppMessageClickWithoutTrackingConsent, data);
+    await _channel.invokeMethod<void>(
+      _trackInAppMessageClickWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
-  Future<void> trackInAppMessageClose(InAppMessage message, {InAppMessageButton? button, bool interaction = true}) async {
+  Future<void> trackInAppMessageClose(
+    InAppMessage message, {
+    InAppMessageButton? button,
+    bool interaction = true,
+  }) async {
     final data = {
       'message': InAppMessageEncoder.encode(message),
       'button': button?.let(InAppMessageButtonEncoder.encode),
@@ -446,17 +550,27 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
-  Future<void> trackInAppMessageCloseWithoutTrackingConsent(InAppMessage message, {InAppMessageButton? button, bool interaction = true}) async {
+  Future<void> trackInAppMessageCloseWithoutTrackingConsent(
+    InAppMessage message, {
+    InAppMessageButton? button,
+    bool interaction = true,
+  }) async {
     final data = {
       'message': InAppMessageEncoder.encode(message),
       'button': button?.let(InAppMessageButtonEncoder.encode),
       'interaction': interaction,
     };
-    await _channel.invokeMethod<void>(_trackInAppMessageCloseWithoutTrackingConsent, data);
+    await _channel.invokeMethod<void>(
+      _trackInAppMessageCloseWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
-  Future<void> trackPaymentEvent(PurchasedItem purchasedItem, {DateTime? timestamp}) async {
+  Future<void> trackPaymentEvent(
+    PurchasedItem purchasedItem, {
+    DateTime? timestamp,
+  }) async {
     final data = {
       'purchasedItem': PurchasedItemEncoder.encode(purchasedItem),
       'timestamp': timestamp?.let(DateTimeEncoder.encode),
@@ -485,13 +599,69 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
+  Future<void> trackRsmPushToken(String token) async {
+    await _channel.invokeMethod<void>(_trackRsmPushToken, token);
+  }
+
+  @override
+  Future<void> handleRsmPushToken(String token) async {
+    await _channel.invokeMethod<void>(_handleRsmPushToken, token);
+  }
+
+  @override
+  Future<String?> getGAID() async {
+    return await _channel.invokeMethod<String>(_getGAID);
+  }
+
+  @override
+  Future<String?> fetchGAID() async {
+    return await _channel.invokeMethod<String>(_fetchGAID);
+  }
+  @override
+  Future<void> trackGAID() async {
+    await _channel.invokeMethod<void>(_trackGAID);
+  }
+
+  @override
+  Future<String?> getIDFA() async {
+    return await _channel.invokeMethod<String>(_getIDFA);
+  }
+
+  @override
+  Future<String?> fetchIDFA() async {
+    return await _channel.invokeMethod<String>(_fetchIDFA);
+  }
+
+  @override
+  Future<void> trackIDFA() async {
+    await _channel.invokeMethod<void>(_trackIDFA);
+  }
+
+  @override
+  Future<void> stopIntegration() async {
+    await _channel.invokeMethod<void>('stopIntegration');
+  }
+
+  @override
+  Future<void> clearLocalCustomerData({String? appGroup}) async {
+    await _channel.invokeMethod<void>(_clearLocalCustomerData, {
+      'appGroup': appGroup,
+    });
+  }
+
+  @override
   Future<void> trackClickedPush(Map<String, dynamic> data) async {
     await _channel.invokeMethod<void>(_trackClickedPush, data);
   }
 
   @override
-  Future<void> trackClickedPushWithoutTrackingConsent(Map<String, dynamic> data) async {
-    await _channel.invokeMethod<void>(_trackClickedPushWithoutTrackingConsent, data);
+  Future<void> trackClickedPushWithoutTrackingConsent(
+    Map<String, dynamic> data,
+  ) async {
+    await _channel.invokeMethod<void>(
+      _trackClickedPushWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
@@ -500,8 +670,13 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
-  Future<void> trackDeliveredPushWithoutTrackingConsent(Map<String, dynamic> data) async {
-    await _channel.invokeMethod<void>(_trackDeliveredPushWithoutTrackingConsent, data);
+  Future<void> trackDeliveredPushWithoutTrackingConsent(
+    Map<String, dynamic> data,
+  ) async {
+    await _channel.invokeMethod<void>(
+      _trackDeliveredPushWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
@@ -520,31 +695,46 @@ class MethodChannelSendsayPlatform extends SendsayPlatform {
   }
 
   @override
-  Future<void> handlePushNotificationOpenedWithoutTrackingConsent(Map<String, dynamic> data) async {
-    await _channel.invokeMethod<void>(_handlePushNotificationOpenedWithoutTrackingConsent, data);
+  Future<void> handlePushNotificationOpenedWithoutTrackingConsent(
+    Map<String, dynamic> data,
+  ) async {
+    await _channel.invokeMethod<void>(
+      _handlePushNotificationOpenedWithoutTrackingConsent,
+      data,
+    );
   }
 
   @override
-  Future<List<Map<String, String>>> getSegments(String exposingCategory, {bool force = false}) async {
-    final data = {
-      'exposingCategory': exposingCategory,
-      'force': force,
-    };
+  Future<List<Map<String, String>>> getSegments(
+    String exposingCategory, {
+    bool force = false,
+  }) async {
+    final data = {'exposingCategory': exposingCategory, 'force': force};
     final result = await _channel.invokeListMethod<Map>(_getSegments, data);
     return result?.map((e) => Map<String, String>.from(e)).toList() ?? [];
   }
 
   @override
-  Future<Stream<List<Map<String, String>>>> segmentationDataStream(String exposingCategory, {bool includeFirstLoad = false}) async {
+  Future<Stream<List<Map<String, String>>>> segmentationDataStream(
+    String exposingCategory, {
+    bool includeFirstLoad = false,
+  }) async {
     final data = {
       'exposingCategory': exposingCategory,
       'includeFirstLoad': includeFirstLoad,
     };
-    final instanceId =  await _channel.invokeMethod<String>(_registerSegmentationDataStream, data);
-    return _segmentationStreamDataHandler.registerSegmentationDataStream(instanceId!);
+    final instanceId = await _channel.invokeMethod<String>(
+      _registerSegmentationDataStream,
+      data,
+    );
+    return _segmentationStreamDataHandler.registerSegmentationDataStream(
+      instanceId!,
+    );
   }
 
   Future<void> unregisterSegmentationDataStream(String instanceId) async {
-    await _channel.invokeMethod<void>(_unregisterSegmentationDataStream, {'instanceId': instanceId});
+    await _channel.invokeMethod<void>(_unregisterSegmentationDataStream, {
+      'instanceId': instanceId,
+    });
   }
 }

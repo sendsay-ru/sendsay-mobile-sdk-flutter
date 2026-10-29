@@ -21,10 +21,7 @@ void main() {
         {'id': 'mock_id', 'segmentation_id': 'mock_segmentation_id'},
       ];
 
-      final segmentationData = {
-        'instanceId': instanceId,
-        'data': segments,
-      };
+      final segmentationData = {'instanceId': instanceId, 'data': segments};
 
       expectLater(stream, emitsInOrder([segments]));
       handler.handleSegmentationData(segmentationData);
@@ -67,21 +64,24 @@ void main() {
       handler.handleSegmentationData(segmentationDataTwo);
     });
 
-    test('does not call onStreamClosed when one of two subscriptions is canceled', () async {
-      const instanceId = 'mock_instance_id';
-      final stream = handler.registerSegmentationDataStream(instanceId);
+    test(
+      'does not call onStreamClosed when one of two subscriptions is canceled',
+      () async {
+        const instanceId = 'mock_instance_id';
+        final stream = handler.registerSegmentationDataStream(instanceId);
 
-      final subscriptionOne = stream.listen((_) {});
-      final subscriptionTwo = stream.listen((_) {});
+        final subscriptionOne = stream.listen((_) {});
+        final subscriptionTwo = stream.listen((_) {});
 
-      await subscriptionOne.cancel();
+        await subscriptionOne.cancel();
 
-      // Ensure onStreamClosed is not called when one of the two subscriptions is canceled
-      expect(closedStreams, isNot(contains(instanceId)));
+        // Ensure onStreamClosed is not called when one of the two subscriptions is canceled
+        expect(closedStreams, isNot(contains(instanceId)));
 
-      // Cancel the second subscription to trigger onStreamClosed
-      await subscriptionTwo.cancel();
-      expect(closedStreams, contains(instanceId));
-    });
+        // Cancel the second subscription to trigger onStreamClosed
+        await subscriptionTwo.cancel();
+        expect(closedStreams, contains(instanceId));
+      },
+    );
   });
 }
