@@ -194,7 +194,7 @@ class _InAppContentBlockPlaceholderState
           creationParamsCodec: const StandardMessageCodec(),
         );
       } else {
-        platformView = SizedBox.shrink();
+        platformView = const SizedBox.shrink();
       }
     }
     return Column(

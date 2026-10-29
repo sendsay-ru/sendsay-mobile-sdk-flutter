@@ -37,6 +37,7 @@ flutter:
       ios:
         pluginClass: SendsayPlugin
 
-#false_secrets:
-# - /example/android/app/google-services.json
-# - /example/android/app/agconnect-services.json
+false_secrets:
+ - /example/android/app/google-services.json
+ - /example/ios/GoogleService-Info.plist
+ - /example/lib/firebase_options.dart

@@ -1,6 +1,3 @@
-import 'package:sendsay/sendsay.dart';
-import 'package:flutter/material.dart';
-
 import '../util/Codable.dart';
 
 class TextViewStyle extends Encodable {

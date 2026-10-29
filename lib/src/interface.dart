@@ -111,9 +111,9 @@ abstract class BaseInterface {
   /// Request push authorization on Android or iOS.
   Future<bool> requestPushAuthorization();
 
-  // /// Request push authorization on iOS.
-  // @Deprecated("Will be removed in a later version of the SDK, use 'requestPushAuthorization()' instead")
-  // Future<bool> requestIosPushAuthorization();
+  /// Request push authorization on iOS.
+  @Deprecated("Will be removed in a later version of the SDK, use 'requestPushAuthorization()' instead")
+  Future<bool> requestIosPushAuthorization();
 
   /// Set AppInboxProvider
   Future<void> setAppInboxProvider(AppInboxStyle style);

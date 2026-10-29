@@ -1,4 +1,3 @@
-import 'order_item.dart';
 import 'package:sendsay/sendsay.dart';
 
 abstract class TrackSSECBuilder {
@@ -34,7 +33,6 @@ class ViewProductBuilder implements TrackSSECBuilder {
     _core.setProduct(
       id: id,
       name: name,
-      dateTime: dateTime,
       picture: picture,
       url: url,
       available: available,
@@ -171,7 +169,7 @@ class BasketClearBuilder implements TrackSSECBuilder {
   }
 
   BasketClearBuilder dateTime(String dt) {
-    _core.setProduct(dateTime: dt);
+    _core.setDelivery(dt);
     return this;
   }
 
@@ -317,7 +315,6 @@ class TrackSSECDataCore {
 
   String? _productId;
   String? _productName;
-  String? _productDateTime;
   List<String>? _productPicture;
   String? _productUrl;
   int? _productAvailable;
@@ -355,7 +352,6 @@ class TrackSSECDataCore {
   void setProduct({
     String? id,
     String? name,
-    String? dateTime,
     List<String>? picture,
     String? url,
     int? available,
@@ -371,7 +367,6 @@ class TrackSSECDataCore {
   }) {
     _productId = id;
     _productName = name;
-    _productDateTime = dateTime;
     _productPicture = picture;
     _productUrl = url;
     _productAvailable = available;

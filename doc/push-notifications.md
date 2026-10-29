@@ -20,8 +20,8 @@ SDK Flutter использует базовые native платформы Androi
 
 На следующих страницах описаны шаги для каждой платформы по добавлению минимальной функциональности push-уведомлений (получение оповещений) в ваше приложение.
 
-- [Push-уведомления Android](../docs/push-android.md)
-- [Push-уведомления iOS](../docs/push-ios.md)
+- [Push-уведомления Android](../doc/push-android.md)
+- [Push-уведомления iOS](../doc/push-ios.md)
 
 ## Настройка
 
@@ -31,9 +31,9 @@ SDK Flutter использует базовые native платформы Androi
 
 По умолчанию SDK отслеживает push-уведомления автоматически. SDK будет отображать push-уведомления из CDP Sendsay и отслеживать событие «кампания» для каждого доставленного/открытого push-уведомления с соответствующими свойствами.
 
-В [конфигурации SDK](../docs/configuration.md) вы можете установить желаемую частоту, с которой SDK отслеживает токен push-уведомления в CDP Sendsay, с помощью свойства `pushTokenTrackingFrequency` (значение по умолчанию — `TokenFrequency.onTokenChange`).
+В [конфигурации SDK](../doc/configuration.md) вы можете установить желаемую частоту, с которой SDK отслеживает токен push-уведомления в CDP Sendsay, с помощью свойства `pushTokenTrackingFrequency` (значение по умолчанию — `TokenFrequency.onTokenChange`).
 
-В Android вы можете отключить автоматическое отслеживание push-уведомлений, установив булево значение свойства `automaticPushNotifications` в `false` в [конфигурации SDK для Android](../docs/configuration.md#параметры-конфигурации-специфичные-для-android).
+В Android вы можете отключить автоматическое отслеживание push-уведомлений, установив булево значение свойства `automaticPushNotifications` в `false` в [конфигурации SDK для Android](../doc/configuration.md#параметры-конфигурации-специфичные-для-android).
 
 ❗️
 
@@ -75,7 +75,7 @@ final subscription = _plugin.openedPushStream.listen((openedPush) {
 
 > ❗️
 >
-> Для поддержки deep-links требуются выполнить дополнительные шаги. Обратитесь к документации для соответствующих нативных платформ ([Android](../docs/push-android.md), [iOS](../docs/push-ios.md)). В качестве альтернативы можно использовать действие `Open app` и добавить payload в `Additional data`.
+> Для поддержки deep-links требуются выполнить дополнительные шаги. Обратитесь к документации для соответствующих нативных платформ ([Android](../doc/push-android.md), [iOS](../doc/push-ios.md)). В качестве альтернативы можно использовать действие `Open app` и добавить payload в `Additional data`.
 
 
 ### Реакция на полученние push-уведомления
@@ -112,7 +112,7 @@ final subscription = _plugin.receivedPushStream.listen((receivedPush) {
 SendsayPlugin().trackPushToken("382d4221-3441-44b7-a676-3eb5f515157f")
 ```
 
-Вызов этого метода приведет к немедленному отслеживанию токена push, независимо от [конфигурации SDK](../docs/configuration.md) для `tokenTrackFrequency`.
+Вызов этого метода приведет к немедленному отслеживанию токена push, независимо от [конфигурации SDK](../doc/configuration.md) для `tokenTrackFrequency`.
 
 #### Отслеживание доставленных push-уведомлений
 
@@ -136,7 +136,7 @@ SendsayPlugin().trackDeliveredPush(payload)
 
 > ❗️
 >
-> На поведение `trackDeliveredPush` может влиять функция согласия на отслеживание, которая, когда включена, требует явного согласия на отслеживание. Подробнее читайте в [документации по согласию на отслеживание](../docs/tracking-consent.md).
+> На поведение `trackDeliveredPush` может влиять функция согласия на отслеживание, которая, когда включена, требует явного согласия на отслеживание. Подробнее читайте в [документации по согласию на отслеживание](../doc/tracking-consent.md).
 
 #### Отслеживание нажатых push-уведомлений
 

@@ -61,7 +61,7 @@ Sendsay Flutter SDK включает в себя пример приложени
 
 ![Экраны приложения-примера (iOS)](https://raw.githubusercontent.com/sendsay-ru/sendsay-mobile-sdk-flutter/main/docs/img/example-app-flutter-ios.png)
 
-При запуске приложения в симуляторе вы увидите страницу **ConfigPage**. Введите [ID проекта, токен API и базовый URL API](https://docs.sendsay.ru/other-channels/mobile-push/how-to-connect-mobile-push#%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D1%8F). При желании отключите «Automatic Session Tracking» с помощью переключателя (по умолчанию включено). Затем нажмите «Настроить», чтобы [инициализировать SDK](../docs/setup.md#инициализируйте-sdk).
+При запуске приложения в симуляторе вы увидите страницу **ConfigPage**. Введите [ID проекта, токен API и базовый URL API](https://docs.sendsay.ru/other-channels/mobile-push/how-to-connect-mobile-push#%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B-%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D1%8F). При желании отключите «Automatic Session Tracking» с помощью переключателя (по умолчанию включено). Затем нажмите «Настроить», чтобы [инициализировать SDK](../doc/setup.md#инициализируйте-sdk).
 > [`config.dart`](https://github.com/sendsay-ru/sendsay-mobile-sdk-flutter/blob/main/example/lib/page/config.dart)
 
 На **главной странице** имеется несколько кнопок для тестирования различных функций SDK.
